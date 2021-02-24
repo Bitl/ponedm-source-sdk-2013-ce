@@ -17,7 +17,7 @@ To be able to build PoneDM you will need to download:
 
 ## Credits
 * Nbc66 & GamerDude27 for the Source SDK 2013 CE base used. (https://github.com/Nbc66/source-sdk-2013-ce)
-* Open Fortress team for the basis of the player coloring code and the gore system. (https://openfortress.fun, used source code branch before GitHub delisting)
+* Open Fortress team and Rykah for the basis of the player coloring code and the gore system. (https://openfortress.fun, used source code branch before GitHub delisting)
 * VectoredThrust for the name of the pony model (Pantone Shift).
 * Mattyhex for the Celestia Medium Redux font. (http://www.mattyhex.net/CMR/)
 * Facepunch Studios for the c_models used for the weapons in Garry's Mod.
