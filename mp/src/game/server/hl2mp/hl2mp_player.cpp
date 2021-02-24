@@ -1426,18 +1426,20 @@ CBaseEntity* CHL2MP_Player::EntSelectSpawnPoint( void )
 				pSpotFinder = gEntList.FindEntityByClassname(pSpot, Team1Spawns[Attempt]);
 			}
 		}
-
-		for (int Attempt = 0; !pSpotFinder && Attempt < MAX_NONTEAM_ATTEMPTS; ++Attempt)
-		{
-			pSpotFinder = gEntList.FindEntityByClassname(pSpot, NonTeamSpawns[Attempt]);
-		}
 	}
 	else
 	{
-		for (int Attempt = 0; !pSpotFinder && Attempt < MAX_NONTEAM_ATTEMPTS; ++Attempt)
+		for (int Attempt = 0; !pSpotFinder && Attempt < MAX_TEAM_ATTEMPTS; ++Attempt)
 		{
-			pSpotFinder = gEntList.FindEntityByClassname(pSpot, NonTeamSpawns[Attempt]);
+			int TeamSpawn = random->RandomInt(0, 1);
+			const char** Spawns = TeamSpawn ? Team1Spawns : Team2Spawns;
+			pSpotFinder = gEntList.FindEntityByClassname(pSpot, Spawns[Attempt]);
 		}
+	}
+
+	for (int Attempt = 0; !pSpotFinder && Attempt < MAX_NONTEAM_ATTEMPTS; ++Attempt)
+	{
+		pSpotFinder = gEntList.FindEntityByClassname(pSpot, NonTeamSpawns[Attempt]);
 	}
 
 	if (pSpotFinder)
