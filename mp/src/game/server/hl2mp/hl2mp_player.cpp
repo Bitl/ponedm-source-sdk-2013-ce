@@ -1456,7 +1456,7 @@ CBaseEntity* CHL2MP_Player::EntSelectSpawnPoint( void )
 			do
 			{
 				// check if pSpot is valid
-				if (g_pGameRules->IsSpawnPointValid(pSpot, this) && pSpot->GetLocalOrigin() != vec3_origin)
+				if (pSpot != NULL && g_pGameRules->IsSpawnPointValid(pSpot, this) && pSpot->GetLocalOrigin() != vec3_origin)
 				{
 					foundValidSpot = true;
 					break;
@@ -1464,6 +1464,18 @@ CBaseEntity* CHL2MP_Player::EntSelectSpawnPoint( void )
 				// increment pSpot
 				pSpot = gEntList.FindEntityByClassname(pSpot, pSpotFinder->GetClassname());
 			} while (pSpot != pFirstSpot); // loop if we're not back to the start
+
+			// we haven't found a place to spawn yet,  so kill any guy at the first spawn point and spawn there
+			/*if (!foundValidSpot)
+			{
+				CBaseEntity* ent = NULL;
+				for (CEntitySphereQuery sphere(pSpot->GetAbsOrigin(), 128); (ent = sphere.GetCurrentEntity()) != NULL; sphere.NextEntity())
+				{
+					// if ent is a client, kill em (unless they are ourselves)
+					if (ent->IsPlayer() && !(ent->edict() == player))
+						ent->TakeDamage(CTakeDamageInfo(GetContainingEntity(INDEXENT(0)), GetContainingEntity(INDEXENT(0)), 300, DMG_GENERIC));
+				}
+			}*/
 		}
 	}
 	else
@@ -1482,6 +1494,7 @@ CBaseEntity* CHL2MP_Player::EntSelectSpawnPoint( void )
 	}
 
 	g_pLastSpawn = pSpot;
+	m_flSlamProtectTime = gpGlobals->curtime + 0.5;
 	return pSpot;
 } 
 
