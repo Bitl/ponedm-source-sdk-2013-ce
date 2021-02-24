@@ -1,0 +1,5 @@
+Beta:
+- ?
+Alpha:
+- Private test for player movement, player customization, bot functions, violence setting testing, and gameplay loop testing. 
+- First release of the mod.
