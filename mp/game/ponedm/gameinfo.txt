@@ -2,7 +2,7 @@
 {
 	game	"PoneDM"
 	title	"PoneDM"
-	title2	"Alpha"
+	title2	"Beta"
 	type multiplayer_only
 	nomodels 1
 	nohimodel 1
@@ -18,12 +18,14 @@
 	supportsvr	0
 
 
-	FileSystem
+    FileSystem
     {
         SteamAppId                243750
         SearchPaths
         {
             game+mod            |gameinfo_path|custom/*
+
+	    gamebin				|gameinfo_path|bin
 
             game+game_write+mod+mod_write+default_write_path        |gameinfo_path|.
 

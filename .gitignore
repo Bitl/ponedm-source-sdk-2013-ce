@@ -66,6 +66,7 @@ server.dylib.dSYM/
 **/game/**/resource/**
 **/game/**/scripts/**
 **/game/**/download/**
+**/game/**/downloadlists/**
 **/game/**/user_custom/**
 **/game/**/ponedm_pak.vpk
 **/game/**/voice_ban.dt
