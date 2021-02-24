@@ -59,7 +59,6 @@ server.dylib.dSYM/
 **/generated_proto/**
 **/src/utils/sapi51/**
 **/game/**/bin/**
-**/game/**/cfg/**
 **/game/**/custom/**
 **/game/**/maps/**
 **/game/**/bin/**
@@ -68,6 +67,9 @@ server.dylib.dSYM/
 **/game/**/download/**
 **/game/**/downloadlists/**
 **/game/**/user_custom/**
+**/game/**/cfg/config.cfg
+**/game/**/cfg/settings.scr
+**/game/**/cfg/user.scr
 **/game/**/ponedm_pak.vpk
 **/game/**/voice_ban.dt
 **/game/**/stats.txt

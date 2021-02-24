@@ -1,6 +1,6 @@
 Beta:
 - Players will no longer collide with each other.
-- Changed the player spawning algorithm to be more like FIREFIGHT RELOADED's
+- Changed the player spawning algorithm to be more like FIREFIGHT RELOADED's, enabling support for more map spawn entities.
 Alpha:
 - Private test for player movement, player customization, bot functions, violence setting testing, and gameplay loop testing. 
 - First release of the mod.
