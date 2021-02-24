@@ -96,6 +96,11 @@ int CHudChat::GetChatInputOffset( void )
 		return 0;
 }
 
+Color CHudChat::GetDefaultTextColor(void)
+{
+	return g_ColorWhite;
+}
+
 Color CHudChat::GetClientColor( int clientIndex )
 {
 	if ( clientIndex == 0 ) // console msg

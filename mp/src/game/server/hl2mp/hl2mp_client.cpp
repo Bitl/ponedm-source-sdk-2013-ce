@@ -70,7 +70,11 @@ void FinishClientPutInServer( CHL2MP_Player *pPlayer )
 		KeyValues* data = new KeyValues("data");
 		data->SetString("title", title);		// info panel title
 		data->SetString("type", "1");			// show userdata from stringtable entry
+#ifdef SDK2013CE
+		data->SetString("message", "motd");		// use this stringtable entry
+#else
 		data->SetString("msg", "motd");		// use this stringtable entry
+#endif
 		data->SetBool("unload", sv_motd_unload_on_dismissal.GetBool());
 
 		pPlayer->ShowViewPortPanel(PANEL_INFO, true, data);

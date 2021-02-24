@@ -79,5 +79,12 @@ DESCRIPTION INFO_OPTIONS
 		}
 		{ "0" }
 	}
+	
+	"cl_disablehtmlmotd"
+	{
+		"#PoneDM_HTMLMOTDS"
+		{ BOOL }
+		{ "0" }
+	}
 }
 

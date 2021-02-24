@@ -62,8 +62,6 @@ server.dylib.dSYM/
 **/game/**/custom/**
 **/game/**/maps/**
 **/game/**/bin/**
-**/game/**/resource/**
-**/game/**/scripts/**
 **/game/**/download/**
 **/game/**/downloadlists/**
 **/game/**/user_custom/**
@@ -71,6 +69,7 @@ server.dylib.dSYM/
 **/game/**/cfg/settings.scr
 **/game/**/cfg/user.scr
 **/game/**/ponedm_pak.vpk
+**/game/**/hl2mp_shared.vpk
 **/game/**/voice_ban.dt
 **/game/**/stats.txt
 **/game/**/serverconfig.vdf

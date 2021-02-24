@@ -23,10 +23,16 @@ const char* NewPonyNameSelection(void)
 CPlayer* CreatePoneDMBot(const char* pPlayername, const Vector* vecPosition, const QAngle* angles)
 {
     if (!pPlayername) {
-        //HACK.
+        //HACK!!!!!
+        int nameCount = RandomInt(1, 3);
         const char* pPlayername1 = NewPonyNameSelection();
-        const char* pPlayername2 = NewPonyNameSelection();
-        pPlayername = UTIL_VarArgs("[BOT] %s %s", pPlayername1, pPlayername2);
+        char string2[MAX_PLAYER_NAME_LENGTH];
+        Q_snprintf(string2, sizeof(string2), " %s", NewPonyNameSelection());
+        const char* pPlayername2 = (nameCount >= 2) ? string2 : "";
+        char string3[MAX_PLAYER_NAME_LENGTH];
+        Q_snprintf(string3, sizeof(string3), " %s", NewPonyNameSelection());
+        const char* pPlayername3 = (nameCount >= 3) ? string3 : "";
+        pPlayername = UTIL_VarArgs("[BOT] %s%s%s", pPlayername1, pPlayername2, pPlayername3);
     }
 
     edict_t* pSoul = engine->CreateFakeClient(pPlayername);

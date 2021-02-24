@@ -59,6 +59,7 @@ public:
 
 	int				GetChatInputOffset( void );
 
+	virtual Color	GetDefaultTextColor(void);
 	virtual Color	GetClientColor( int clientIndex );
 };
 
