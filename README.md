@@ -1,16 +1,13 @@
 # PoneDM
 Based off of [Source SDK 2013 CE](https://github.com/Nbc66/source-sdk-2013-ce).
-Inspired by [Bear Party Adventure](https://store.steampowered.com/app/1274450/Bear_Party_Adventure/), PoneDM is a non-serious deathmatch mod where colorful horses fight in familiar arenas with insane weapons.
+Inspired by [Bear Party Adventure](https://store.steampowered.com/app/1274450/Bear_Party_Adventure/), PoneDM is a shitpost mod taken too seriously. 
+Created by the same person who made Intellectual Techno Hell and FIREFIGHT RELOADED, PoneDM is an experimental multiplayer arena shooter that pits you against other colorful horses in various arenas. 
+You can fight against bots, or you can fight with other players around the world. 
+You will be able to traverse many areas by bunny-hopping and rocket jumping through them as you try to completely destroy the enemy team, or against other players in free-for-all romps. 
+You can also customize your horse with various colors, mane, and tail styles. 
 
-* Play in arenas from many Valve multiplayer games using the mounting system!
-* Many weapons to find and use!
-* Customizable ponies!
-* Fast speed!
-* Bunnyhops!
-
-In addition, PoneDM allows for players to increase or decrease the amount of graphic violence depicted in the mod, allowing for a wider target audience. The graphic violence has been disabled by default.
-
-NOTE: This is just something I made for fun to practice my Source Engine skills for FIREFIGHT RELOADED. This isn't a serious project I wish to work on a lot.
+This mod was explicitly built so I can refresh my knowledge of the Source Engine and experiment with various aspects I haven't yet experimented with in other mods I worked on in the past. 
+I also wanted to create an engaging experience like Intellectual Techno Hell: a shitposty feeling mod that is fun to play while also balanced enough to be taken seriously.
 
 ## Requirements 
 To be able to build PoneDM you will need to download:

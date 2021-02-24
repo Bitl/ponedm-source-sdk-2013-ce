@@ -1,0 +1,48 @@
+"GameInfo"
+{
+	game	"PoneDM"
+	title	"PoneDM"
+	title2	"Alpha"
+	type multiplayer_only
+	nomodels 1
+	nohimodel 1
+	nocrosshair 1
+	developer	"Bitl"
+	developer_url	""
+	manual		""
+	hidden_maps
+	{
+		"test_speakers"		1
+		"test_hardware"		1
+	}
+	supportsvr	0
+
+
+	FileSystem
+    {
+        SteamAppId                243750
+        SearchPaths
+        {
+            game+mod            |gameinfo_path|custom/*
+
+            game+game_write+mod+mod_write+default_write_path        |gameinfo_path|.
+
+            game+mod            |gameinfo_path|ponedm_pak.vpk
+        
+            game                |all_source_engine_paths|hl2mp/hl2mp_english.vpk
+            game                |all_source_engine_paths|hl2mp/hl2mp_pak.vpk
+            game                |all_source_engine_paths|hl2mp
+
+            game                |all_source_engine_paths|hl2/hl2_textures.vpk
+            game                |all_source_engine_paths|hl2/hl2_sound_vo_english.vpk
+            game                |all_source_engine_paths|hl2/hl2_sound_misc.vpk
+            game                |all_source_engine_paths|hl2/hl2_misc.vpk
+            game                |all_source_engine_paths|hl2
+
+            platform            |all_source_engine_paths|platform/platform_misc.vpk
+            platform            |all_source_engine_paths|platform
+
+            game+download        |gameinfo_path|download
+        }
+    }
+}

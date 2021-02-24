@@ -1,0 +1,55 @@
+//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//
+// Purpose: 
+//
+// $NoKeywords: $
+//=============================================================================//
+
+#ifndef PLAYERCOLORDIALOG_H
+#define PLAYERCOLORDIALOG_H
+#ifdef _WIN32
+#pragma once
+#endif
+
+#include <vgui_controls/Frame.h>
+
+class CCvarSlider;
+
+//-----------------------------------------------------------------------------
+// Purpose: dialog for launching a listenserver
+//-----------------------------------------------------------------------------
+class CPlayerColorDialog : public vgui::Frame
+{
+	DECLARE_CLASS_SIMPLE( CPlayerColorDialog,  vgui::Frame );
+
+public:
+	CPlayerColorDialog(vgui::Panel *parent);
+	~CPlayerColorDialog();
+	
+	// returns currently entered information about the server
+	void DialogInit();
+
+private:
+	virtual void OnClose();
+	virtual void OnKeyCodeTyped(vgui::KeyCode code);
+	
+	MESSAGE_FUNC_PTR( OnControlModified, "ControlModified", panel );
+    MESSAGE_FUNC_PTR( OnTextChanged, "TextChanged", panel );
+
+	CCvarSlider			*m_pPrimaryColorRSlider;
+    vgui::TextEntry		*m_pPrimaryColorRLabel;
+	CCvarSlider			*m_pPrimaryColorGSlider;
+	vgui::TextEntry		*m_pPrimaryColorGLabel;
+	CCvarSlider			*m_pPrimaryColorBSlider;
+	vgui::TextEntry		*m_pPrimaryColorBLabel;
+
+	CCvarSlider			*m_pSecondaryColorRSlider;
+    vgui::TextEntry		*m_pSecondaryColorRLabel;
+	CCvarSlider			*m_pSecondaryColorGSlider;
+	vgui::TextEntry		*m_pSecondaryColorGLabel;
+	CCvarSlider			*m_pSecondaryColorBSlider;
+	vgui::TextEntry		*m_pSecondaryColorBLabel;
+};
+
+
+#endif
