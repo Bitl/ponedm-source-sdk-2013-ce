@@ -65,11 +65,8 @@ server.dylib.dSYM/
 **/game/**/bin/**
 **/game/**/resource/**
 **/game/**/scripts/**
-**/game/**/materials/**
-**/game/**/models/**
 **/game/**/download/**
 **/game/**/user_custom/**
-**/game/**/sound/**
 **/game/**/ponedm_pak.vpk
 **/game/**/voice_ban.dt
 **/game/**/stats.txt
