@@ -16,15 +16,15 @@ To be able to build PoneDM you will need to download:
 * Multibyte MFC Library for Visual Studio 2013
 
 ## Credits
-* Nbc66 & GamerDude27 for the Source SDK 2013 CE base used.
-* Open Fortress team for the basis of the player coloring code and the gore system.
+* Nbc66 & GamerDude27 for the Source SDK 2013 CE base used. (https://github.com/Nbc66/source-sdk-2013-ce)
+* Open Fortress team for the basis of the player coloring code and the gore system. (https://openfortress.fun, used source code branch before GitHub delisting)
 * VectoredThrust for the name of the pony model (Pantone Shift).
-* Mattyhex for the Celestia Medium Redux font.
+* Mattyhex for the Celestia Medium Redux font. (http://www.mattyhex.net/CMR/)
 * Facepunch Studios for the c_models used for the weapons in Garry's Mod.
-* Ozxybox and GamerDude27 for the c_models tutorial on VDC (https://developer.valvesoftware.com/wiki/Hand_Viewmodels)
+* Ozxybox and GamerDude27 for the c_models tutorial on VDC. (https://developer.valvesoftware.com/wiki/Hand_Viewmodels)
 * Kolessios for the SourceBots source code used as the basis for the bots. (https://github.com/kolessios/sourcebots)
-* Wave Software for the list of names used in their MLP Name Generator (https://github.com/wavesoftware/mlp-name-generator/blob/develop/lib/data.js)
-* Aionaever for the Toggling RPG Laser tutorial on VDC (https://developer.valvesoftware.com/wiki/Toggling_RPG_Guidance)
+* Wave Software for the list of names used in their MLP Name Generator. (https://github.com/wavesoftware/mlp-name-generator/blob/develop/lib/data.js)
+* Aionaever for the Toggling RPG Laser tutorial on VDC. (https://developer.valvesoftware.com/wiki/Toggling_RPG_Guidance)
 
 PoneDM includes models from PPM/2 (https://gitlab.com/DBotThePony/PPM). These models were created and modified by the following people
 * [Durpy](https://steamcommunity.com/id/xDeRpYx/)
