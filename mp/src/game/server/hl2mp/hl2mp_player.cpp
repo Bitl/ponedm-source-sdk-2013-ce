@@ -50,6 +50,10 @@ LINK_ENTITY_TO_CLASS( player, CHL2MP_Player );
 
 LINK_ENTITY_TO_CLASS( info_player_combine, CPointEntity );
 LINK_ENTITY_TO_CLASS( info_player_rebel, CPointEntity );
+LINK_ENTITY_TO_CLASS(info_player_terrorist, CPointEntity);
+LINK_ENTITY_TO_CLASS(info_player_counterterrorist, CPointEntity);
+LINK_ENTITY_TO_CLASS(info_player_axis, CPointEntity);
+LINK_ENTITY_TO_CLASS(info_player_allies, CPointEntity);
 
 IMPLEMENT_SERVERCLASS_ST(CHL2MP_Player, DT_HL2MP_Player)
 	SendPropAngle( SENDINFO_VECTORELEM(m_angEyeAngles, 0), 11, SPROP_CHANGES_OFTEN ),
@@ -1499,7 +1503,6 @@ CBaseEntity* CHL2MP_Player::EntSelectSpawnPoint( void )
 	m_flSlamProtectTime = gpGlobals->curtime + 0.5;
 	return pSpot;
 } 
-
 
 CON_COMMAND( timeleft, "prints the time remaining in the match" )
 {

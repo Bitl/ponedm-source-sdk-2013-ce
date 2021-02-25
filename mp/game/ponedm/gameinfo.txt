@@ -31,6 +31,7 @@
 
 			game				|gameinfo_path|hl2mp_shared.vpk
 			game				|all_source_engine_paths|hl2mp
+			game+mod                	"|all_source_engine_paths|..\..\common\Half-Life 2 Deathmatch\hl2mp"
 
 			game				|all_source_engine_paths|hl2/hl2_english.vpk
 			game				|all_source_engine_paths|hl2/hl2_pak.vpk
@@ -39,6 +40,15 @@
 			game				|all_source_engine_paths|hl2/hl2_sound_misc.vpk
 			game				|all_source_engine_paths|hl2/hl2_misc.vpk
 			game				|all_source_engine_paths|hl2
+
+			game+mod                	"|all_source_engine_paths|..\..\common\Counter-Strike Source\cstrike\cstrike_pak.vpk"
+            		game+mod                	"|all_source_engine_paths|..\..\common\Counter-Strike Source\cstrike"
+            		game+mod                	"|all_source_engine_paths|..\..\common\Day of Defeat Source\dod\dod_pak.vpk"
+            		game+mod                	"|all_source_engine_paths|..\..\common\Day of Defeat Source\dod"
+			game+mod                	"|all_source_engine_paths|..\..\common\Half-Life 1 Source Deathmatch\hl1mp\hl1mp_pak.vpk"
+            		game+mod                	"|all_source_engine_paths|..\..\common\Half-Life 1 Source Deathmatch\hl1mp"
+			game+mod                	"|all_source_engine_paths|..\..\common\Half-Life 1 Source Deathmatch\hl1\hl1_pak.vpk"
+            		game+mod                	"|all_source_engine_paths|..\..\common\Half-Life 1 Source Deathmatch\hl1"
 
 			platform			|all_source_engine_paths|platform/platform_misc.vpk
 			platform			|all_source_engine_paths|platform

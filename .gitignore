@@ -76,6 +76,7 @@ server.dylib.dSYM/
 **/game/**/demoheader.tmp
 **/game/**/*.sound.cache
 **/game/**/*.cache
+**/game/**/textwindow_temp.html
 
 # shader files
 *.tmp
