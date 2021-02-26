@@ -31,7 +31,6 @@
 
 			game				|gameinfo_path|hl2mp_shared.vpk
 			game				|all_source_engine_paths|hl2mp
-			game+mod                	"|all_source_engine_paths|..\..\common\Half-Life 2 Deathmatch\hl2mp"
 
 			game				|all_source_engine_paths|hl2/hl2_english.vpk
 			game				|all_source_engine_paths|hl2/hl2_pak.vpk
