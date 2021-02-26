@@ -1319,7 +1319,7 @@ void CHL2MP_Player::Event_Killed( const CTakeDamageInfo &info )
 		}
 	}
 
-	if (info.GetDamageType() & DMG_FALL) // fall damage
+	/*if (info.GetDamageType() & DMG_FALL) // fall damage
 	{
 		// begone legs!
 		if (m_iGoreFrontRightLeg < 3)
@@ -1330,7 +1330,7 @@ void CHL2MP_Player::Event_Killed( const CTakeDamageInfo &info )
 			m_iGoreRearRightLeg = 3;
 		if (m_iGoreRearLeftLeg < 3)
 			m_iGoreRearLeftLeg = 3;
-	}
+	}*/
 
 	if ((info.GetDamageType() & DMG_BLAST || info.GetDamageType() & DMG_NERVEGAS)) // explosives or sawblade
 		DismemberRandomLimbs();

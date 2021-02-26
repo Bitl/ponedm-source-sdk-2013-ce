@@ -9,6 +9,8 @@ Beta:
 - Improved player customization with extra upper manes, extra lower manes, and extra tails.
 - Added a 3rd color choice for extra mane and tail colors.
 - Added strafe jumping.
+- Fixed a bug where colors do not apply automatically by changing the number in the text box.
+- Removed fall damage.
 Alpha:
 - Private test for player movement, player customization, bot functions, violence setting testing, and gameplay loop testing. 
 - First release of the mod.

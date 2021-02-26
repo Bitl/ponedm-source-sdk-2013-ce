@@ -388,6 +388,7 @@ void CPlayerColorDialog::OnTextChanged(Panel *panel)
 		if (fValue >= 0.0f && fValue <= 255.0f)
 		{
             m_pPrimaryColorRSlider->SetSliderValue(fValue);
+			m_pPrimaryColorRSlider->ApplyChanges();
         }
     }
 	else if (panel == m_pPrimaryColorGLabel)
@@ -399,6 +400,7 @@ void CPlayerColorDialog::OnTextChanged(Panel *panel)
 		if (fValue >= 0.0f && fValue <= 255.0f)
 		{
 			m_pPrimaryColorGSlider->SetSliderValue(fValue);
+			m_pPrimaryColorGSlider->ApplyChanges();
 		}
 	}
 	else if (panel == m_pPrimaryColorBLabel)
@@ -410,6 +412,7 @@ void CPlayerColorDialog::OnTextChanged(Panel *panel)
 		if (fValue >= 0.0f && fValue <= 255.0f)
 		{
 			m_pPrimaryColorBSlider->SetSliderValue(fValue);
+			m_pPrimaryColorBSlider->ApplyChanges();
 		}
 	}
 
@@ -422,6 +425,7 @@ void CPlayerColorDialog::OnTextChanged(Panel *panel)
 		if (fValue >= 0.0f && fValue <= 255.0f)
 		{
 			m_pSecondaryColorRSlider->SetSliderValue(fValue);
+			m_pSecondaryColorRSlider->ApplyChanges();
 		}
 	}
 	else if (panel == m_pSecondaryColorGLabel)
@@ -433,6 +437,7 @@ void CPlayerColorDialog::OnTextChanged(Panel *panel)
 		if (fValue >= 0.0f && fValue <= 255.0f)
 		{
 			m_pSecondaryColorGSlider->SetSliderValue(fValue);
+			m_pSecondaryColorGSlider->ApplyChanges();
 		}
 	}
 	else if (panel == m_pSecondaryColorBLabel)
@@ -444,6 +449,7 @@ void CPlayerColorDialog::OnTextChanged(Panel *panel)
 		if (fValue >= 0.0f && fValue <= 255.0f)
 		{
 			m_pSecondaryColorBSlider->SetSliderValue(fValue);
+			m_pSecondaryColorBSlider->ApplyChanges();
 		}
 	}
 
@@ -456,6 +462,7 @@ void CPlayerColorDialog::OnTextChanged(Panel *panel)
 		if (fValue >= 0.0f && fValue <= 255.0f)
 		{
 			m_pTertiaryColorRSlider->SetSliderValue(fValue);
+			m_pTertiaryColorRSlider->ApplyChanges();
 		}
 	}
 	else if (panel == m_pTertiaryColorGLabel)
@@ -467,6 +474,7 @@ void CPlayerColorDialog::OnTextChanged(Panel *panel)
 		if (fValue >= 0.0f && fValue <= 255.0f)
 		{
 			m_pTertiaryColorGSlider->SetSliderValue(fValue);
+			m_pTertiaryColorGSlider->ApplyChanges();
 		}
 	}
 	else if (panel == m_pTertiaryColorBLabel)
@@ -478,6 +486,7 @@ void CPlayerColorDialog::OnTextChanged(Panel *panel)
 		if (fValue >= 0.0f && fValue <= 255.0f)
 		{
 			m_pTertiaryColorBSlider->SetSliderValue(fValue);
+			m_pTertiaryColorBSlider->ApplyChanges();
 		}
 	}
 

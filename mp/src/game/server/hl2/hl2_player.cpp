@@ -2036,7 +2036,7 @@ int	CHL2_Player::OnTakeDamage( const CTakeDamageInfo &info )
 		return 0;
 
 	// ignore fall damage if instructed to do so by input
-	if ( ( info.GetDamageType() & DMG_FALL ) && m_flTimeIgnoreFallDamage > gpGlobals->curtime )
+	/*if ( ( info.GetDamageType() & DMG_FALL ) && m_flTimeIgnoreFallDamage > gpGlobals->curtime )
 	{
 		// usually, we will reset the input flag after the first impact. However there is another input that
 		// prevents this behavior.
@@ -2045,7 +2045,10 @@ int	CHL2_Player::OnTakeDamage( const CTakeDamageInfo &info )
 			m_flTimeIgnoreFallDamage = 0;
 		}
 		return 0;
-	}
+	}*/
+
+	if (info.GetDamageType() & DMG_FALL)
+		return 0;
 
 	if( info.GetDamageType() & DMG_BLAST_SURFACE )
 	{
