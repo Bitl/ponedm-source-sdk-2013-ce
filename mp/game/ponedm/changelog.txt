@@ -1,20 +1,26 @@
-Beta:
-- Players will no longer collide with each other.
-- Changed the player spawning algorithm to be more like FIREFIGHT RELOADED's, enabling support for more map spawn entities.
-- Changed the chat color from yellow to white.
-- Fixed MOTDs.
-- Added a custom MOTD message.
-- Bots now have more varied names.
+Beta (released <DATE HERE>):
+Mane changes:
+- Changed the player spawning algorithm to be more like FIREFIGHT RELOADED's, enabling support for more map spawn entities from Counter-Strike Source and Day of Defeat Source.
 - Added dm_aerowalk by Drift.
 - Improved player customization with extra upper manes, extra lower manes, and extra tails.
 - Added a 3rd color choice for extra mane and tail colors.
 - Added strafe jumping.
+
+Bug Fixes:
+- Players will no longer collide with each other. This fixes a bug where bots couldn't get out of spawn.
+- Fixed MOTDs.
 - Fixed a bug where colors do not apply automatically by changing the number in the text box.
+
+Balance Tweaks:
 - Removed fall damage.
 - Reduced player health maximum to 100.
 - Reduced the amount of damage taken by rocket/grenade jumping.
-Alpha:
+
+Misc. Changes:
+- Changed the chat color from yellow to white.
+- Added a custom MOTD message.
+- Bots now have more varied names.
+
+Alpha (released 02/23/21):
 - Private test for player movement, player customization, bot functions, violence setting testing, and gameplay loop testing. 
 - First release of the mod.
-
-Expecting '{', got '#PoneDM_Dynamic_Appearance"
