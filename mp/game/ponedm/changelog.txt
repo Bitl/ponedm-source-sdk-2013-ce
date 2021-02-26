@@ -1,6 +1,6 @@
 Beta (released <DATE HERE>):
 Mane changes:
-- Changed the player spawning algorithm to be more like FIREFIGHT RELOADED's, enabling support for more map spawn entities from Counter-Strike Source and Day of Defeat Source.
+- Changed the player spawning algorithm, enabling support for more map spawn entities from Counter-Strike Source and Day of Defeat Source.
 - Added dm_aerowalk by Drift.
 - Improved player customization with extra upper manes, extra lower manes, and extra tails.
 - Added a 3rd color choice for extra mane and tail colors.
