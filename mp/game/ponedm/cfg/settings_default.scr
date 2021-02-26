@@ -118,7 +118,7 @@ DESCRIPTION SERVER_OPTIONS
 		{ "1" }
 	}
 	
-	"sv_ponedm_updateappearance
+	"sv_ponedm_updateappearance"
 	{
 		"#PoneDM_Dynamic_Appearance"
 		{ BOOL }

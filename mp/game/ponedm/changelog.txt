@@ -11,6 +11,10 @@ Beta:
 - Added strafe jumping.
 - Fixed a bug where colors do not apply automatically by changing the number in the text box.
 - Removed fall damage.
+- Reduced player health maximum to 100.
+- Reduced the amount of damage taken by rocket/grenade jumping.
 Alpha:
 - Private test for player movement, player customization, bot functions, violence setting testing, and gameplay loop testing. 
 - First release of the mod.
+
+Expecting '{', got '#PoneDM_Dynamic_Appearance"

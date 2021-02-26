@@ -39,7 +39,7 @@ extern CBaseEntity				*g_pLastSpawn;
 #ifdef PONEDM
 ConVar sv_ponedm_updatecolors("sv_ponedm_updatecolors", "1", FCVAR_REPLICATED | FCVAR_NOTIFY, "Updates player color immediately.");
 ConVar sv_ponedm_updateappearance("sv_ponedm_updateappearance", "1", FCVAR_REPLICATED | FCVAR_NOTIFY, "Updates player appearance immediately.");
-ConVar sv_ponedm_damagescale_self("sv_ponedm_damagescale_self", "0.4", FCVAR_CHEAT | FCVAR_NOTIFY, "");
+ConVar sv_ponedm_damagescale_self("sv_ponedm_damagescale_self", "0.25", FCVAR_CHEAT | FCVAR_NOTIFY, "");
 ConVar sv_ponedm_damageforcescale_self("sv_ponedm_damageforcescale_self", "2.5", FCVAR_CHEAT | FCVAR_NOTIFY, "");
 #endif
 
