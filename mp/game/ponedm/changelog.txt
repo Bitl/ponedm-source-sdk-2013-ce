@@ -8,6 +8,7 @@ Beta:
 - Added dm_aerowalk by Drift.
 - Improved player customization with extra upper manes, extra lower manes, and extra tails.
 - Added a 3rd color choice for extra mane and tail colors.
+- Added strafe jumping.
 Alpha:
 - Private test for player movement, player customization, bot functions, violence setting testing, and gameplay loop testing. 
 - First release of the mod.

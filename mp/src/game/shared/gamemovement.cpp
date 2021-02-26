@@ -2464,15 +2464,18 @@ bool CGameMovement::CheckJumpButton( void )
 		mv->m_vecVelocity[2] += flGroundFactor * flMul;  // 2 * gravity * height
 	}
 
-	Vector vecForward;
-	AngleVectors(mv->m_vecViewAngles, &vecForward);
+	Vector vecForward, vecRight;
+	AngleVectors(mv->m_vecViewAngles, &vecForward, &vecRight, NULL);
 	vecForward.z = 0.0f;
+	vecRight.z = 0.0f;
 	VectorNormalize(vecForward);
+	VectorNormalize(vecRight);
 	if (!player->m_Local.m_bDucked)
 	{
 		for (int iAxis = 0; iAxis < 2; ++iAxis)
 		{
 			vecForward[iAxis] *= (mv->m_flForwardMove * 0.5f);
+			vecRight[iAxis] *= (mv->m_flSideMove * 0.5f);
 		}
 	}
 	else
@@ -2480,9 +2483,11 @@ bool CGameMovement::CheckJumpButton( void )
 		for (int iAxis = 0; iAxis < 2; ++iAxis)
 		{
 			vecForward[iAxis] *= (mv->m_flForwardMove * 0.1f);
+			vecRight[iAxis] *= (mv->m_flSideMove * 0.1f);
 		}
 	}
 	VectorAdd(vecForward, mv->m_vecVelocity, mv->m_vecVelocity);
+	VectorAdd(vecRight, mv->m_vecVelocity, mv->m_vecVelocity);
 
 	FinishGravity();
 
