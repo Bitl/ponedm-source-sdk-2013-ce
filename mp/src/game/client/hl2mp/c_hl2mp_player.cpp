@@ -42,6 +42,10 @@ IMPLEMENT_CLIENTCLASS_DT(C_HL2MP_Player, DT_HL2MP_Player, CHL2MP_Player)
 #ifdef PONEDM
 	RecvPropVector(RECVINFO(m_vPrimaryColor)),
 	RecvPropVector(RECVINFO(m_vSecondaryColor)),
+	RecvPropVector(RECVINFO(m_vTertiaryColor)),
+	RecvPropInt(RECVINFO(m_iUpperManeBodygroup)),
+	RecvPropInt(RECVINFO(m_iLowerManeBodygroup)),
+	RecvPropInt(RECVINFO(m_iTailBodygroup)),
 #endif
 
 END_RECV_TABLE()
@@ -60,6 +64,14 @@ static ConVar cl_ponedm_primarycolor_b("cl_ponedm_primarycolor_b", "255", FCVAR_
 static ConVar cl_ponedm_secondarycolor_r("cl_ponedm_secondarycolor_r", "255", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
 static ConVar cl_ponedm_secondarycolor_g("cl_ponedm_secondarycolor_g", "255", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
 static ConVar cl_ponedm_secondarycolor_b("cl_ponedm_secondarycolor_b", "255", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
+
+static ConVar cl_ponedm_tertiarycolor_r("cl_ponedm_tertiarycolor_r", "255", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
+static ConVar cl_ponedm_tertiarycolor_g("cl_ponedm_tertiarycolor_g", "255", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
+static ConVar cl_ponedm_tertiarycolor_b("cl_ponedm_tertiarycolor_b", "255", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
+
+static ConVar cl_ponedm_uppermane("cl_ponedm_uppermane", "0", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
+static ConVar cl_ponedm_lowermane("cl_ponedm_lowermane", "0", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
+static ConVar cl_ponedm_tail("cl_ponedm_tail", "0", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
 
 extern ConVar cl_ponedm_violencelevel;
 #endif
@@ -1580,6 +1592,54 @@ public:
 EXPOSE_INTERFACE(CSecondaryPlayerColorProxy, IMaterialProxy, "SecondaryPlayerColor" IMATERIAL_PROXY_INTERFACE_VERSION);
 
 //-----------------------------------------------------------------------------
+// Returns the player's tertiary color
+//-----------------------------------------------------------------------------
+class CTertiaryPlayerColorProxy : public CResultProxy
+{
+public:
+	void OnBind(void* pC_BaseEntity)
+	{
+		Assert(m_pResult);
+
+		if (!pC_BaseEntity)
+		{
+			float r = floorf(cl_ponedm_tertiarycolor_r.GetFloat()) / 255.0f;
+			float g = floorf(cl_ponedm_tertiarycolor_g.GetFloat()) / 255.0f;
+			float b = floorf(cl_ponedm_tertiarycolor_b.GetFloat()) / 255.0f;
+			m_pResult->SetVecValue(r, g, b);
+			return;
+		}
+
+		C_BaseEntity* pEntity = BindArgToEntity(pC_BaseEntity);
+		if (!pEntity)
+			return;
+
+		Vector vecColor = pEntity->GetTertiaryColor();
+
+		if (vecColor == vec3_origin)
+		{
+			C_BaseEntity* pOwner = pEntity->GetTertiaryColorOwner();
+			while (pOwner && pOwner->GetTertiaryColorOwner() != NULL)
+			{
+				pOwner = pOwner->GetTertiaryColorOwner();
+				if (pOwner == pOwner->GetTertiaryColorOwner())
+					break;
+			}
+			if (pOwner)
+			{
+				vecColor = pOwner->GetTertiaryColor();
+			}
+		}
+		m_pResult->SetVecValue(vecColor.x, vecColor.y, vecColor.z);
+		return;
+
+		m_pResult->SetVecValue(1, 1, 1);
+	}
+};
+
+EXPOSE_INTERFACE(CTertiaryPlayerColorProxy, IMaterialProxy, "TertiaryPlayerColor" IMATERIAL_PROXY_INTERFACE_VERSION);
+
+//-----------------------------------------------------------------------------
 // Returns the local player's primary color
 //-----------------------------------------------------------------------------
 class CPrimaryPlayerColorProxyLocal : public CResultProxy
@@ -1614,4 +1674,22 @@ public:
 };
 
 EXPOSE_INTERFACE(CSecondaryPlayerColorProxyLocal, IMaterialProxy, "SecondaryPlayerColorLocal" IMATERIAL_PROXY_INTERFACE_VERSION);
+
+//-----------------------------------------------------------------------------
+// Returns the local player's tertiary color
+//-----------------------------------------------------------------------------
+class CTertiaryPlayerColorProxyLocal : public CResultProxy
+{
+public:
+	void OnBind(void* pC_BaseEntity)
+	{
+		Assert(m_pResult);
+		float r = floorf(cl_ponedm_tertiarycolor_r.GetFloat()) / 255.0f;
+		float g = floorf(cl_ponedm_tertiarycolor_g.GetFloat()) / 255.0f;
+		float b = floorf(cl_ponedm_tertiarycolor_b.GetFloat()) / 255.0f;
+		m_pResult->SetVecValue(r, g, b);
+	}
+};
+
+EXPOSE_INTERFACE(CTertiaryPlayerColorProxyLocal, IMaterialProxy, "TertiaryPlayerColorLocal" IMATERIAL_PROXY_INTERFACE_VERSION);
 #endif

@@ -178,6 +178,7 @@ void SpawnPoneDMBots(int botCount)
             // pick a random color!
             Vector m_vPrimaryColor = vec3_origin;
             Vector m_vSecondaryColor = vec3_origin;
+            Vector m_vTertiaryColor = vec3_origin;
 
             if (!TheGameRules->IsTeamplay())
             {
@@ -203,6 +204,31 @@ void SpawnPoneDMBots(int botCount)
             m_vSecondaryColor /= 255.0f;
 
             pPlayer->m_vSecondaryColor = m_vSecondaryColor;
+
+            float flColors3[3];
+
+            for (int i = 0; i < ARRAYSIZE(flColors3); i++)
+                flColors3[i] = RandomFloat(0, 255);
+
+            m_vTertiaryColor.Init(flColors3[0], flColors3[1], flColors3[2]);
+
+            m_vTertiaryColor /= 255.0f;
+
+            pPlayer->m_vTertiaryColor = m_vTertiaryColor;
+
+            //pick a random look!
+
+            int iUpperMane = RandomInt(0, pPlayer->GetBodygroupCount(PONEDM_UPPERMANE_BODYGROUP));
+            int iLowerMane = RandomInt(0, pPlayer->GetBodygroupCount(PONEDM_LOWERMANE_BODYGROUP));
+            int iTail = RandomInt(0, pPlayer->GetBodygroupCount(PONEDM_TAIL_BODYGROUP));
+
+            pPlayer->m_iUpperManeBodygroup = iUpperMane;
+            pPlayer->m_iLowerManeBodygroup = iLowerMane;
+            pPlayer->m_iTailBodygroup = iTail;
+
+            pPlayer->SetBodygroup(PONEDM_UPPERMANE_BODYGROUP, pPlayer->m_iUpperManeBodygroup);
+            pPlayer->SetBodygroup(PONEDM_LOWERMANE_BODYGROUP, pPlayer->m_iLowerManeBodygroup);
+            pPlayer->SetBodygroup(PONEDM_TAIL_BODYGROUP, pPlayer->m_iTailBodygroup);
         }
     }
 }

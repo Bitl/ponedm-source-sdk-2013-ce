@@ -38,6 +38,7 @@ extern CBaseEntity				*g_pLastSpawn;
 
 #ifdef PONEDM
 ConVar sv_ponedm_updatecolors("sv_ponedm_updatecolors", "1", FCVAR_REPLICATED | FCVAR_NOTIFY, "Updates player color immediately.");
+ConVar sv_ponedm_updateappearance("sv_ponedm_updateappearance", "1", FCVAR_REPLICATED | FCVAR_NOTIFY, "Updates player appearance immediately.");
 ConVar sv_ponedm_damagescale_self("sv_ponedm_damagescale_self", "0.4", FCVAR_CHEAT | FCVAR_NOTIFY, "");
 ConVar sv_ponedm_damageforcescale_self("sv_ponedm_damageforcescale_self", "2.5", FCVAR_CHEAT | FCVAR_NOTIFY, "");
 #endif
@@ -67,6 +68,10 @@ IMPLEMENT_SERVERCLASS_ST(CHL2MP_Player, DT_HL2MP_Player)
 #ifdef PONEDM
 	SendPropVector(SENDINFO(m_vPrimaryColor)),
 	SendPropVector(SENDINFO(m_vSecondaryColor)),
+	SendPropVector(SENDINFO(m_vTertiaryColor)),
+	SendPropInt(SENDINFO(m_iUpperManeBodygroup)),
+	SendPropInt(SENDINFO(m_iLowerManeBodygroup)),
+	SendPropInt(SENDINFO(m_iTailBodygroup)),
 #endif
 
 //	SendPropExclude( "DT_ServerAnimationData" , "m_flCycle" ),	
@@ -128,6 +133,11 @@ CHL2MP_Player::CHL2MP_Player() : m_PlayerAnimState( this )
 #ifdef PONEDM
 	m_vPrimaryColor.Init(1.0f, 1.0f, 1.0f);
 	m_vSecondaryColor.Init(1.0f, 1.0f, 1.0f);
+	m_vTertiaryColor.Init(1.0f, 1.0f, 1.0f);
+
+	m_iUpperManeBodygroup = 0;
+	m_iLowerManeBodygroup = 0;
+	m_iTailBodygroup = 0;
 #endif
 
 	BaseClass::ChangeTeam( 0 );
@@ -320,6 +330,7 @@ void CHL2MP_Player::Spawn(void)
 
 #ifdef PONEDM
 	UpdatePlayerColor();
+	UpdatePlayerAppearance();
 	GetViewModel(1)->SetModel("models/ppm/c_arms_pony.mdl");
 	// Gore
 	m_iGoreHead = 0;
@@ -327,7 +338,7 @@ void CHL2MP_Player::Spawn(void)
 	m_iGoreFrontRightLeg = 0;
 	m_iGoreRearLeftLeg = 0;
 	m_iGoreRearRightLeg = 0;
-	SetContextThink(&CHL2MP_Player::ColorUpdateThink, gpGlobals->curtime, "ColorUpdateThink");
+	SetContextThink(&CHL2MP_Player::CustomizationUpdateThink, gpGlobals->curtime, "CustomizationUpdateThink");
 #endif
 
 	m_nRenderFX = kRenderNormal;
@@ -399,19 +410,44 @@ void CHL2MP_Player::UpdatePlayerColor(void)
 		vecNewSecondaryColor.z = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_secondarycolor_b")) / 255.0f;
 
 		m_vSecondaryColor = vecNewSecondaryColor;
+
+		Vector vecNewTertiaryColor;
+
+		vecNewTertiaryColor.x = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_tertiarycolor_r")) / 255.0f;
+		vecNewTertiaryColor.y = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_tertiarycolor_g")) / 255.0f;
+		vecNewTertiaryColor.z = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_tertiarycolor_b")) / 255.0f;
+
+		m_vTertiaryColor = vecNewTertiaryColor;
+	}
+}
+
+void CHL2MP_Player::UpdatePlayerAppearance()
+{
+	if (!IsFakeClient())
+	{
+		m_iUpperManeBodygroup = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_uppermane"));
+		m_iLowerManeBodygroup = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_lowermane"));
+		m_iTailBodygroup = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_tail"));
+
+		SetBodygroup(PONEDM_UPPERMANE_BODYGROUP, m_iUpperManeBodygroup);
+		SetBodygroup(PONEDM_LOWERMANE_BODYGROUP, m_iLowerManeBodygroup);
+		SetBodygroup(PONEDM_TAIL_BODYGROUP, m_iTailBodygroup);
 	}
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CHL2MP_Player::ColorUpdateThink()
+void CHL2MP_Player::CustomizationUpdateThink()
 {
 	//no rainbow seizures allowed.
 	if (sv_ponedm_updatecolors.GetBool())
 		UpdatePlayerColor();
 
-	SetContextThink(&CHL2MP_Player::ColorUpdateThink, gpGlobals->curtime, "ColorUpdateThink");
+	if (sv_ponedm_updateappearance.GetBool())
+		UpdatePlayerAppearance();
+
+	SetContextThink(&CHL2MP_Player::CustomizationUpdateThink, gpGlobals->curtime, "CustomizationUpdateThink");
 }
 #endif
 

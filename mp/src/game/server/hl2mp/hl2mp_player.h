@@ -20,6 +20,12 @@ class CHL2MP_Player;
 #include "hl2mp_gamerules.h"
 #include "utldict.h"
 
+#ifdef PONEDM
+#define PONEDM_UPPERMANE_BODYGROUP 1
+#define PONEDM_LOWERMANE_BODYGROUP 2
+#define PONEDM_TAIL_BODYGROUP 3
+#endif
+
 //=============================================================================
 // >> HL2MP_Player
 //=============================================================================
@@ -134,8 +140,13 @@ public:
 
 #ifdef PONEDM
 	void UpdatePlayerColor(void);
+	void UpdatePlayerAppearance(void);
 	CNetworkVector(m_vPrimaryColor);
 	CNetworkVector(m_vSecondaryColor);
+	CNetworkVector(m_vTertiaryColor);
+	CNetworkVar(int, m_iUpperManeBodygroup);
+	CNetworkVar(int, m_iLowerManeBodygroup);
+	CNetworkVar(int, m_iTailBodygroup);
 
 	// Gore
 	unsigned short m_iGoreHead;
@@ -148,7 +159,7 @@ public:
 private:
 
 #ifdef PONEDM
-	void				ColorUpdateThink();
+	void				CustomizationUpdateThink();
 #endif
 
 	CNetworkQAngle( m_angEyeAngles );

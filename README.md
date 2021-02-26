@@ -25,6 +25,8 @@ To be able to build PoneDM you will need to download:
 * Kolessios for the SourceBots source code used as the basis for the bots. (https://github.com/kolessios/sourcebots)
 * Wave Software for the list of names used in their MLP Name Generator. (https://github.com/wavesoftware/mlp-name-generator/blob/develop/lib/data.js)
 * Aionaever for the Toggling RPG Laser tutorial on VDC. (https://developer.valvesoftware.com/wiki/Toggling_RPG_Guidance)
+* Drift. for the dm_aerowalk map. (https://gamebanana.com/maps/194479) 
+This map was licenced under the Attribution-NonCommercial-NoDerivatives 4.0 International license. (https://creativecommons.org/licenses/by-nc-nd/4.0/) It has not been modified.
 
 PoneDM includes models from PPM/2 (https://gitlab.com/DBotThePony/PPM). These models were created and modified by the following people
 * [Durpy](https://steamcommunity.com/id/xDeRpYx/)

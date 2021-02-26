@@ -1695,8 +1695,10 @@ protected:
 public:
 	virtual Vector GetPrimaryColor(void) { return vec3_origin; }
 	virtual Vector GetSecondaryColor(void) { return vec3_origin; }
+	virtual Vector GetTertiaryColor(void) { return vec3_origin; }
 	virtual C_BaseEntity* GetPrimaryColorOwner(void) { return GetOwnerEntity(); }
 	virtual C_BaseEntity* GetSecondaryColorOwner(void) { return GetOwnerEntity(); }
+	virtual C_BaseEntity* GetTertiaryColorOwner(void) { return GetOwnerEntity(); }
 #endif
 
 #ifdef TF_CLIENT_DLL

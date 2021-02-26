@@ -71,6 +71,7 @@ public:
 #ifdef PONEDM
 	virtual Vector GetPrimaryColor(void) { return m_vPrimaryColor; }
 	virtual Vector GetSecondaryColor(void) { return m_vSecondaryColor; }
+	virtual Vector GetTertiaryColor(void) { return m_vTertiaryColor; }
 #endif
 
 	void	UpdateLookAt( void );
@@ -87,6 +88,10 @@ public:
 #ifdef PONEDM
 	CNetworkVector(m_vPrimaryColor);
 	CNetworkVector(m_vSecondaryColor);
+	CNetworkVector(m_vTertiaryColor);
+	CNetworkVar(int, m_iUpperManeBodygroup);
+	CNetworkVar(int, m_iLowerManeBodygroup);
+	CNetworkVar(int, m_iTailBodygroup);
 #endif
 
 private:
@@ -185,13 +190,18 @@ public:
 
 	void DismemberRandomLimbs(void);
 
-	virtual C_BaseEntity* GetPrimaryColorOwner(void)
-	{
+	virtual C_BaseEntity* GetPrimaryColorOwner(void) 
+	{ 
 		EHANDLE hPlayer = GetPlayerHandle();
 		return hPlayer.Get();
 	}
-	virtual C_BaseEntity* GetSecondaryColorOwner(void)
-	{
+	virtual C_BaseEntity* GetSecondaryColorOwner(void) 
+	{ 
+		EHANDLE hPlayer = GetPlayerHandle();
+		return hPlayer.Get();
+	}
+	virtual C_BaseEntity* GetTertiaryColorOwner(void) 
+	{ 
 		EHANDLE hPlayer = GetPlayerHandle();
 		return hPlayer.Get();
 	}

@@ -19,6 +19,8 @@ using namespace vgui;
 #include "EngineInterface.h"
 #include "tier1/convar.h"
 #include <vgui_controls/TextEntry.h>
+#include <vgui_controls/ComboBox.h>
+#include <vgui/ILocalize.h>
 
 // for SRC
 #include <vstdlib/random.h>
@@ -72,6 +74,27 @@ CPlayerColorDialog::CPlayerColorDialog(vgui::Panel *parent) : BaseClass(NULL, "P
 
 	m_pSecondaryColorBLabel = new TextEntry(this, "SecondaryBlueLabel");
 	m_pSecondaryColorBLabel->AddActionSignalTarget(this);
+
+	//tertiary
+	m_pTertiaryColorRSlider = new CCvarSlider(this, "TertiaryRedSlider", "#GameUI_TertiaryColor_R", 0, 255, "cl_ponedm_tertiarycolor_r", false);
+
+	m_pTertiaryColorRLabel = new TextEntry(this, "TertiaryRedLabel");
+	m_pTertiaryColorRLabel->AddActionSignalTarget(this);
+
+	m_pTertiaryColorGSlider = new CCvarSlider(this, "TertiaryGreenSlider", "#GameUI_TertiaryColor_G", 0, 255, "cl_ponedm_tertiarycolor_g", false);
+
+	m_pTertiaryColorGLabel = new TextEntry(this, "TertiaryGreenLabel");
+	m_pTertiaryColorGLabel->AddActionSignalTarget(this);
+
+	m_pTertiaryColorBSlider = new CCvarSlider(this, "TertiaryBlueSlider", "#GameUI_TertiaryColor_B", 0, 255, "cl_ponedm_tertiarycolor_b", false);
+
+	m_pTertiaryColorBLabel = new TextEntry(this, "TertiaryBlueLabel");
+	m_pTertiaryColorBLabel->AddActionSignalTarget(this);
+
+	//customization
+	m_pUpperManeList = new ComboBox(this, "UpperManeList", 12, false);
+	m_pLowerManeList = new ComboBox(this, "LowerManeList", 12, false);
+	m_pTailList = new ComboBox(this, "TailList", 12, false);
 
 	LoadControlSettings("Resource/PlayerColorDialog.res");
 	
@@ -132,7 +155,37 @@ CPlayerColorDialog::CPlayerColorDialog(vgui::Panel *parent) : BaseClass(NULL, "P
 		Q_snprintf(buf, sizeof(buf), " %.1f", cl_ponedm_primarycolor_b);
 		m_pSecondaryColorBLabel->SetText(buf);
 	}
+
+	//tertiary
+	ConVarRef TertiaryRed("cl_ponedm_tertiarycolor_r");
+	if (TertiaryRed.IsValid())
+	{
+		float cl_ponedm_tertiarycolor_r = TertiaryRed.GetFloat();
+
+		char buf[64];
+		Q_snprintf(buf, sizeof(buf), " %.1f", cl_ponedm_tertiarycolor_r);
+		m_pTertiaryColorRLabel->SetText(buf);
+	}
+	ConVarRef TertiaryGreen("cl_ponedm_tertiarycolor_g");
+	if (TertiaryGreen.IsValid())
+	{
+		float cl_ponedm_tertiarycolor_g = TertiaryGreen.GetFloat();
+
+		char buf[64];
+		Q_snprintf(buf, sizeof(buf), " %.1f", cl_ponedm_tertiarycolor_g);
+		m_pTertiaryColorGLabel->SetText(buf);
+	}
+	ConVarRef TertiaryBlue("cl_ponedm_tertiarycolor_b");
+	if (TertiaryBlue.IsValid())
+	{
+		float cl_ponedm_tertiarycolor_b = TertiaryBlue.GetFloat();
+
+		char buf[64];
+		Q_snprintf(buf, sizeof(buf), " %.1f", cl_ponedm_tertiarycolor_b);
+		m_pTertiaryColorBLabel->SetText(buf);
+	}
 	
+	LoadAppearanceOptions();
 	SetSizeable(false);
 	SetDeleteSelfOnClose(true);
 	MoveToCenterOfScreen();
@@ -147,7 +200,64 @@ CPlayerColorDialog::~CPlayerColorDialog()
 
 void CPlayerColorDialog::DialogInit()
 {
-};
+}
+
+void CPlayerColorDialog::LoadAppearanceOptions()
+{
+	m_pUpperManeList->DeleteAllItems();
+	m_pLowerManeList->DeleteAllItems();
+	m_pTailList->DeleteAllItems();
+
+	KeyValues* pKV = new KeyValues("UpperManeAppearance");
+	if (pKV->LoadFromFile(filesystem, "scripts/appearance_uppermane.txt", "GAME"))
+	{
+		KeyValues* pNode = pKV->GetFirstSubKey();
+		while (pNode)
+		{
+			const char *itemName = pNode->GetString("name", "");
+			const char* itemID = pNode->GetString("id", 0);
+			m_pUpperManeList->AddItem(g_pVGuiLocalize->Find(itemName), new KeyValues("data", "id", itemID));
+
+			pNode = pNode->GetNextKey();
+		}
+	}
+
+	KeyValues* pKV2 = new KeyValues("LowerManeAppearance");
+	if (pKV2->LoadFromFile(filesystem, "scripts/appearance_lowermane.txt", "GAME"))
+	{
+		KeyValues* pNode = pKV2->GetFirstSubKey();
+		while (pNode)
+		{
+			const char* itemName = pNode->GetString("name", "");
+			const char* itemID = pNode->GetString("id", 0);
+			m_pLowerManeList->AddItem(g_pVGuiLocalize->Find(itemName), new KeyValues("data", "id", itemID));
+
+			pNode = pNode->GetNextKey();
+		}
+	}
+
+	KeyValues* pKV3 = new KeyValues("TailAppearance");
+	if (pKV3->LoadFromFile(filesystem, "scripts/appearance_tail.txt", "GAME"))
+	{
+		KeyValues* pNode = pKV3->GetFirstSubKey();
+		while (pNode)
+		{
+			const char* itemName = pNode->GetString("name", "");
+			const char* itemID = pNode->GetString("id", 0);
+			m_pTailList->AddItem(g_pVGuiLocalize->Find(itemName), new KeyValues("data", "id", itemID));
+
+			pNode = pNode->GetNextKey();
+		}
+	}
+
+	ConVarRef upperMane("cl_ponedm_uppermane");
+	ConVarRef lowerMane("cl_ponedm_lowermane");
+	ConVarRef tail("cl_ponedm_tail");
+
+	m_pUpperManeList->ActivateItem(upperMane.GetInt());
+	m_pLowerManeList->ActivateItem(lowerMane.GetInt());
+	m_pTailList->ActivateItem(tail.GetInt());
+}
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -161,6 +271,22 @@ void CPlayerColorDialog::OnClose()
 	m_pSecondaryColorRSlider->ApplyChanges();
 	m_pSecondaryColorGSlider->ApplyChanges();
 	m_pSecondaryColorBSlider->ApplyChanges();
+
+	m_pTertiaryColorRSlider->ApplyChanges();
+	m_pTertiaryColorGSlider->ApplyChanges();
+	m_pTertiaryColorBSlider->ApplyChanges();
+
+	int selectedUpperMane = m_pUpperManeList->GetActiveItemUserData()->GetInt("id");
+	ConVarRef upperMane("cl_ponedm_uppermane");
+	upperMane.SetValue(selectedUpperMane);
+
+	int selectedLowerMane = m_pLowerManeList->GetActiveItemUserData()->GetInt("id");
+	ConVarRef lowerMane("cl_ponedm_lowermane");
+	lowerMane.SetValue(selectedLowerMane);
+
+	int selectedTail = m_pTailList->GetActiveItemUserData()->GetInt("id");
+	ConVarRef tail("cl_ponedm_tail");
+	tail.SetValue(selectedTail);
 	
 	BaseClass::OnClose();
 	MarkForDeletion();
@@ -223,6 +349,28 @@ void CPlayerColorDialog::OnControlModified(Panel *panel)
 		Q_snprintf(buf, sizeof(buf), " %.1f", m_pSecondaryColorBSlider->GetSliderValue());
 		m_pSecondaryColorBLabel->SetText(buf);
 		m_pSecondaryColorBSlider->ApplyChanges();
+	}
+
+	if (panel == m_pTertiaryColorRSlider && m_pTertiaryColorRSlider->HasBeenModified())
+	{
+		char buf[64];
+		Q_snprintf(buf, sizeof(buf), " %.1f", m_pTertiaryColorRSlider->GetSliderValue());
+		m_pTertiaryColorRLabel->SetText(buf);
+		m_pTertiaryColorRSlider->ApplyChanges();
+	}
+	else if (panel == m_pTertiaryColorGSlider && m_pTertiaryColorGSlider->HasBeenModified())
+	{
+		char buf[64];
+		Q_snprintf(buf, sizeof(buf), " %.1f", m_pTertiaryColorGSlider->GetSliderValue());
+		m_pTertiaryColorGLabel->SetText(buf);
+		m_pTertiaryColorGSlider->ApplyChanges();
+	}
+	else if (panel == m_pTertiaryColorBSlider && m_pTertiaryColorBSlider->HasBeenModified())
+	{
+		char buf[64];
+		Q_snprintf(buf, sizeof(buf), " %.1f", m_pTertiaryColorBSlider->GetSliderValue());
+		m_pTertiaryColorBLabel->SetText(buf);
+		m_pTertiaryColorBSlider->ApplyChanges();
 	}
 }
 
@@ -297,5 +445,58 @@ void CPlayerColorDialog::OnTextChanged(Panel *panel)
 		{
 			m_pSecondaryColorBSlider->SetSliderValue(fValue);
 		}
+	}
+
+	if (panel == m_pTertiaryColorRLabel)
+	{
+		char buf[64];
+		m_pTertiaryColorRLabel->GetText(buf, 64);
+
+		float fValue = (float)atof(buf);
+		if (fValue >= 0.0f && fValue <= 255.0f)
+		{
+			m_pTertiaryColorRSlider->SetSliderValue(fValue);
+		}
+	}
+	else if (panel == m_pTertiaryColorGLabel)
+	{
+		char buf[64];
+		m_pTertiaryColorGLabel->GetText(buf, 64);
+
+		float fValue = (float)atof(buf);
+		if (fValue >= 0.0f && fValue <= 255.0f)
+		{
+			m_pTertiaryColorGSlider->SetSliderValue(fValue);
+		}
+	}
+	else if (panel == m_pTertiaryColorBLabel)
+	{
+		char buf[64];
+		m_pTertiaryColorBLabel->GetText(buf, 64);
+
+		float fValue = (float)atof(buf);
+		if (fValue >= 0.0f && fValue <= 255.0f)
+		{
+			m_pTertiaryColorBSlider->SetSliderValue(fValue);
+		}
+	}
+
+	if (panel == m_pUpperManeList)
+	{
+		int selectedUpperMane = m_pUpperManeList->GetActiveItemUserData()->GetInt("id");
+		ConVarRef upperMane("cl_ponedm_uppermane");
+		upperMane.SetValue(selectedUpperMane);
+	}
+	else if (panel == m_pLowerManeList)
+	{
+		int selectedLowerMane = m_pLowerManeList->GetActiveItemUserData()->GetInt("id");
+		ConVarRef lowerMane("cl_ponedm_lowermane");
+		lowerMane.SetValue(selectedLowerMane);
+	}
+	else if (panel == m_pTailList)
+	{
+		int selectedTail = m_pTailList->GetActiveItemUserData()->GetInt("id");
+		ConVarRef tail("cl_ponedm_tail");
+		tail.SetValue(selectedTail);
 	}
 }

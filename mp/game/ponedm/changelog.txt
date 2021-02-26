@@ -5,7 +5,9 @@ Beta:
 - Fixed MOTDs.
 - Added a custom MOTD message.
 - Bots now have more varied names.
-- PoneDM will now mount Counter-Strike Source, Day of Defeat Source, Half-Life 2 Deathmatch, and Half-Life Deathmatch Source on startup if you own these games.
+- Added dm_aerowalk by Drift.
+- Improved player customization with extra upper manes, extra lower manes, and extra tails.
+- Added a 3rd color choice for extra mane and tail colors.
 Alpha:
 - Private test for player movement, player customization, bot functions, violence setting testing, and gameplay loop testing. 
 - First release of the mod.

@@ -118,6 +118,13 @@ DESCRIPTION SERVER_OPTIONS
 		{ "1" }
 	}
 	
+	"sv_ponedm_updateappearance
+	{
+		"#PoneDM_Dynamic_Appearance"
+		{ BOOL }
+		{ "1" }
+	}
+	
 	"sv_ponedm_bot_fillserver"
 	{
 		"#PoneDM_InstantAction"

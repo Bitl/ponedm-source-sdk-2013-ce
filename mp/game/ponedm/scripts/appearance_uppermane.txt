@@ -1,0 +1,113 @@
+"UpperManeAppearance"
+{
+	"1"
+	{
+		"name"		"#PoneDM_TheOriginal"
+		"id"		"0"
+	}
+	"2"
+	{
+		"name"		"#PoneDM_DoubleCurl"
+		"id"		"1"
+	}
+	"3"
+	{
+		"name"		"#PoneDM_Flashy"
+		"id"		"2"
+	}
+	"4"
+	{
+		"name"		"#PoneDM_Stylish"
+		"id"		"3"
+	}
+	"5"
+	{
+		"name"		"#PoneDM_Shy"
+		"id"		"4"
+	}
+	"6"
+	{
+		"name"		"#PoneDM_Flashy2"
+		"id"		"5"
+	}
+	"7"
+	{
+		"name"		"#PoneDM_Flashy3"
+		"id"		"6"
+	}
+	"8"
+	{
+		"name"		"#PoneDM_Flashy4"
+		"id"		"7"
+	}
+	"9"
+	{
+		"name"		"#PoneDM_Bedhead"
+		"id"		"8"
+	}
+	"10"
+	{
+		"name"		"#PoneDM_Mohawk"
+		"id"		"9"
+	}
+	"11"
+	{
+		"name"		"#PoneDM_Intellectual"
+		"id"		"10"
+	}
+	"12"
+	{
+		"name"		"#PoneDM_Flashy5"
+		"id"		"11"
+	}
+	"13"
+	{
+		"name"		"#PoneDM_PartyFanatic"
+		"id"		"12"
+	}
+	"14"
+	{
+		"name"		"#PoneDM_Stylish2"
+		"id"		"13"
+	}
+	"15"
+	{
+		"name"		"#PoneDM_Mohawk2"
+		"id"		"14"
+	}
+	"16"
+	{
+		"name"		"#PoneDM_Emo"
+		"id"		"15"
+	}
+	"17"
+	{
+		"name"		"#PoneDM_Bedhead2"
+		"id"		"16"
+	}
+	"18"
+	{
+		"name"		"#PoneDM_Flashy6"
+		"id"		"17"
+	}
+	"19"
+	{
+		"name"		"#PoneDM_Bedhead3"
+		"id"		"18"
+	}
+	"20"
+	{
+		"name"		"#PoneDM_GelHair"
+		"id"		"19"
+	}
+	"21"
+	{
+		"name"		"#PoneDM_Teacher"
+		"id"		"20"
+	}
+	"22"
+	{
+		"name"		"#PoneDM_Emo2"
+		"id"		"21"
+	}
+}

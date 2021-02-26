@@ -1,0 +1,93 @@
+"LowerManeAppearance"
+{
+	"1"
+	{
+		"name"		"#PoneDM_TheOriginal"
+		"id"		"0"
+	}
+	"2"
+	{
+		"name"		"#PoneDM_None"
+		"id"		"17"
+	}
+	"3"
+	{
+		"name"		"#PoneDM_Curly"
+		"id"		"1"
+	}
+	"4"
+	{
+		"name"		"#PoneDM_Flashy"
+		"id"		"2"
+	}
+	"5"
+	{
+		"name"		"#PoneDM_Stylish"
+		"id"		"3"
+	}
+	"6"
+	{
+		"name"		"#PoneDM_Shy"
+		"id"		"4"
+	}
+	"7"
+	{
+		"name"		"#PoneDM_Flashy2"
+		"id"		"5"
+	}
+	"8"
+	{
+		"name"		"#PoneDM_Bedhead"
+		"id"		"6"
+	}
+	"9"
+	{
+		"name"		"#PoneDM_Swishy"
+		"id"		"7"
+	}
+	"10"
+	{
+		"name"		"#PoneDM_Swishy2"
+		"id"		"8"
+	}
+	"11"
+	{
+		"name"		"#PoneDM_Swishy3"
+		"id"		"9"
+	}
+	"12"
+	{
+		"name"		"#PoneDM_Farmer"
+		"id"		"10"
+	}
+	"13"
+	{
+		"name"		"#PoneDM_Stylish2"
+		"id"		"11"
+	}
+	"14"
+	{
+		"name"		"#PoneDM_Swishy4"
+		"id"		"12"
+	}
+	"15"
+	{
+		"name"		"#PoneDM_ShortCut"
+		"id"		"13"
+	}
+	"16"
+	{
+		"name"		"#PoneDM_TiedUp"
+		"id"		"14"
+	}
+	"17"
+	{
+		"name"		"#PoneDM_Bedhead2"
+		"id"		"15"
+	}
+	"18"
+	{
+		"name"		"#PoneDM_ShortCut2"
+		"id"		"16"
+	}
+}

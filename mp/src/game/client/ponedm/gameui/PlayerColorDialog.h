@@ -28,6 +28,7 @@ public:
 	
 	// returns currently entered information about the server
 	void DialogInit();
+	void LoadAppearanceOptions();
 
 private:
 	virtual void OnClose();
@@ -49,6 +50,17 @@ private:
 	vgui::TextEntry		*m_pSecondaryColorGLabel;
 	CCvarSlider			*m_pSecondaryColorBSlider;
 	vgui::TextEntry		*m_pSecondaryColorBLabel;
+
+	CCvarSlider			*m_pTertiaryColorRSlider;
+	vgui::TextEntry		*m_pTertiaryColorRLabel;
+	CCvarSlider			*m_pTertiaryColorGSlider;
+	vgui::TextEntry		*m_pTertiaryColorGLabel;
+	CCvarSlider			*m_pTertiaryColorBSlider;
+	vgui::TextEntry		*m_pTertiaryColorBLabel;
+
+	vgui::ComboBox		*m_pUpperManeList;
+	vgui::ComboBox		*m_pLowerManeList;
+	vgui::ComboBox		*m_pTailList;
 };
 
 
