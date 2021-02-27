@@ -97,6 +97,7 @@ CPlayer* CreatePoneDMBot(const char* pPlayername, const Vector* vecPosition, con
     }
 
     ++g_botID;
+    m_botPonyNames.RemoveAll();
     return pPlayer;
 }
 

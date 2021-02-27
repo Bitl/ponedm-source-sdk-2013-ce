@@ -38,7 +38,11 @@
 
 // a player name may have 31 chars + 0 on the PC.
 // the 360 only allows 15 char + 0, but stick with the larger PC size for cross-platform communication
+#ifdef PONEDM
+#define MAX_PLAYER_NAME_LENGTH		128
+#else
 #define MAX_PLAYER_NAME_LENGTH		32
+#endif
 
 #ifdef _X360
 #define MAX_PLAYERS_PER_CLIENT		XUSER_MAX_COUNT	// Xbox 360 supports 4 players per console

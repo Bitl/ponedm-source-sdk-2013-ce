@@ -20,6 +20,7 @@ Misc. Changes:
 - Changed the chat color from yellow to white.
 - Added a custom MOTD message.
 - Bots now have more varied names.
+- Bots now pull name choices from a script file.
 
 Alpha (released 02/23/21):
 - Private test for player movement, player customization, bot functions, violence setting testing, and gameplay loop testing. 
