@@ -12,9 +12,39 @@ ConVar sv_ponedm_bot_respawn("sv_ponedm_bot_respawn", "1", FCVAR_CHEAT | FCVAR_N
 
 extern void respawn(CBaseEntity* pEdict, bool fCopyCorpse);
 
+CUtlVector<string_t> m_botPonyNames;
+
+void LoadPonyNames(void)
+{
+    KeyValues* pKV = new KeyValues("PonyNames");
+    if (pKV->LoadFromFile(filesystem, "scripts/pony_names.txt", "GAME"))
+    {
+        FOR_EACH_VALUE(pKV, pSubData)
+        {
+            if (FStrEq(pSubData->GetString(), ""))
+                continue;
+
+            string_t iName = AllocPooledString(pSubData->GetString());
+            if (m_botPonyNames.Find(iName) == m_botPonyNames.InvalidIndex())
+                m_botPonyNames[m_botPonyNames.AddToTail()] = iName;
+        }
+    }
+
+    pKV->deleteThis();
+}
+
 const char* NewPonyNameSelection(void)
 {
-    return m_botPonyNames[RandomInt(0, ARRAYSIZE(m_botPonyNames) - 1)];
+    static char szName[64];
+    if (m_botPonyNames.Count() == 0)
+        return "MISSINGNO";
+
+    static int nameIndex = RandomInt(0, m_botPonyNames.Count() - 1);
+    string_t iszName = m_botPonyNames[++nameIndex % m_botPonyNames.Count()];
+    const char* pszName = STRING(iszName);
+    V_strcpy_safe(szName, pszName);
+
+    return szName;
 }
 
 //================================================================================
@@ -22,6 +52,8 @@ const char* NewPonyNameSelection(void)
 //================================================================================
 CPlayer* CreatePoneDMBot(const char* pPlayername, const Vector* vecPosition, const QAngle* angles)
 {
+    LoadPonyNames();
+
     if (!pPlayername) {
         //HACK!!!!!
         int nameCount = RandomInt(1, 3);

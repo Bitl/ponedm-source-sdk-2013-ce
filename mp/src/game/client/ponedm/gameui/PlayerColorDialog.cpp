@@ -222,6 +222,8 @@ void CPlayerColorDialog::LoadAppearanceOptions()
 		}
 	}
 
+	pKV->deleteThis();
+
 	KeyValues* pKV2 = new KeyValues("LowerManeAppearance");
 	if (pKV2->LoadFromFile(filesystem, "scripts/appearance_lowermane.txt", "GAME"))
 	{
@@ -236,6 +238,8 @@ void CPlayerColorDialog::LoadAppearanceOptions()
 		}
 	}
 
+	pKV2->deleteThis();
+
 	KeyValues* pKV3 = new KeyValues("TailAppearance");
 	if (pKV3->LoadFromFile(filesystem, "scripts/appearance_tail.txt", "GAME"))
 	{
@@ -249,6 +253,8 @@ void CPlayerColorDialog::LoadAppearanceOptions()
 			pNode = pNode->GetNextKey();
 		}
 	}
+
+	pKV3->deleteThis();
 
 	ConVarRef upperMane("cl_ponedm_uppermane");
 	ConVarRef lowerMane("cl_ponedm_lowermane");
