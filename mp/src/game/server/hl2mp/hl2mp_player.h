@@ -20,12 +20,6 @@ class CHL2MP_Player;
 #include "hl2mp_gamerules.h"
 #include "utldict.h"
 
-#ifdef PONEDM
-#define PONEDM_UPPERMANE_BODYGROUP 1
-#define PONEDM_LOWERMANE_BODYGROUP 2
-#define PONEDM_TAIL_BODYGROUP 3
-#endif
-
 //=============================================================================
 // >> HL2MP_Player
 //=============================================================================

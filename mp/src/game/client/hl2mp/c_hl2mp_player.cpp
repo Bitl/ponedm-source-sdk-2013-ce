@@ -1367,6 +1367,10 @@ void C_HL2MPRagdoll::CreateHL2MPRagdoll( void )
 		ResetScaledBones();
 	}
 
+	SetBodygroup(PONEDM_UPPERMANE_BODYGROUP, pPlayer->m_iUpperManeBodygroup);
+	SetBodygroup(PONEDM_LOWERMANE_BODYGROUP, pPlayer->m_iLowerManeBodygroup);
+	SetBodygroup(PONEDM_TAIL_BODYGROUP, pPlayer->m_iTailBodygroup);
+
 	// must think immediately for dismemberment
 	SetNextClientThink(gpGlobals->curtime + 0.1f);
 #endif
