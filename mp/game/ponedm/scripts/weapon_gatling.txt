@@ -31,7 +31,7 @@ WeaponData
 		"empty"				"Weapon_SMG1.Empty"
 		"single_shot"		"Weapon_Gatling.Single"
 		"single_shot_npc"	"Weapon_Gatling.NPC_Single"
-		"special1"			"Weapon_Gatling.Special1"
+		"special1"			"Weapon_SMG1.Special1"
 	}
 
 	// Weapon Sprite data is loaded by the Client DLL.

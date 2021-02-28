@@ -40,6 +40,9 @@ PoneDM includes models from PPM/2 (https://gitlab.com/DBotThePony/PPM). These mo
 
 This project also uses sounds from [Dynamic Surroundings](https://github.com/OreCruncher/DynamicSurroundings/blob/master/CREDITS.md#sounds).
 
+Sources for sounds:
+https://freesound.org/people/craigsmith/sounds/479674/ R13-02-Scared Neighs.wav by craigsmith
+
 All rights go to their respective holders.
 
 ### Codename: Project Ahuizotl
