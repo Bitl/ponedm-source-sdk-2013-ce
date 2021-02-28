@@ -145,8 +145,8 @@
 		"wide"	"102"
 		"tall"	"26"
 		
-		"AuxPowerLowColor" "255 0 0 220"
-		"AuxPowerHighColor" "255 220 0 220"
+		"AuxPowerLowColor" "230 131 222"
+		"AuxPowerHighColor" "230 131 222"
 		"AuxPowerDisabledAlpha" "70"
 
 		"BarInsetX" "8"
@@ -212,17 +212,18 @@
 	HudWeaponSelection
 	{
 		"fieldName" "HudWeaponSelection"
+		
 		"ypos" 	"16"
 		"visible" "1"
 		"enabled" "1"
-		"SmallBoxSize" "32"
-		"LargeBoxWide" "112"
-		"LargeBoxTall" "80"
-		"BoxGap" "8"
+		"SmallBoxSize" "16"
+		"LargeBoxWide" "128"
+		"LargeBoxTall" "48"
+		"BoxGap" "4"
 		"SelectionNumberXPos" "4"
 		"SelectionNumberYPos" "4"
 		"SelectionGrowTime"	"0.4"
-		"TextYPos" "64"
+		"TextYPos" "35"
 	}
 
 	HudCrosshair
@@ -435,6 +436,7 @@
 		"text_ygap" "14"
 		"TextColor"	"255 170 0 220"
 		"PaintBackgroundType"	"2"
+		
 	}
 	HudCredits
 	{

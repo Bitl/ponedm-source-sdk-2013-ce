@@ -39,23 +39,24 @@ WeaponData
 	{
 		"weapon"
 		{
-				"font"		"WeaponIcons"
-				"character"	"a"
+				"file"		"VGUI/basic2d_linear/ex_weaponicon_26"
+				"x"			"0"
+				"y"			"0"
+				"width"		"64"
+				"height"	"64"
 		}
 		"weapon_s"
 		{	
-				"font"		"WeaponIconsSelected"
-				"character"	"a"
+				"file"		"VGUI/basic2d_linear/ex_weaponicon_26"
+				"x"			"0"
+				"y"			"0"
+				"width"		"64"
+				"height"	"64"
 		}
 		"ammo"
 		{
 				"font"		"WeaponIcons"
 				"character"	"r"
-		}
-		"ammo2"
-		{
-				"font"		"WeaponIcons"
-				"character"	"t"
 		}
 		"crosshair"
 		{

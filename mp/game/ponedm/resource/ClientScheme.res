@@ -473,7 +473,7 @@ Scheme
 			"1"
 			{
 				"name"		"HalfLife2"
-				"tall"		"64"
+				"tall"		"32"
 				"weight"	"0"
 				"antialias" "1"
 				"additive"	"1"
@@ -485,7 +485,7 @@ Scheme
 			"1"
 			{
 				"name"		"HalfLife2"
-				"tall"		"64"
+				"tall"		"32"
 				"weight"	"0"
 				"antialias" "1"
 				"blur"		"5"
