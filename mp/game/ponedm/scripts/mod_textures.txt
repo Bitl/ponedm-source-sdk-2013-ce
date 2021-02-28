@@ -208,6 +208,14 @@
 				"font"		"HL2MPTypeDeath"
 				"character"	"6"
 		}
+		"death_gatling"
+		{
+				"file"		"VGUI/basic2d_linear/ex_weaponicon_26_d"
+				"x"		"0"
+				"y"		"25"
+				"width"		"64"
+				"height"	"64"
+		}
 		"voice_player"
 		{
 				"file"		"voice/icntlk_sv"

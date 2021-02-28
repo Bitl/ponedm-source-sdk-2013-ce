@@ -86,3 +86,4 @@ server.dylib.dSYM/
 *.db-shm
 *.db-wal
 *.bak
+mp/game/ponedm/vpk_PDM.bat
