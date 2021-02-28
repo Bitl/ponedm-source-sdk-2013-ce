@@ -38,6 +38,11 @@ $Project "Client (PoneDM)"
 		{
 			$File	"$SRCDIR\game\shared\ponedm\handviewmodel_shared.cpp"
 			
+			$Folder "Weapons"
+			{
+				$File	"$SRCDIR\game\shared\ponedm\weapon_gatling.cpp"
+			}
+			
 			$Folder	"GameUI"
 			{
 				$File	"ponedm\gameui\CvarSlider.cpp"

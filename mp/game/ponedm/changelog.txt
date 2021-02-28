@@ -7,7 +7,8 @@ Mane changes:
 - Added strafe jumping.
 - Added an icon.
 - Added Discord Rich Presence. 
-	- This can be disabled with the "Discord Rich Presence (restart to apply)" option in the multiplayer advanced menu.
+	- This can be disabled with the "Discord Rich Presence (restart to apply)" option in the multiplayer advanced menu.\
+- Added a new weapon: the Minigun!
 
 Bug Fixes:
 - Players will no longer collide with each other. This fixes a bug where bots couldn't get out of spawn.

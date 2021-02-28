@@ -220,6 +220,7 @@ void CHL2MP_Player::GiveAllItems( void )
 
 	GiveNamedItem( "weapon_smg1" );
 	GiveNamedItem( "weapon_ar2" );
+	GiveNamedItem( "weapon_gatling" );
 	
 	GiveNamedItem( "weapon_shotgun" );
 	GiveNamedItem( "weapon_frag" );
