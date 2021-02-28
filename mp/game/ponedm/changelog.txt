@@ -14,7 +14,7 @@ Mane changes:
 Bug Fixes:
 - Players will no longer collide with each other. This fixes a bug where bots couldn't get out of spawn.
 - Fixed MOTDs.
-- Fixed a bug where colors do not apply automatically by changing the number in the text box.
+- Fixed a bug where colors do not apply automatically.
 - Fixed a bug where the SMG can fall through the floor.
 
 Balance Tweaks:
