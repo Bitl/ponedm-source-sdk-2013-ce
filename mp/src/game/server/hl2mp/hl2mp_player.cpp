@@ -245,7 +245,7 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	CBasePlayer::GiveAmmo( 2,	"grenade" );
 	CBasePlayer::GiveAmmo( 6,	"Buckshot");
 	CBasePlayer::GiveAmmo( 6,	"357" );
-	CBasePlayer::GiveAmmo( 6, "smg1_grenade" );
+	CBasePlayer::GiveAmmo( 3, "smg1_grenade" );
 
 	GiveNamedItem( "weapon_stunstick" );
 	GiveNamedItem( "weapon_crowbar" );
