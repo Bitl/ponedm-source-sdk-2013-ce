@@ -10,6 +10,7 @@
 	developer	"Bitl"
 	developer_url	""
 	manual		""
+	icon		"resource/game"
 	hidden_maps
 	{
 		"test_speakers"		1
