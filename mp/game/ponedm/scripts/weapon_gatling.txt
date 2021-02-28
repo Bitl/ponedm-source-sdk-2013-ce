@@ -3,7 +3,7 @@
 WeaponData
 {
 	// Weapon data is loaded by both the Game and Client DLLs.
-	"printname"	"#SURVIVOR_GatlingGun"
+	"printname"	"#PoneDM_Gatling"
 	"viewmodel"				"models/weapons/c_gatling.mdl"
 	"playermodel"			"models/weapons/w_gatling.mdl"	//FIXME: 
 	"anim_prefix"			"gatling"
