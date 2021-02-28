@@ -28,6 +28,7 @@ To be able to build PoneDM you will need to download:
 * Drift. for the dm_aerowalk map. (https://gamebanana.com/maps/194479) 
 This map was licenced under the Attribution-NonCommercial-NoDerivatives 4.0 International license. (https://creativecommons.org/licenses/by-nc-nd/4.0/) It has not been modified.
 * Team Fortress 2 Vintage team for the reverse-engineered bot name script code (https://github.com/TF2V/TF2Vintage/blob/1.0/src/game/server/tf/bot/tf_bot_manager.cpp#L514)
+* GamerDude27 for the Dircord RPC Tutorial (https://developer.valvesoftware.com/wiki/Implementing_Discord_RPC)
 
 PoneDM includes models from PPM/2 (https://gitlab.com/DBotThePony/PPM). These models were created and modified by the following people
 * [Durpy](https://steamcommunity.com/id/xDeRpYx/)
@@ -40,3 +41,5 @@ PoneDM includes models from PPM/2 (https://gitlab.com/DBotThePony/PPM). These mo
 This project also uses sounds from [Dynamic Surroundings](https://github.com/OreCruncher/DynamicSurroundings/blob/master/CREDITS.md#sounds).
 
 All rights go to their respective holders.
+
+### Codename: Project Ahuizotl

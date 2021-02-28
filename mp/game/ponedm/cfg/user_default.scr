@@ -86,5 +86,12 @@ DESCRIPTION INFO_OPTIONS
 		{ BOOL }
 		{ "0" }
 	}
+	
+	"cl_discord"
+	{
+		"#PoneDM_Discord"
+		{ BOOL }
+		{ "1" }
+	}
 }
 

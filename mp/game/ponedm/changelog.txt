@@ -6,6 +6,7 @@ Mane changes:
 - Added a 3rd color choice for extra mane and tail colors.
 - Added strafe jumping.
 - Added an icon.
+- Added Discord Rich Presence.
 
 Bug Fixes:
 - Players will no longer collide with each other. This fixes a bug where bots couldn't get out of spawn.
