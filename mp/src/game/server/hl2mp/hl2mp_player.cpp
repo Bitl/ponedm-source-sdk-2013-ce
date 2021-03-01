@@ -193,6 +193,7 @@ void CHL2MP_Player::Precache( void )
 	PrecacheScriptSound( "NPC_Citizen.die" );
 #else
 	PrecacheScriptSound("Pony.Die");
+	PrecacheScriptSound("Gore.Headshot");
 	PrecacheParticleSystem("conc_stars");
 #endif
 }

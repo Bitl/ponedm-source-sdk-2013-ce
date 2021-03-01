@@ -929,7 +929,7 @@ void C_HL2MPRagdoll::DismemberBase(bool bBloodEffects, char const* szParticleBon
 			m_iGoreDecalAmount += iBloodAmount;
 			m_iGoreDecalBone = iAttach;
 
-			EmitSound("Flesh_Bloody.ImpactHard");
+			EmitSound("Gore.Headshot");
 		}
 	}
 }

@@ -16,6 +16,7 @@ Bug Fixes:
 - Fixed MOTDs.
 - Fixed a bug where colors do not apply automatically.
 - Fixed a bug where the SMG can fall through the floor.
+- Fixed a bug where gore (enabled with cl_ponedm_volencelevel 2) does not play a sound.
 
 Balance Tweaks:
 - Removed fall damage.

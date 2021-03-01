@@ -145,8 +145,8 @@
 		"wide"	"102"
 		"tall"	"26"
 		
-		"AuxPowerLowColor" "230 131 222"
-		"AuxPowerHighColor" "230 131 222"
+		"AuxPowerLowColor" "255 201 251"
+		"AuxPowerHighColor" "255 201 251"
 		"AuxPowerDisabledAlpha" "70"
 
 		"BarInsetX" "8"
