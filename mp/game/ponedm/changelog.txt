@@ -9,7 +9,7 @@ Mane changes:
 - Added Discord Rich Presence. 
 	- This can be disabled with the "Discord Rich Presence (restart to apply)" option in the multiplayer advanced menu.
 - Added 2 new weapons:
-	- The Gatling Gun: a high-powered minigun that allows you to push enemies back.
+	- The Gatling Gun: a high-powered minigun that allows you to clear multiple enemies in an area.
 	- The Railgun: A laser sniper that fires a high-powered beam of light.
 		- This weapon requires you to aim it directly on a target.
 		- You can "overcharge" your ammo count by picking up multiple railguns.
