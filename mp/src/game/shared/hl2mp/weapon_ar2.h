@@ -33,8 +33,9 @@ public:
 
 	void	ItemPostFrame( void );
 	void	Precache( void );
+	void	RechargeAmmo(void);
 	
-	void	SecondaryAttack( void );
+	void	PrimaryAttack( void );
 	void	DelayedAttack( void );
 
 	const char *GetTracerType( void ) { return "AR2Tracer"; }
@@ -45,6 +46,7 @@ public:
 	int		GetMaxBurst( void ) { return 5; }
 	float	GetFireRate( void ) { return 0.1f; }
 
+	bool	Holster(CBaseCombatWeapon* pSwitchingTo);
 	bool	CanHolster( void );
 	bool	Reload( void );
 
@@ -73,11 +75,14 @@ protected:
 
 	float					m_flDelayedFire;
 	bool					m_bShotDelayed;
-	int						m_nVentPose;
-	
+	bool					m_bJustHolstered;
+
 #ifndef CLIENT_DLL
 	DECLARE_ACTTABLE();
 #endif
+
+private:
+	CNetworkVar(float, m_flNextCharge);
 };
 
 

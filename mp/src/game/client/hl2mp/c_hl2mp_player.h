@@ -89,9 +89,6 @@ public:
 	CNetworkVector(m_vPrimaryColor);
 	CNetworkVector(m_vSecondaryColor);
 	CNetworkVector(m_vTertiaryColor);
-	CNetworkVar(int, m_iUpperManeBodygroup);
-	CNetworkVar(int, m_iLowerManeBodygroup);
-	CNetworkVar(int, m_iTailBodygroup);
 #endif
 
 private:
@@ -221,6 +218,10 @@ private:
 	CNetworkVector( m_vecRagdollOrigin );
 #ifdef PONEDM
 	int	  m_iPlayerIndex;
+
+	int m_iUpperManeBodygroup;
+	int m_iLowerManeBodygroup;
+	int m_iTailBodygroup;
 
 	// gore stuff
 	int m_iGoreHead;

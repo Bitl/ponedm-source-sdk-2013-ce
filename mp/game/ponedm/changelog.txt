@@ -7,21 +7,32 @@ Mane changes:
 - Added strafe jumping.
 - Added an icon.
 - Added Discord Rich Presence. 
-	- This can be disabled with the "Discord Rich Presence (restart to apply)" option in the multiplayer advanced menu.\
-- Added a new weapon: the Minigun!
+	- This can be disabled with the "Discord Rich Presence (restart to apply)" option in the multiplayer advanced menu.
+- Added 2 new weapons:
+	- The Gatling Gun: a high-powered minigun that allows you to push enemies back.
+	- The Railgun: A laser sniper that fires a high-powered beam of light.
+		- This weapon requires you to aim it directly on a target.
+		- You can "overcharge" your ammo count by picking up multiple railguns.
+- The AR2 is now known as a CBL-V2 (Combine Ball Launcher version 2)! This variant of the AR2 was built for specialized purposes and will only fire energy balls. 
+	- After a small period of time, it will regenerate the energy ball, and it can be shot again. 
+	- Multiple energy balls can be picked up and fired.
 - Changed up the HUD.
+- Added all Half-Life 2 Deathmatch maps.
 
 Bug Fixes:
 - Players will no longer collide with each other. This fixes a bug where bots couldn't get out of spawn.
 - Fixed MOTDs.
 - Fixed a bug where colors do not apply automatically.
 - Fixed a bug where the SMG can fall through the floor.
-- Fixed a bug where gore (enabled with cl_ponedm_volencelevel 2) does not play a sound.
+- Fixed a bug where gore (enabled with cl_ponedm_violencelevel 2) does not play a sound.
+- Fixed a bug where the viewmodel hand disappears sometimes when weapon switching.
 
 Balance Tweaks:
 - Removed fall damage.
 - Reduced player health maximum to 100.
 - Reduced the amount of damage taken by rocket/grenade jumping.
+- Nerfed the damage of the 357 Magnum from 75 to 25.
+- Removed the Stunstick. Who needs 2 melee weapons?
 
 Misc. Changes:
 - Changed the chat color from yellow to white.

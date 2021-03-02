@@ -29,7 +29,8 @@ To be able to build PoneDM you will need to download:
 This map was licenced under the Attribution-NonCommercial-NoDerivatives 4.0 International license. (https://creativecommons.org/licenses/by-nc-nd/4.0/) It has not been modified.
 * Team Fortress 2 Vintage team for the reverse-engineered bot name script code (https://github.com/TF2V/TF2Vintage/blob/1.0/src/game/server/tf/bot/tf_bot_manager.cpp#L514)
 * GamerDude27 for the Dircord RPC Tutorial (https://developer.valvesoftware.com/wiki/Implementing_Discord_RPC)
-* Taito for various Half-Life 2 Survivor Ver 2.0 assets.
+* Taito for the Gatling Gun models from Half-Life 2 Survivor Ver 2.0.
+* Railgun model comes from Alien Swarm.
 
 PoneDM includes models from PPM/2 (https://gitlab.com/DBotThePony/PPM). These models were created and modified by the following people
 * [Durpy](https://steamcommunity.com/id/xDeRpYx/)

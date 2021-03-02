@@ -43,9 +43,6 @@ IMPLEMENT_CLIENTCLASS_DT(C_HL2MP_Player, DT_HL2MP_Player, CHL2MP_Player)
 	RecvPropVector(RECVINFO(m_vPrimaryColor)),
 	RecvPropVector(RECVINFO(m_vSecondaryColor)),
 	RecvPropVector(RECVINFO(m_vTertiaryColor)),
-	RecvPropInt(RECVINFO(m_iUpperManeBodygroup)),
-	RecvPropInt(RECVINFO(m_iLowerManeBodygroup)),
-	RecvPropInt(RECVINFO(m_iTailBodygroup)),
 #endif
 
 END_RECV_TABLE()
@@ -777,14 +774,17 @@ IMPLEMENT_CLIENTCLASS_DT_NOBASE( C_HL2MPRagdoll, DT_HL2MPRagdoll, CHL2MPRagdoll 
 	RecvPropVector( RECVINFO(m_vecRagdollOrigin) ),
 #ifdef PONEDM
 	RecvPropInt(RECVINFO(m_iPlayerIndex)),
-#endif
-	RecvPropEHandle( RECVINFO( m_hPlayer ) ),
-	RecvPropInt( RECVINFO( m_nModelIndex ) ),
 	RecvPropInt(RECVINFO(m_iGoreHead)),
 	RecvPropInt(RECVINFO(m_iGoreFrontLeftLeg)),
 	RecvPropInt(RECVINFO(m_iGoreFrontRightLeg)),
 	RecvPropInt(RECVINFO(m_iGoreRearLeftLeg)),
 	RecvPropInt(RECVINFO(m_iGoreRearRightLeg)),
+	RecvPropInt(RECVINFO(m_iUpperManeBodygroup)),
+	RecvPropInt(RECVINFO(m_iLowerManeBodygroup)),
+	RecvPropInt(RECVINFO(m_iTailBodygroup)),
+#endif
+	RecvPropEHandle(RECVINFO(m_hPlayer)),
+	RecvPropInt(RECVINFO(m_nModelIndex)),
 	RecvPropInt( RECVINFO(m_nForceBone) ),
 	RecvPropVector( RECVINFO(m_vecForce) ),
 	RecvPropVector( RECVINFO( m_vecRagdollVelocity ) )
@@ -810,6 +810,10 @@ C_HL2MPRagdoll::C_HL2MPRagdoll()
 	m_iGoreFrontRightLeg = 0;
 	m_iGoreRearLeftLeg = 0;
 	m_iGoreRearRightLeg = 0;
+
+	m_iUpperManeBodygroup = 0;
+	m_iLowerManeBodygroup = 0;
+	m_iTailBodygroup = 0;
 #endif
 }
 
@@ -1367,10 +1371,6 @@ void C_HL2MPRagdoll::CreateHL2MPRagdoll( void )
 		ResetScaledBones();
 	}
 
-	SetBodygroup(PONEDM_UPPERMANE_BODYGROUP, pPlayer->m_iUpperManeBodygroup);
-	SetBodygroup(PONEDM_LOWERMANE_BODYGROUP, pPlayer->m_iLowerManeBodygroup);
-	SetBodygroup(PONEDM_TAIL_BODYGROUP, pPlayer->m_iTailBodygroup);
-
 	// must think immediately for dismemberment
 	SetNextClientThink(gpGlobals->curtime + 0.1f);
 #endif
@@ -1439,6 +1439,10 @@ void C_HL2MPRagdoll::OnDataChanged( DataUpdateType_t type )
 				{
 					InitDismember();
 				}
+
+				SetBodygroup(PONEDM_UPPERMANE_BODYGROUP, m_iUpperManeBodygroup);
+				SetBodygroup(PONEDM_LOWERMANE_BODYGROUP, m_iLowerManeBodygroup);
+				SetBodygroup(PONEDM_TAIL_BODYGROUP, m_iTailBodygroup);
 			//}
 		}
 	}

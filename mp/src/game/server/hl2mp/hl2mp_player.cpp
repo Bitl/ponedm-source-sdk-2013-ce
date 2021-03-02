@@ -69,9 +69,6 @@ IMPLEMENT_SERVERCLASS_ST(CHL2MP_Player, DT_HL2MP_Player)
 	SendPropVector(SENDINFO(m_vPrimaryColor)),
 	SendPropVector(SENDINFO(m_vSecondaryColor)),
 	SendPropVector(SENDINFO(m_vTertiaryColor)),
-	SendPropInt(SENDINFO(m_iUpperManeBodygroup)),
-	SendPropInt(SENDINFO(m_iLowerManeBodygroup)),
-	SendPropInt(SENDINFO(m_iTailBodygroup)),
 #endif
 
 //	SendPropExclude( "DT_ServerAnimationData" , "m_flCycle" ),	
@@ -202,26 +199,26 @@ void CHL2MP_Player::GiveAllItems( void )
 {
 	EquipSuit();
 
-	CBasePlayer::GiveAmmo( 255,	"Pistol");
-	CBasePlayer::GiveAmmo( 255,	"AR2" );
-	CBasePlayer::GiveAmmo( 5,	"AR2AltFire" );
-	CBasePlayer::GiveAmmo( 255,	"SMG1");
-	CBasePlayer::GiveAmmo( 3,	"smg1_grenade");
-	CBasePlayer::GiveAmmo( 255,	"Buckshot");
-	CBasePlayer::GiveAmmo( 255,	"357" );
-	CBasePlayer::GiveAmmo( 255,	"rpg_round");
+	CBasePlayer::GiveAmmo( 999,	"Pistol");
+	CBasePlayer::GiveAmmo( 999,	"SMG1");
+	CBasePlayer::GiveAmmo( 999,	"smg1_grenade");
+	CBasePlayer::GiveAmmo( 999,	"Buckshot");
+	CBasePlayer::GiveAmmo( 999,	"357" );
+	CBasePlayer::GiveAmmo( 999,	"rpg_round");
+	CBasePlayer::GiveAmmo( 999, "XBowBolt");
+	CBasePlayer::GiveAmmo( 999, "Gatling");
 
-	CBasePlayer::GiveAmmo( 3,	"grenade" );
-	CBasePlayer::GiveAmmo( 3,	"slam" );
+	CBasePlayer::GiveAmmo( 999,	"grenade" );
+	CBasePlayer::GiveAmmo( 999,	"slam" );
 
 	GiveNamedItem( "weapon_crowbar" );
-	GiveNamedItem( "weapon_stunstick" );
 	GiveNamedItem( "weapon_pistol" );
 	GiveNamedItem( "weapon_357" );
 
 	GiveNamedItem( "weapon_smg1" );
 	GiveNamedItem( "weapon_ar2" );
 	GiveNamedItem( "weapon_gatling" );
+	GiveNamedItem( "weapon_railgun" );
 	
 	GiveNamedItem( "weapon_shotgun" );
 	GiveNamedItem( "weapon_frag" );
@@ -242,17 +239,14 @@ void CHL2MP_Player::GiveDefaultItems( void )
 
 	CBasePlayer::GiveAmmo( 255,	"Pistol");
 	CBasePlayer::GiveAmmo( 100,	"SMG1");
-	CBasePlayer::GiveAmmo( 100, "AR2");
 	CBasePlayer::GiveAmmo( 2,	"grenade" );
 	CBasePlayer::GiveAmmo( 6,	"Buckshot");
 	CBasePlayer::GiveAmmo( 6,	"357" );
 	CBasePlayer::GiveAmmo( 3, "smg1_grenade" );
 
-	GiveNamedItem( "weapon_stunstick" );
 	GiveNamedItem( "weapon_crowbar" );
 	GiveNamedItem( "weapon_pistol" );
 	GiveNamedItem( "weapon_smg1" );
-	GiveNamedItem( "weapon_ar2" );
 	GiveNamedItem( "weapon_frag" );
 	GiveNamedItem( "weapon_physcannon" );
 
@@ -430,7 +424,6 @@ void CHL2MP_Player::UpdatePlayerAppearance()
 		m_iUpperManeBodygroup = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_uppermane"));
 		m_iLowerManeBodygroup = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_lowermane"));
 		m_iTailBodygroup = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_tail"));
-
 		SetBodygroup(PONEDM_UPPERMANE_BODYGROUP, m_iUpperManeBodygroup);
 		SetBodygroup(PONEDM_LOWERMANE_BODYGROUP, m_iLowerManeBodygroup);
 		SetBodygroup(PONEDM_TAIL_BODYGROUP, m_iTailBodygroup);
@@ -1158,6 +1151,9 @@ public:
 	CNetworkVector( m_vecRagdollOrigin );
 #ifdef PONEDM
 	CNetworkVar(int, m_iPlayerIndex);
+	CNetworkVar(int, m_iUpperManeBodygroup);
+	CNetworkVar(int, m_iLowerManeBodygroup);
+	CNetworkVar(int, m_iTailBodygroup);
 	CNetworkVar(unsigned short, m_iGoreHead);
 	CNetworkVar(unsigned short, m_iGoreFrontLeftLeg);
 	CNetworkVar(unsigned short, m_iGoreFrontRightLeg);
@@ -1177,6 +1173,9 @@ IMPLEMENT_SERVERCLASS_ST_NOBASE( CHL2MPRagdoll, DT_HL2MPRagdoll )
 	SendPropInt(SENDINFO(m_iGoreFrontRightLeg), 2, SPROP_UNSIGNED),
 	SendPropInt(SENDINFO(m_iGoreRearLeftLeg), 2, SPROP_UNSIGNED),
 	SendPropInt(SENDINFO(m_iGoreRearRightLeg), 2, SPROP_UNSIGNED),
+	SendPropInt(SENDINFO(m_iUpperManeBodygroup), -1, SPROP_UNSIGNED),
+	SendPropInt(SENDINFO(m_iLowerManeBodygroup), -1, SPROP_UNSIGNED),
+	SendPropInt(SENDINFO(m_iTailBodygroup), -1, SPROP_UNSIGNED),
 #endif
 	SendPropEHandle( SENDINFO( m_hPlayer ) ),
 	SendPropModelIndex( SENDINFO( m_nModelIndex ) ),
@@ -1217,6 +1216,9 @@ void CHL2MP_Player::CreateRagdollEntity( void )
 		pRagdoll->m_iGoreFrontRightLeg = m_iGoreFrontRightLeg;
 		pRagdoll->m_iGoreRearLeftLeg = m_iGoreRearLeftLeg;
 		pRagdoll->m_iGoreRearRightLeg = m_iGoreRearRightLeg;
+		pRagdoll->m_iUpperManeBodygroup = m_iUpperManeBodygroup;
+		pRagdoll->m_iLowerManeBodygroup = m_iLowerManeBodygroup;
+		pRagdoll->m_iTailBodygroup = m_iTailBodygroup;
 #endif
 		pRagdoll->m_vecForce = m_vecTotalBulletForce;
 		pRagdoll->SetAbsOrigin( GetAbsOrigin() );

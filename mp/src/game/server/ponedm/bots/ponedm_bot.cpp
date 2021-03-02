@@ -9,6 +9,7 @@
 
 ConVar sv_ponedm_bot_closestdistancetoplayer("sv_ponedm_bot_closestdistancetoplayer", "1800", FCVAR_CHEAT | FCVAR_NOTIFY, "");
 ConVar sv_ponedm_bot_respawn("sv_ponedm_bot_respawn", "1", FCVAR_CHEAT | FCVAR_NOTIFY, "");
+ConVar sv_ponedm_bot_ai("sv_ponedm_bot_ai", "1", FCVAR_CHEAT | FCVAR_NOTIFY, "");
 
 extern void respawn(CBaseEntity* pEdict, bool fCopyCorpse);
 
@@ -16,6 +17,8 @@ CUtlVector<string_t> m_botPonyNames;
 
 void LoadPonyNames(void)
 {
+    m_botPonyNames.RemoveAll();
+
     KeyValues* pKV = new KeyValues("PonyNames");
     if (pKV->LoadFromFile(filesystem, "scripts/pony_names.txt", "GAME"))
     {
@@ -97,7 +100,6 @@ CPlayer* CreatePoneDMBot(const char* pPlayername, const Vector* vecPosition, con
     }
 
     ++g_botID;
-    m_botPonyNames.RemoveAll();
     return pPlayer;
 }
 
@@ -150,28 +152,31 @@ void CPoneDM_Bot::Update()
 
     if (GetHost()->IsAlive())
     {
-        BaseClass::Update();
-
-        //wander around.
-        Vector vecFrom(GetAbsOrigin());
-        float dist = sv_ponedm_bot_closestdistancetoplayer.GetFloat();
-        CPlayer* closestPlayer = Utils::GetClosestPlayer(GetAbsOrigin(), &dist);
-        CNavArea* pArea = closestPlayer->GetLastKnownArea();
-        
-        if (pArea == NULL)
+        if (sv_ponedm_bot_ai.GetBool())
         {
-            pArea = TheNavAreas[RandomInt(0, TheNavAreas.Count() - 1)];
+            BaseClass::Update();
+
+            //wander around.
+            Vector vecFrom(GetAbsOrigin());
+            float dist = sv_ponedm_bot_closestdistancetoplayer.GetFloat();
+            CPlayer* closestPlayer = Utils::GetClosestPlayer(GetAbsOrigin(), &dist);
+            CNavArea* pArea = closestPlayer->GetLastKnownArea();
 
             if (pArea == NULL)
+            {
+                pArea = TheNavAreas[RandomInt(0, TheNavAreas.Count() - 1)];
+
+                if (pArea == NULL)
+                    return;
+            }
+
+            Vector vecGoal(pArea->GetCenter());
+
+            if (!GetLocomotion() || !GetLocomotion()->IsTraversable(vecFrom, vecGoal))
                 return;
+
+            GetLocomotion()->DriveTo("Move to nearest player or randomly roam.", pArea);
         }
-
-        Vector vecGoal(pArea->GetCenter());
-
-        if (!GetLocomotion() || !GetLocomotion()->IsTraversable(vecFrom, vecGoal))
-            return;
-
-        GetLocomotion()->DriveTo("Move to nearest player or randomly roam.", pArea);
     }
     //respawn if we die.
     else

@@ -19,6 +19,7 @@
 
 #include "weapon_ar2.h"
 #include "effect_dispatch_data.h"
+#include "in_buttons.h"
 
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -30,6 +31,8 @@ ConVar sk_weapon_ar2_alt_fire_duration( "sk_weapon_ar2_alt_fire_duration", "4" )
 ConVar sk_weapon_ar2_alt_fire_mass( "sk_weapon_ar2_alt_fire_mass", "150" );
 #endif
 
+#define BALL_RECHARGE_TIME 0.10f
+
 //=========================================================
 //=========================================================
 
@@ -37,10 +40,18 @@ ConVar sk_weapon_ar2_alt_fire_mass( "sk_weapon_ar2_alt_fire_mass", "150" );
 IMPLEMENT_NETWORKCLASS_ALIASED( WeaponAR2, DT_WeaponAR2 )
 
 BEGIN_NETWORK_TABLE( CWeaponAR2, DT_WeaponAR2 )
+#ifdef CLIENT_DLL
+	RecvPropFloat(RECVINFO(m_flNextCharge)),
+#else
+	SendPropFloat(SENDINFO(m_flNextCharge)),
+#endif
 END_NETWORK_TABLE()
 
+#ifdef CLIENT_DLL
 BEGIN_PREDICTION_DATA( CWeaponAR2 )
+	DEFINE_PRED_FIELD_TOL(m_flNextCharge, FIELD_FLOAT, FTYPEDESC_INSENDTABLE, TD_MSECTOLERANCE),
 END_PREDICTION_DATA()
+#endif
 
 LINK_ENTITY_TO_CLASS( weapon_ar2, CWeaponAR2 );
 PRECACHE_WEAPON_REGISTER(weapon_ar2);
@@ -66,14 +77,15 @@ IMPLEMENT_ACTTABLE(CWeaponAR2);
 
 CWeaponAR2::CWeaponAR2( )
 {
-	m_fMinRange1	= 65;
-	m_fMaxRange1	= 2048;
+	m_fMinRange1	= 256;
+	m_fMaxRange1	= 1024;
 
 	m_fMinRange2	= 256;
 	m_fMaxRange2	= 1024;
 
 	m_nShotsFired	= 0;
-	m_nVentPose		= -1;
+	m_flNextCharge = 0;
+	m_bJustHolstered = false;
 }
 
 void CWeaponAR2::Precache( void )
@@ -94,31 +106,69 @@ void CWeaponAR2::Precache( void )
 void CWeaponAR2::ItemPostFrame( void )
 {
 	// See if we need to fire off our secondary round
-	if ( m_bShotDelayed && gpGlobals->curtime > m_flDelayedFire )
+	if ( m_bShotDelayed && gpGlobals->curtime > m_flDelayedFire)
 	{
 		DelayedAttack();
 	}
 
-	// Update our pose parameter for the vents
-	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
+	CBasePlayer* pOwner = ToBasePlayer(GetOwner());
+	if (!pOwner)
+		return;
 
-	if ( pOwner )
+	if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) < GetDefaultClip1())
 	{
-		CBaseViewModel *pVM = pOwner->GetViewModel();
-
-		if ( pVM )
+		if (((pOwner->m_nButtons & IN_ATTACK) == false) && ((pOwner->m_nButtons & IN_ATTACK2) == false))
 		{
-			if ( m_nVentPose == -1 )
-			{
-				m_nVentPose = pVM->LookupPoseParameter( "VentPoses" );
-			}
-			
-			float flVentPose = RemapValClamped( m_nShotsFired, 0, 5, 0.0f, 1.0f );
-			pVM->SetPoseParameter( m_nVentPose, flVentPose );
+			RechargeAmmo();
 		}
 	}
 
-	BaseClass::ItemPostFrame();
+	UpdateAutoFire();
+
+	//Track the duration of the fire
+	//FIXME: Check for IN_ATTACK2 as well?
+	//FIXME: What if we're calling ItemBusyFrame?
+	m_fFireDuration = (pOwner->m_nButtons & IN_ATTACK) ? (m_fFireDuration + gpGlobals->frametime) : 0.0f;
+
+	bool bFired = false;
+
+	if (!bFired && (pOwner->m_nButtons & IN_ATTACK) && (m_flNextPrimaryAttack <= gpGlobals->curtime))
+	{
+		//NOTENOTE: There is a bug with this code with regards to the way machine guns catch the leading edge trigger
+			//			on the player hitting the attack key.  It relies on the gun catching that case in the same frame.
+			//			However, because the player can also be doing a secondary attack, the edge trigger may be missed.
+			//			We really need to hold onto the edge trigger and only clear the condition when the gun has fired its
+			//			first shot.  Right now that's too much of an architecture change -- jdw
+
+			// If the firing button was just pressed, or the alt-fire just released, reset the firing time
+		if ((pOwner->m_afButtonPressed & IN_ATTACK) || (pOwner->m_afButtonReleased & IN_ATTACK2))
+		{
+			m_flNextPrimaryAttack = gpGlobals->curtime;
+		}
+
+		PrimaryAttack();
+
+		if (AutoFiresFullClip())
+		{
+			m_bFiringWholeClip = true;
+		}
+
+#ifdef CLIENT_DLL
+		pOwner->SetFiredWeapon(true);
+#endif
+	}
+
+	// -----------------------
+	//  No buttons down
+	// -----------------------
+	if (!((pOwner->m_nButtons & IN_ATTACK) || (pOwner->m_nButtons & IN_ATTACK2) || (CanReload() && pOwner->m_nButtons & IN_RELOAD)))
+	{
+		// no fire buttons down or reloading
+		if (!ReloadOrSwitchWeapons() && (m_bInReload == false))
+		{
+			WeaponIdle();
+		}
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -127,16 +177,7 @@ void CWeaponAR2::ItemPostFrame( void )
 //-----------------------------------------------------------------------------
 Activity CWeaponAR2::GetPrimaryAttackActivity( void )
 {
-	if ( m_nShotsFired < 2 )
-		return ACT_VM_PRIMARYATTACK;
-
-	if ( m_nShotsFired < 3 )
-		return ACT_VM_RECOIL1;
-	
-	if ( m_nShotsFired < 4 )
-		return ACT_VM_RECOIL2;
-
-	return ACT_VM_RECOIL3;
+	return ACT_VM_FIDGET;
 }
 
 //-----------------------------------------------------------------------------
@@ -170,12 +211,12 @@ void CWeaponAR2::DelayedAttack( void )
 
 	// Deplete the clip completely
 	SendWeaponAnim( ACT_VM_SECONDARYATTACK );
-	m_flNextSecondaryAttack = pOwner->m_flNextAttack = gpGlobals->curtime + SequenceDuration();
+	m_flNextPrimaryAttack = pOwner->m_flNextAttack = gpGlobals->curtime + SequenceDuration();
 
 	// Register a muzzleflash for the AI
 	pOwner->DoMuzzleFlash();
 	
-	WeaponSound( WPN_DOUBLE );
+	WeaponSound( SINGLE );
 
 	// Fire the bullets
 	Vector vecSrc	 = pOwner->Weapon_ShootPosition( );
@@ -195,35 +236,29 @@ void CWeaponAR2::DelayedAttack( void )
 						pOwner );
 
 	// View effects
-	color32 white = {255, 255, 255, 64};
-	UTIL_ScreenFade( pOwner, white, 0.1, 0, FFADE_IN  );
+	/*color32 white = {255, 255, 255, 64};
+	UTIL_ScreenFade( pOwner, white, 0.1, 0, FFADE_IN  );*/
 #endif
 	
 	//Disorient the player
-	QAngle angles = pOwner->GetLocalAngles();
+	/*QAngle angles = pOwner->GetLocalAngles();
 
 	angles.x += random->RandomInt( -4, 4 );
 	angles.y += random->RandomInt( -4, 4 );
-	angles.z = 0;
+	angles.z = 0;*/
 
 //	pOwner->SnapEyeAngles( angles );
 	
-	pOwner->ViewPunch( QAngle( SharedRandomInt( "ar2pax", -8, -12 ), SharedRandomInt( "ar2pay", 1, 2 ), 0 ) );
-
-	// Decrease ammo
-	pOwner->RemoveAmmo( 1, m_iSecondaryAmmoType );
-
-	// Can shoot again immediately
-	m_flNextPrimaryAttack = gpGlobals->curtime + 0.5f;
+	pOwner->ViewPunch( QAngle( SharedRandomInt( "ar2pax", -4, -6 ), SharedRandomInt( "ar2pay", 1, 2 ), 0 ) );
 
 	// Can blow up after a short delay (so have time to release mouse button)
-	m_flNextSecondaryAttack = gpGlobals->curtime + 1.0f;
+	m_flNextPrimaryAttack = gpGlobals->curtime + 3.0f;
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CWeaponAR2::SecondaryAttack( void )
+void CWeaponAR2::PrimaryAttack( void )
 {
 	if ( m_bShotDelayed )
 		return;
@@ -233,15 +268,43 @@ void CWeaponAR2::SecondaryAttack( void )
 	{
 		SendWeaponAnim( ACT_VM_DRYFIRE );
 		BaseClass::WeaponSound( EMPTY );
-		m_flNextSecondaryAttack = gpGlobals->curtime + 0.5f;
+		m_flNextPrimaryAttack = gpGlobals->curtime + 0.5f;
 		return;
 	}
 
-	m_bShotDelayed = true;
-	m_flNextPrimaryAttack = m_flNextSecondaryAttack = m_flDelayedFire = gpGlobals->curtime + 0.5f;
+	CBasePlayer* pOwner = ToBasePlayer(GetOwner());
 
-	SendWeaponAnim( ACT_VM_FIDGET );
+	if (pOwner == NULL)
+		return;
+
+	m_bShotDelayed = true;
+	m_flNextPrimaryAttack = m_flDelayedFire = gpGlobals->curtime + 0.5f;
+
+	pOwner->RemoveAmmo(1, m_iPrimaryAmmoType);
+
+	SendWeaponAnim(GetPrimaryAttackActivity());
 	WeaponSound( SPECIAL1 );
+}
+
+void CWeaponAR2::RechargeAmmo(void)
+{
+	if (m_flNextPrimaryAttack >= gpGlobals->curtime)
+		return;
+
+	// Time to recharge yet?
+	if (m_flNextCharge >= gpGlobals->curtime)
+		return;
+
+	CBasePlayer* pPlayer = ToBasePlayer(GetOwner());
+
+	if (pPlayer == NULL)
+		return;
+
+#ifndef CLIENT_DLL
+	pPlayer->GiveAmmo(1, m_iPrimaryAmmoType, true);
+#endif // ! CLIENT_DLL
+
+	m_flNextCharge = gpGlobals->curtime + BALL_RECHARGE_TIME;
 }
 
 //-----------------------------------------------------------------------------
@@ -256,11 +319,42 @@ bool CWeaponAR2::CanHolster( void )
 	return BaseClass::CanHolster();
 }
 
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+bool CWeaponAR2::Holster(CBaseCombatWeapon* pSwitchingTo)
+{
+#ifndef CLIENT_DLL
+	CBasePlayer* pPlayer = ToBasePlayer(GetOwner());
+
+	if (!pPlayer)
+		return BaseClass::Holster(pSwitchingTo);
+
+	if (pPlayer->m_Local.m_iHideHUD & HIDEHUD_CROSSHAIR)
+	{
+		pPlayer->ShowCrosshair(true);
+	}
+
+	if (pPlayer->GetAmmoCount(m_iPrimaryAmmoType) <= 0)
+	{
+		pPlayer->GiveAmmo(1, m_iPrimaryAmmoType, true);
+	}
+#endif
+
+	m_bJustHolstered = true;
+
+	return BaseClass::Holster(pSwitchingTo);
+}
 
 bool CWeaponAR2::Deploy( void )
 {
 	m_bShotDelayed = false;
 	m_flDelayedFire = 0.0f;
+
+	if (m_bJustHolstered == true)
+	{
+		m_flNextPrimaryAttack = m_flDelayedFire = gpGlobals->curtime + 0.5f;
+	}
 
 	return BaseClass::Deploy();
 }

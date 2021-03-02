@@ -7,20 +7,20 @@ WeaponData
 	"viewmodel"			"models/weapons/c_irifle.mdl"
 	"playermodel"			"models/weapons/w_irifle.mdl"
 	"anim_prefix"			"ar2"
-	"bucket"			"2"
-	"bucket_position"		"1"
+	"bucket"			"4"
+	"bucket_position"		"3"
 
-	"clip_size"			"30"
-	"default_clip"			"60"
+	"clip_size"			"-1"
+	"default_clip"			"1"
 
 	"clip2_size"			"-1"
 	"default_clip2"			"-1"
 
-	"primary_ammo"			"AR2"
-	"secondary_ammo"		"AR2AltFire"
+	"primary_ammo"			"AR2AltFire"
+	"secondary_ammo"		"None"
 
-	"weight"			"3"
-	"item_flags"			"0"
+	"weight"			"6"
+	"item_flags"			"69"
 	"damage"			"11"
 
 	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
@@ -30,10 +30,10 @@ WeaponData
 		"empty"			"Weapon_IRifle.Empty"
 		"double_shot"		"Weapon_IRifle.Single"
 		"reload"		"Weapon_AR2.Reload"
-		"single_shot"		"Weapon_AR2.Single"
+		"single_shot"		"Weapon_IRifle.Single"
 
 		// NPC SECTION
-		"single_shot_npc"	"Weapon_AR2.NPC_Single"
+		"single_shot_npc"	"Weapon_AR2.NPC_Double"
 		"reload_npc"		"Weapon_AR2.NPC_Reload"
 		"double_shot_npc"	"Weapon_AR2.NPC_Double"
 	}
@@ -52,11 +52,6 @@ WeaponData
 				"character"	"l"
 		}
 		"ammo"
-		{
-				"font"		"WeaponIcons"
-				"character"	"u"
-		}
-		"ammo2"
 		{
 				"font"		"WeaponIcons"
 				"character"	"z"

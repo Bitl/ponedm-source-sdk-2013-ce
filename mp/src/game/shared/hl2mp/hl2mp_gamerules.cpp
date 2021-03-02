@@ -908,6 +908,7 @@ CAmmoDef *GetAmmoDef()
 		def.AddAmmoType("AR2AltFire",		DMG_DISSOLVE,				TRACER_NONE,			0,			0,			999,			0,							0 );
 		def.AddAmmoType("Pistol",			DMG_BULLET,					TRACER_LINE_AND_WHIZ,	0,			0,			999,		BULLET_IMPULSE(200, 1225),	0 );
 		def.AddAmmoType("SMG1",				DMG_BULLET,					TRACER_LINE_AND_WHIZ,	0,			0,			999,		BULLET_IMPULSE(200, 1225),	0 );
+		def.AddAmmoType("Gatling",			DMG_BULLET,					TRACER_LINE_AND_WHIZ, 0, 0, 999, BULLET_IMPULSE(200, 1225), 0);
 		def.AddAmmoType("357",				DMG_BULLET,					TRACER_LINE_AND_WHIZ,	0,			0,			999,			BULLET_IMPULSE(800, 5000),	0 );
 		def.AddAmmoType("XBowBolt",			DMG_BULLET,					TRACER_LINE,			0,			0,			999,			BULLET_IMPULSE(800, 8000),	0 );
 		def.AddAmmoType("Buckshot",			DMG_BULLET | DMG_BUCKSHOT,	TRACER_LINE,			0,			0,			999,			BULLET_IMPULSE(400, 1200),	0 );
@@ -915,6 +916,7 @@ CAmmoDef *GetAmmoDef()
 		def.AddAmmoType("SMG1_Grenade",		DMG_BURN,					TRACER_NONE,			0,			0,			999,			0,							0 );
 		def.AddAmmoType("Grenade",			DMG_BURN,					TRACER_NONE,			0,			0,			999,			0,							0 );
 		def.AddAmmoType("slam",				DMG_BURN,					TRACER_NONE,			0,			0,			999,			0,							0 );
+		def.AddAmmoType("Railgun",			DMG_BURN,					TRACER_NONE, 0, 0, 999, 0, 0);
 	}
 
 	return &def;

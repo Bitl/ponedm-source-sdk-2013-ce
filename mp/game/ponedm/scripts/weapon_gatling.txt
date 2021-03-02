@@ -8,7 +8,7 @@ WeaponData
 	"playermodel"			"models/weapons/w_gatling.mdl"	//FIXME: 
 	"anim_prefix"			"gatling"
 	"bucket"			"2"
-	"bucket_position"		"2"
+	"bucket_position"		"1"
 
 	"clip_size"				"-1"
 	"clip2_size"			"-1"
@@ -16,7 +16,7 @@ WeaponData
 	"default_clip"			"500"
 	"default_clip2"			"-1"
 
-	"primary_ammo"			"SMG1"
+	"primary_ammo"			"Gatling"
 	"secondary_ammo"		"None"
 
 	"weight"			"7"

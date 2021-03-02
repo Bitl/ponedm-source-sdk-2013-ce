@@ -34,6 +34,7 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+#ifndef PONEDM
 extern ConVar metropolice_move_and_melee;
 
 #define	STUNSTICK_RANGE				75.0f
@@ -899,4 +900,5 @@ void StunstickImpactCallback( const CEffectData &data )
 
 DECLARE_CLIENT_EFFECT( "StunstickImpact", StunstickImpactCallback );
 
+#endif
 #endif

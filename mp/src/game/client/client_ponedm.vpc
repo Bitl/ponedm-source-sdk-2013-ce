@@ -41,6 +41,7 @@ $Project "Client (PoneDM)"
 			$Folder "Weapons"
 			{
 				$File	"$SRCDIR\game\shared\ponedm\weapon_gatling.cpp"
+				$File	"$SRCDIR\game\shared\ponedm\weapon_railgun.cpp"
 			}
 			
 			$Folder	"GameUI"

@@ -137,7 +137,6 @@ void CTripmineGrenade::KillBeam( void )
 	}
 }
 
-
 void CTripmineGrenade::MakeBeam( void )
 {
 	trace_t tr;
