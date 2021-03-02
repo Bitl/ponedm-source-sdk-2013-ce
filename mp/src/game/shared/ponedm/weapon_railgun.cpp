@@ -42,6 +42,7 @@ public:
 
 	CWeaponRailgun( void );
 
+	void	Equip(CBaseCombatCharacter* pOwner);
 	bool	Deploy(void);
 	bool	Holster(CBaseCombatWeapon* pSwitchingTo);
 	void	ItemPostFrame(void);
@@ -123,6 +124,23 @@ CWeaponRailgun::CWeaponRailgun( void )
 	m_bInZoom = false;
 }
 
+void CWeaponRailgun::Equip(CBaseCombatCharacter* pOwner)
+{
+#ifndef CLIENT_DLL
+	CBasePlayer* pPlayer = ToBasePlayer(pOwner);
+
+	if (!pPlayer)
+		return BaseClass::Equip(pOwner);
+
+	if (!(pPlayer->m_Local.m_iHideHUD & HIDEHUD_CROSSHAIR))
+	{
+		pPlayer->ShowCrosshair(false);
+	}
+#endif
+
+	return BaseClass::Equip(pOwner);
+}
+
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
@@ -173,6 +191,9 @@ bool CWeaponRailgun::Holster(CBaseCombatWeapon* pSwitchingTo)
 void CWeaponRailgun::CheckZoomToggle(void)
 {
 	CBasePlayer* pPlayer = ToBasePlayer(GetOwner());
+
+	if (!pPlayer)
+		return;
 
 	if (pPlayer->m_afButtonPressed & IN_ATTACK2)
 	{

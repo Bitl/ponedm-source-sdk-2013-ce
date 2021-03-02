@@ -1,0 +1,22 @@
+"MapAdd"
+{
+	"Init"
+	{
+		"weapon_railgun"
+		{
+			//Positions
+			"x" "-2764.973633"
+			"y" "2230.584473"
+			"z" "898.031250"
+			//Rotations
+			"roll"  "0"  
+			"yaw"   "0"
+			"pitch" "0"
+			"KeyValues"
+			{
+				"targetname" "Railgun"
+				"StartDisabled"	"0"
+			}
+		}
+	}
+}

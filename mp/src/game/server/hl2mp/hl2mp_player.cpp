@@ -1584,6 +1584,12 @@ CON_COMMAND( timeleft, "prints the time remaining in the match" )
 	}	
 }
 
+CON_COMMAND(showposition, "shows the player's position for mapadds.")
+{
+	CHL2MP_Player* pPlayer = ToHL2MPPlayer(UTIL_GetCommandClient());
+	Vector vecOrigin = pPlayer->GetAbsOrigin() + Vector(0, 0, 10);
+	Msg("Player position XYZ Coords: X: %f Y: %f Z: %f\n", vecOrigin.x, vecOrigin.y, vecOrigin.z);
+}
 
 void CHL2MP_Player::Reset()
 {	

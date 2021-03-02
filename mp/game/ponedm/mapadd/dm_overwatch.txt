@@ -1,0 +1,38 @@
+"MapAdd"
+{
+	"Init"
+	{
+		"weapon_railgun"
+		{
+			//Positions
+			"x" "7216.525391"
+			"y" "6335.790527"
+			"z" "202.031250"
+			//Rotations
+			"roll"  "0"  
+			"yaw"   "0"
+			"pitch" "0"
+			"KeyValues"
+			{
+				"targetname" "Railgun"
+				"StartDisabled"	"0"
+			}
+		}
+		"weapon_gatling"
+		{
+			//Positions
+			"x" "5963.309570"
+			"y" "5673.781250"
+			"z" "14.031250"
+			//Rotations
+			"roll"  "0"  
+			"yaw"   "0"
+			"pitch" "0"
+			"KeyValues"
+			{
+				"targetname" "Gatling"
+				"StartDisabled"	"0"
+			}
+		}
+	}
+}

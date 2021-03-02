@@ -1,0 +1,7 @@
+"MapAdd"
+{
+	"Init"
+	{
+		//TODO
+	}
+}

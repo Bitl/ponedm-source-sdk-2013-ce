@@ -162,6 +162,12 @@ $Project "Server (PoneDM)"
 				}
 			}
 		}
+		
+		$Folder	"SMMOD DLL"
+		{
+			$File	"SMMOD\mapadd.cpp"
+			$File	"SMMOD\mapadd.h"
+		}
 
 		$Folder	"SDK2013CE DLL"
 		{

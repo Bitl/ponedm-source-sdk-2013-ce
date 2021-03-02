@@ -27,10 +27,12 @@ To be able to build PoneDM you will need to download:
 * Aionaever for the Toggling RPG Laser tutorial on VDC. (https://developer.valvesoftware.com/wiki/Toggling_RPG_Guidance)
 * Drift. for the dm_aerowalk map. (https://gamebanana.com/maps/194479) 
 This map was licenced under the Attribution-NonCommercial-NoDerivatives 4.0 International license. (https://creativecommons.org/licenses/by-nc-nd/4.0/) It has not been modified.
-* Team Fortress 2 Vintage team for the reverse-engineered bot name script code (https://github.com/TF2V/TF2Vintage/blob/1.0/src/game/server/tf/bot/tf_bot_manager.cpp#L514)
-* GamerDude27 for the Dircord RPC Tutorial (https://developer.valvesoftware.com/wiki/Implementing_Discord_RPC)
+* Team Fortress 2 Vintage team for the reverse-engineered bot name script code. (https://github.com/TF2V/TF2Vintage/blob/1.0/src/game/server/tf/bot/tf_bot_manager.cpp#L514)
+* GamerDude27 for the Dircord RPC Tutorial. (https://developer.valvesoftware.com/wiki/Implementing_Discord_RPC)
 * Taito for the Gatling Gun models from Half-Life 2 Survivor Ver 2.0.
 * Railgun model comes from Alien Swarm.
+* Railgun firing sound comes from Team Fortress 2.
+* SirMasters for the Mapadd implementation. (https://github.com/sirmastercombat/SirMasters_Mod)
 
 PoneDM includes models from PPM/2 (https://gitlab.com/DBotThePony/PPM). These models were created and modified by the following people
 * [Durpy](https://steamcommunity.com/id/xDeRpYx/)
