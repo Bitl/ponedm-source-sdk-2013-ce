@@ -53,6 +53,7 @@ typedef CBaseCombatWeapon CBaseWeapon;
 #define IsSniper() ClassMatches( "sniper" )
 #endif
 #define IsShotgun() ClassMatches( "shotgun" )
+#define IsRailgun() ClassMatches( "railgun" )
 #define GetWeaponInfo GetWpnData
 
 // Skill Levels

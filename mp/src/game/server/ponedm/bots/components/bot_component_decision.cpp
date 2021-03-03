@@ -906,7 +906,7 @@ void CBotDecision::SwitchToBestWeapon()
         }
 
         // The best sniper
-        else if ( pWeapon->IsSniper() ) {
+        else if ( pWeapon->IsSniper() || pWeapon->IsRailgun()) {
             if ( !pSniper || pWeapon->GetWeight() > pSniper->GetWeight() ) {
                 pSniper = pWeapon;
             }
@@ -953,7 +953,7 @@ void CBotDecision::SwitchToBestWeapon()
 
     if ( memory ) {
         // We're using a sniper gun!
-        if ( pCurrent->IsSniper() && pShortRange ) {
+        if ( (pCurrent->IsSniper() || pCurrent->IsRailgun()) && pShortRange ) {
             // My enemy is close, we change to a short range weapon
             if ( memory->GetDistance() <= closeRange ) {
                 GetHost()->Weapon_Switch( pShortRange );
@@ -962,7 +962,7 @@ void CBotDecision::SwitchToBestWeapon()
         }
 
         // We are not using a sniper gun, but we have one
-        if ( !pCurrent->IsSniper() && pSniper ) {
+        if ((!pCurrent->IsSniper() || !pCurrent->IsRailgun()) && pSniper ) {
             // My enemy has moved away, it will be better to switch to sniper gun
             // TODO: This is not the best...
             if ( memory->GetDistance() > closeRange ) {
@@ -995,7 +995,7 @@ bool CBotDecision::GetNearestCover( float radius, Vector *vecCoverSpot ) const
     criteria.AvoidTeam( GetBot()->GetEnemy() );
     criteria.SetTacticalMode( GetBot()->GetTacticalMode() );
 
-    if ( GetHost()->GetActiveBaseWeapon() && GetHost()->GetActiveBaseWeapon()->IsSniper() ) {
+    if ( GetHost()->GetActiveBaseWeapon() && (GetHost()->GetActiveBaseWeapon()->IsSniper() || GetHost()->GetActiveBaseWeapon()->IsRailgun())) {
         criteria.SniperSpots( true );
     }
 
@@ -1145,7 +1145,7 @@ BCOND CBotDecision::ShouldRangeAttack2()
         return BCOND_NONE;
 
     // Snipa!
-    if ( pWeapon->IsSniper() ) {
+    if ( pWeapon->IsSniper() || pWeapon->IsRailgun()) {
         if ( !GetProfile()->IsEasiest() ) {
             // Zoom!
             if ( IsCombating() && !pWeapon->IsWeaponZoomed() ) {
