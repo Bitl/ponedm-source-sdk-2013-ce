@@ -1,0 +1,47 @@
+//-------------------------------------------------------------------------
+//
+// Game data for PoneDM.
+//
+//-------------------------------------------------------------------------
+
+@include "hl2mp.fgd"
+
+@PointClass base(PlayerClass, Angles) studio("models/editor/playerstart.mdl") = info_player_terrorist :
+	"This entity indicates the position and facing direction at which the player will spawn during a deathmatch map. Any number of "+
+	"info_player_deathmatch entities may be placed in a map."
+[
+]
+
+@PointClass base(PlayerClass, Angles) studio("models/editor/playerstart.mdl") = info_player_counterterrorist :
+	"This entity indicates the position and facing direction at which the player will spawn during a deathmatch map. Any number of "+
+	"info_player_deathmatch entities may be placed in a map."
+[
+]
+
+@PointClass base(PlayerClass, Angles) studio("models/editor/playerstart.mdl") = info_player_axis :
+	"This entity indicates the position and facing direction at which the player will spawn during a deathmatch map. Any number of "+
+	"info_player_deathmatch entities may be placed in a map."
+[
+]
+
+@PointClass base(PlayerClass, Angles) studio("models/editor/playerstart.mdl") = info_player_allies :
+	"This entity indicates the position and facing direction at which the player will spawn during a deathmatch map. Any number of "+
+	"info_player_deathmatch entities may be placed in a map."
+[
+]
+
+@PointClass base(PlayerClass, Angles) studio("models/editor/playerstart.mdl") = info_player_red :
+	"This entity indicates the position and facing direction at which the player will spawn during a deathmatch map. Any number of "+
+	"info_player_deathmatch entities may be placed in a map."
+[
+]
+
+@PointClass base(PlayerClass, Angles) studio("models/editor/playerstart.mdl") = info_player_blue :
+	"This entity indicates the position and facing direction at which the player will spawn during a deathmatch map. Any number of "+
+	"info_player_deathmatch entities may be placed in a map."
+[
+]
+
+@PointClass base(Weapon) studio("models/weapons/w_railgun.mdl") = weapon_railgun : "Railgun" []
+@PointClass base(Weapon) studio("models/weapons/w_gatling.mdl") = weapon_gatling : "Gatling Gun" []
+@PointClass base(Weapon) studio("models/weapons/w_irifle.mdl") = weapon_ar2 : "CBL-V2 - Combine Ball Launcher Version 2" []

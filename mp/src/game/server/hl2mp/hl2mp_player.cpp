@@ -55,6 +55,8 @@ LINK_ENTITY_TO_CLASS(info_player_terrorist, CPointEntity);
 LINK_ENTITY_TO_CLASS(info_player_counterterrorist, CPointEntity);
 LINK_ENTITY_TO_CLASS(info_player_axis, CPointEntity);
 LINK_ENTITY_TO_CLASS(info_player_allies, CPointEntity);
+LINK_ENTITY_TO_CLASS(info_player_red, CPointEntity);
+LINK_ENTITY_TO_CLASS(info_player_blue, CPointEntity);
 
 IMPLEMENT_SERVERCLASS_ST(CHL2MP_Player, DT_HL2MP_Player)
 	SendPropAngle( SENDINFO_VECTORELEM(m_angEyeAngles, 0), 11, SPROP_CHANGES_OFTEN ),
@@ -1443,17 +1445,19 @@ CBaseEntity* CHL2MP_Player::EntSelectSpawnPoint( void )
 		"info_player_rebel",
 		"info_player_terrorist",
 		"info_player_axis",
+		"info_player_red"
 	};
 	static const char* Team2Spawns[] = {
 		"info_player_combine",
 		"info_player_counterterrorist",
 		"info_player_allies",
+		"info_player_blue"
 	};
 	COMPILE_TIME_ASSERT(ARRAYSIZE(Team1Spawns) == ARRAYSIZE(Team2Spawns));
 	static const size_t MAX_TEAM_ATTEMPTS = ARRAYSIZE(Team1Spawns);
 	static const char* NonTeamSpawns[] = {
 		"info_player_deathmatch",
-		"info_player_start",
+		"info_player_start"
 	};
 	static const size_t MAX_NONTEAM_ATTEMPTS = ARRAYSIZE(NonTeamSpawns);
 

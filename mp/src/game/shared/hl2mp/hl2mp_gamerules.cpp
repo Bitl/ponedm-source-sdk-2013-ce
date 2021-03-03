@@ -122,6 +122,8 @@ static const char *s_PreserveEnts[] =
 	"info_player_counterterrorist",
 	"info_player_axis",
 	"info_player_allies",
+	"info_player_red",
+	"info_player_blue",
 	"info_map_parameters",
 	"keyframe_rope",
 	"move_rope",
