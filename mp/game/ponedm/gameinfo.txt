@@ -3,6 +3,7 @@
 	game	"PoneDM"
 	title	"PoneDM"
 	title2	"Beta"
+	icon		"resource/game"
 	type multiplayer_only
 	nomodels 1
 	nohimodel 1
@@ -10,7 +11,6 @@
 	developer	"Bitl"
 	developer_url	""
 	manual		""
-	icon		"resource/game"
 	hidden_maps
 	{
 		"test_speakers"		1

@@ -18,7 +18,7 @@ WeaponData
 	"primary_ammo"			"Railgun"
 	"secondary_ammo"		"None"
 
-	"weight"			"9"
+	"weight"			"8"
 	"item_flags"			"69"
 
 	"damage"			"50"
