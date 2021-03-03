@@ -210,9 +210,17 @@
 		}
 		"death_gatling"
 		{
-				"file"		"VGUI/basic2d_linear/ex_weaponicon_26_d"
+				"file"		"VGUI/weaponicons/ex_weaponicon_26"
 				"x"		"0"
 				"y"		"25"
+				"width"		"64"
+				"height"	"64"
+		}
+		"death_railgun"
+		{
+				"file"		"VGUI/weaponicons/icon_railgun"
+				"x"		"0"
+				"y"		"20"
 				"width"		"64"
 				"height"	"64"
 		}

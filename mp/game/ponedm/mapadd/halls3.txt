@@ -2,6 +2,21 @@
 {
 	"Init"
 	{
-		//TODO
+		"weapon_railgun"
+		{
+			//Positions
+			"x" "-1484.468018"
+			"y" "-1413.812012"
+			"z" "44.163986"
+			//Rotations
+			"roll"  "0"  
+			"yaw"   "0"
+			"pitch" "0"
+			"KeyValues"
+			{
+				"targetname" "Railgun"
+				"StartDisabled"	"0"
+			}
+		}
 	}
 }

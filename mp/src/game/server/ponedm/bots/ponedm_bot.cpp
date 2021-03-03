@@ -125,7 +125,6 @@ void CPoneDM_Bot::SetUpComponents()
 //================================================================================
 void CPoneDM_Bot::SetUpSchedules()
 {
-    //we don't hide.
     ADD_COMPONENT(CHuntEnemySchedule);
     ADD_COMPONENT(CReloadSchedule);
     ADD_COMPONENT(CCoverSchedule);
@@ -146,7 +145,7 @@ void CPoneDM_Bot::Spawn()
 
 void CPoneDM_Bot::Update()
 {
-    VPROF_BUDGET("Update", VPROF_BUDGETGROUP_BOTS);
+    VPROF_BUDGET("CPoneDM_Bot::Update", VPROF_BUDGETGROUP_BOTS);
 
     //i should have made this a schedule but when i did it just didn't function so i'm doing this.
 

@@ -26,6 +26,7 @@ Bug Fixes:
 - Fixed a bug where the SMG can fall through the floor.
 - Fixed a bug where gore (enabled with cl_ponedm_violencelevel 2) does not play a sound.
 - Fixed a bug where the viewmodel hand disappears sometimes when weapon switching.
+- Fixed a bug where the skybox would tear at high FOVs (thanks Momemtum Mod team for the fix!)
 
 Balance Tweaks:
 - Removed fall damage.

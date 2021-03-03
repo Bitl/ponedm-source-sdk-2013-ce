@@ -39,7 +39,7 @@ WeaponData
 	{
 		"weapon"
 		{
-				"file"		"VGUI/basic2d_linear/ex_weaponicon_26"
+				"file"		"VGUI/weaponicons/ex_weaponicon_26"
 				"x"			"0"
 				"y"			"0"
 				"width"		"64"
@@ -47,7 +47,7 @@ WeaponData
 		}
 		"weapon_s"
 		{	
-				"file"		"VGUI/basic2d_linear/ex_weaponicon_26"
+				"file"		"VGUI/weaponicons/ex_weaponicon_26"
 				"x"			"0"
 				"y"			"0"
 				"width"		"64"

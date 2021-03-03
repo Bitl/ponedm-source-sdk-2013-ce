@@ -271,6 +271,8 @@ void CBot::Upkeep()
 //================================================================================
 void CBot::RunAI()
 {
+    VPROF_BUDGET("CBot::RunAI", VPROF_BUDGETGROUP_BOTS);
+
     m_RunTimer.Start();
 
     BlockConditions();
