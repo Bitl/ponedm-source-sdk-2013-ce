@@ -6,6 +6,7 @@
 //
 // Also, note that the "mapcyclefile" convar can be used to specify a particular mapcycle file.
 
+dm_aerowalk
 dm_lockdown
 dm_overwatch
 dm_powerhouse
@@ -13,3 +14,4 @@ dm_resistance
 dm_runoff
 dm_steamlab
 dm_underpass
+halls3
