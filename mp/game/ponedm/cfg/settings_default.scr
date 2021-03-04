@@ -82,6 +82,13 @@ DESCRIPTION SERVER_OPTIONS
 		{ BOOL }
 		{ "0" }
 	}
+	
+	"sv_ponedm_bot_fillserver"
+	{
+		"#PoneDM_InstantAction"
+		{ BOOL }
+		{ "0" }
+	}
 
 	"mp_weaponstay"
 	{
@@ -125,10 +132,66 @@ DESCRIPTION SERVER_OPTIONS
 		{ "1" }
 	}
 	
-	"sv_ponedm_bot_fillserver"
+	"sv_accelerate"
 	{
-		"#PoneDM_InstantAction"
-		{ BOOL }
+		"#PoneDM_Acceleration"
+		{ NUMBER 1 9999 }
+		{ "10" }
+	}
+	
+	"sv_airaccelerate"
+	{
+		"#PoneDM_AirAcceleration"
+		{ NUMBER 1 9999 }
+		{ "150" }
+	}
+	
+	"sv_wateraccelerate"
+	{
+		"#PoneDM_WaterAcceleration"
+		{ NUMBER 1 9999 }
+		{ "10" }
+	}
+	
+	"sv_waterfriction"
+	{
+		"#PoneDM_WaterFriction"
+		{ NUMBER 1 9999 }
+		{ "1" }
+	}
+	
+	"sv_rollspeed"
+	{
+		"#PoneDM_ViewRollSpeed"
+		{ NUMBER 1 9999 }
+		{ "200" }
+	}
+	
+	"sv_rollangle"
+	{
+		"#PoneDM_ViewRollAngle"
+		{ NUMBER 1 9999 }
 		{ "0" }
+	}
+	
+	"sv_friction"
+	{
+		"#PoneDM_Friction"
+		{ NUMBER 1 9999 }
+		{ "4" }
+	}
+	
+	"sv_bounce"
+	{
+		"#PoneDM_Bounce"
+		{ NUMBER 1 9999 }
+		{ "0" }
+	}
+	
+	"sv_maxvelocity"
+	{
+		"#PoneDM_Velocity"
+		{ NUMBER 1 9999 }
+		{ "3500" }
 	}
 }

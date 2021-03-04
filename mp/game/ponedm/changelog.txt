@@ -32,6 +32,8 @@ Misc. Changes:
 - Enabled the Flashlight by default in the server settings.
 - The Railgun's beam will now decrease in brightness after 50% battery.
 - Impulse 101 will now properly fill up the player's inventory to the max.
+- Enabled most server movement variables. The server host can change most of these in the server settings.
+- Increased sv_airaccelerate from 10 to 150.
 
 Beta (playtesting 3-3-21, released 3-4-21):
 Mane changes:
