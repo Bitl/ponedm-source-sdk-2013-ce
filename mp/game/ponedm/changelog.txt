@@ -1,5 +1,7 @@
-Release v1.0 (Released <DATE HERE>):
+Release (Released <DATE HERE>):
 Mane changes:
+- Added an additional boost when rocket/grenade jumping.
+- Gatling Guns can now be used to push enemies away.
 
 Bug Fixes:
 
@@ -17,7 +19,6 @@ Balance Tweaks:
 	- You can only carry up to 5 frag grenades at once.
 	- You can only carry up to 5 S.L.A.M. tripmines at once.
 	- You can only carry up to 3 batteries at once for the Railgun. (300% charge, enough for 12 shots)
-- Increased the explosion force caused by rocket jumping by 45%.
 
 Misc. Changes:
 - The default config will now properly set Pantone Shift as the default pony.
