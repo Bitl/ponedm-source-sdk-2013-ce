@@ -40,7 +40,7 @@ extern CBaseEntity				*g_pLastSpawn;
 ConVar sv_ponedm_updatecolors("sv_ponedm_updatecolors", "1", FCVAR_REPLICATED | FCVAR_NOTIFY, "Updates player color immediately.");
 ConVar sv_ponedm_updateappearance("sv_ponedm_updateappearance", "1", FCVAR_REPLICATED | FCVAR_NOTIFY, "Updates player appearance immediately.");
 ConVar sv_ponedm_damagescale_self("sv_ponedm_damagescale_self", "0.25", FCVAR_CHEAT | FCVAR_NOTIFY, "");
-ConVar sv_ponedm_damageforcescale_self("sv_ponedm_damageforcescale_self", "2.5", FCVAR_CHEAT | FCVAR_NOTIFY, "");
+ConVar sv_ponedm_damageforcescale_self("sv_ponedm_damageforcescale_self", "5.5", FCVAR_CHEAT | FCVAR_NOTIFY, "");
 #endif
 
 #define HL2MP_COMMAND_MAX_RATE 0.3

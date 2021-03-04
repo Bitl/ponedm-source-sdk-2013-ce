@@ -1,4 +1,28 @@
-Beta (released <DATE HERE>):
+Release v1.0 (Released <DATE HERE>):
+Mane changes:
+
+Bug Fixes:
+
+Balance Tweaks:
+- Limited how much ammo you can carry:
+	- You can only carry up to 5 Combine Balls at once for the CBL-V2.
+	- You can only carry up to 225 rounds at once for the Pistol.
+	- You can only carry up to 225 rounds at once for the SMG.
+	- You can only carry up to 500 rounds at once for the Gatling Gun.
+	- You can only carry up to 48 rounds at once for the .357 Magnum.
+	- You can only carry up to 25 bolts at once for the Crossbow.
+	- You can only carry up to 45 rounds at once for the Shotgun.
+	- You can only carry up to 5 rockets at once for the RPG.
+	- You can only carry up to 5 grenades at once for the SMG.
+	- You can only carry up to 5 frag grenades at once.
+	- You can only carry up to 5 S.L.A.M. tripmines at once.
+	- You can only carry up to 3 batteries at once for the Railgun. (300% charge, enough for 12 shots)
+- Increased the explosion force caused by rocket jumping by 45%.
+
+Misc. Changes:
+- The default config will now properly set Pantone Shift as the default pony.
+
+Beta (playtesting 3-3-21, released 3-5-21):
 Mane changes:
 - Changed the player spawning algorithm, enabling support for more map spawn entities from Counter-Strike Source and Day of Defeat Source.
 - Added dm_aerowalk by Drift.
