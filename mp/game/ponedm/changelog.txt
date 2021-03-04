@@ -1,6 +1,7 @@
 Release (Released <DATE HERE>):
 Mane changes:
 - Added an additional boost when rocket/grenade jumping.
+- Added proper bindings for the Gatling Gun and the Railgun.
 
 Bug Fixes:
 

@@ -37,6 +37,8 @@
 "use weapon_frag"		"#HL2_Grenade_Menu"
 "use weapon_rpg"		"#HL2_RPG_Menu"
 "use weapon_SLAM"		"#HL2_SLAM_Menu"
+"use weapon_gatling"		"#PoneDM_Gatling_Menu"
+"use weapon_railgun"		"#PoneDM_Railgun_Menu"
 "blank"			"=========================="
 "blank"			"#Valve_Communication_Title"
 "blank"			"=========================="
