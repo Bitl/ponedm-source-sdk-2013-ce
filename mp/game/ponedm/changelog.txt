@@ -1,7 +1,6 @@
 Release (Released <DATE HERE>):
 Mane changes:
 - Added an additional boost when rocket/grenade jumping.
-- Gatling Guns can now be used to push enemies away.
 
 Bug Fixes:
 
