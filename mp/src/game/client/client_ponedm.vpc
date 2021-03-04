@@ -52,6 +52,8 @@ $Project "Client (PoneDM)"
 				$File	"ponedm\gameui\PlayerColorDialog.cpp"
 				$File	"ponedm\gameui\PlayerColorDialog.h"
 			}
+			
+			$File	"ponedm\hud_timer.cpp"
 		}
 		
 		$Folder	"MOMENTUM MOD DLL"

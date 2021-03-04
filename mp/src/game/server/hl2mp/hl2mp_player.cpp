@@ -201,6 +201,7 @@ void CHL2MP_Player::GiveAllItems( void )
 {
 	EquipSuit();
 
+	CBasePlayer::GiveAmmo(999, "AR2AltFire");
 	CBasePlayer::GiveAmmo( 999,	"Pistol");
 	CBasePlayer::GiveAmmo( 999,	"SMG1");
 	CBasePlayer::GiveAmmo( 999,	"smg1_grenade");
@@ -209,7 +210,7 @@ void CHL2MP_Player::GiveAllItems( void )
 	CBasePlayer::GiveAmmo( 999,	"rpg_round");
 	CBasePlayer::GiveAmmo( 999, "XBowBolt");
 	CBasePlayer::GiveAmmo( 999, "Gatling");
-
+	CBasePlayer::GiveAmmo( 999, "Railgun");
 	CBasePlayer::GiveAmmo( 999,	"grenade" );
 	CBasePlayer::GiveAmmo( 999,	"slam" );
 

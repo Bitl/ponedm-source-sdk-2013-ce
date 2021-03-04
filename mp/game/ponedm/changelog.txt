@@ -2,8 +2,10 @@
 Mane changes:
 - Added an additional boost when rocket/grenade jumping.
 - Added proper bindings for the Gatling Gun and the Railgun.
+- Added a timer for games with a time limit.
 
 Bug Fixes:
+- Fixed a bug where the Railgun doesn't display effects when hitting a player.
 
 Balance Tweaks:
 - Limited how much ammo you can carry:
@@ -18,10 +20,18 @@ Balance Tweaks:
 	- You can only carry up to 5 grenades at once for the SMG.
 	- You can only carry up to 5 frag grenades at once.
 	- You can only carry up to 5 S.L.A.M. tripmines at once.
-	- You can only carry up to 3 batteries at once for the Railgun. (300% charge, enough for 12 shots)
+	- You can only carry up to 3 batteries at once for the Railgun. (300% charge)
+- Nerfed the Railgun damage from 50 to 25.
+- The Railgun now does the following when in an overcharged state:
+	- The Railgun uses more battery when overcharged. (50% compared to 25%)
+	- The Railgun will deal double the amount of damage when overcharged (from 25 to 50).
+	- After overcharging, the railgun will have a slower recharge time.
 
 Misc. Changes:
 - The default config will now properly set Pantone Shift as the default pony.
+- Enabled the Flashlight by default in the server settings.
+- The Railgun's beam will now decrease in brightness after 50% battery.
+- Impulse 101 will now properly fill up the player's inventory to the max.
 
 Beta (playtesting 3-3-21, released 3-5-21):
 Mane changes:

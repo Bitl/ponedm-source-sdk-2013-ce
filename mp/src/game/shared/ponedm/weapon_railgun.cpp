@@ -8,6 +8,7 @@
 #include "npcevent.h"
 #include "in_buttons.h"
 #include "beam_shared.h"
+#include "takedamageinfo.h"
 
 #ifdef CLIENT_DLL
 	#include "c_hl2mp_player.h"
@@ -20,6 +21,9 @@
 
 #define GAUSS_BEAM_SPRITE "sprites/laserbeam.vmt"
 #define RAIL_RECHARGE_TIME 0.13f
+#define RAIL_RECHARGE_OVERCHARGE_TIME 0.2f
+#define RAIL_AMMO 25
+#define RAIL_AMMO_OVERCHARGE 50
 
 #ifdef CLIENT_DLL
 #define CWeaponRailgun C_WeaponRailgun
@@ -70,6 +74,8 @@ private:
 	CBeam* m_pBeam;
 	CNetworkVar(float, m_flNextCharge);
 	CNetworkVar(bool, m_bInZoom);
+	CNetworkVar(bool, m_bJustOvercharged);
+	CNetworkVar(bool, m_bOverchargeDamageBenefits);
 	
 	CWeaponRailgun( const CWeaponRailgun & );
 };
@@ -78,9 +84,13 @@ IMPLEMENT_NETWORKCLASS_ALIASED( WeaponRailgun, DT_WeaponRailgun )
 
 BEGIN_NETWORK_TABLE( CWeaponRailgun, DT_WeaponRailgun )
 #ifdef CLIENT_DLL
+	RecvPropBool(RECVINFO(m_bJustOvercharged)),
+	RecvPropBool(RECVINFO(m_bOverchargeDamageBenefits)),
 	RecvPropBool(RECVINFO(m_bInZoom)),
 	RecvPropFloat(RECVINFO(m_flNextCharge)),
 #else
+	SendPropBool(SENDINFO(m_bJustOvercharged)),
+	SendPropBool(SENDINFO(m_bOverchargeDamageBenefits)),
 	SendPropBool(SENDINFO(m_bInZoom)),
 	SendPropFloat(SENDINFO(m_flNextCharge)),
 #endif
@@ -88,6 +98,8 @@ END_NETWORK_TABLE()
 
 #ifdef CLIENT_DLL
 BEGIN_PREDICTION_DATA( CWeaponRailgun )
+	DEFINE_PRED_FIELD(m_bJustOvercharged, FIELD_BOOLEAN, FTYPEDESC_INSENDTABLE),
+	DEFINE_PRED_FIELD(m_bOverchargeDamageBenefits, FIELD_BOOLEAN, FTYPEDESC_INSENDTABLE),
 	DEFINE_PRED_FIELD(m_bInZoom, FIELD_BOOLEAN, FTYPEDESC_INSENDTABLE),
 	DEFINE_PRED_FIELD_TOL(m_flNextCharge, FIELD_FLOAT, FTYPEDESC_INSENDTABLE, TD_MSECTOLERANCE),
 END_PREDICTION_DATA()
@@ -122,6 +134,8 @@ CWeaponRailgun::CWeaponRailgun( void )
 	m_bFiresUnderwater	= false;
 	m_flNextCharge = 0;
 	m_bInZoom = false;
+	m_bJustOvercharged = false;
+	m_bOverchargeDamageBenefits = false;
 }
 
 void CWeaponRailgun::Equip(CBaseCombatCharacter* pOwner)
@@ -225,6 +239,11 @@ void CWeaponRailgun::ItemPostFrame(void)
 		{
 			RechargeAmmo();
 		}
+	}
+	else if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) > GetDefaultClip1())
+	{
+		m_bJustOvercharged = true;
+		m_bOverchargeDamageBenefits = true;
 	}
 
 	UpdateAutoFire();
@@ -337,17 +356,23 @@ void CWeaponRailgun::Fire( void )
 	
 #ifndef CLIENT_DLL
 	ClearMultiDamage();
+#endif
 
 	CBaseEntity *pHit = tr.m_pEnt;
 	
-	CTakeDamageInfo dmgInfo( this, pOwner, GetHL2MPWpnData().m_iPlayerDamage, DMG_SHOCK );
+	int iDamage = (m_bOverchargeDamageBenefits ? (GetHL2MPWpnData().m_iPlayerDamage * 2) : GetHL2MPWpnData().m_iPlayerDamage);
+
+	CTakeDamageInfo dmgInfo( this, pOwner, iDamage, DMG_SHOCK);
 
 	if ( pHit != NULL )
 	{
+#ifndef CLIENT_DLL
 		CalculateBulletDamageForce( &dmgInfo, m_iPrimaryAmmoType, aimDir, tr.endpos );
+		TraceAttackToTriggers(dmgInfo, tr.startpos, tr.endpos, aimDir);
+#endif
 		pHit->DispatchTraceAttack( dmgInfo, aimDir, &tr );
 	}
-#endif
+
 	
 	float hitAngle = -DotProduct(tr.plane.normal, aimDir);
 
@@ -393,8 +418,10 @@ void CWeaponRailgun::DrawBeam(const Vector& startPos, const Vector& endPos)
 
 	UTIL_Tracer(startPos, endPos, 0, TRACER_DONT_USE_ATTACHMENT, 6500, false, "GaussTracer");
 
+	float flWidth = (m_bOverchargeDamageBenefits ? 4.5f : 2.0f);
+
 	//Draw the main beam shaft
-	m_pBeam = CBeam::BeamCreate(GAUSS_BEAM_SPRITE, 2.0f);
+	m_pBeam = CBeam::BeamCreate(GAUSS_BEAM_SPRITE, flWidth);
 
 	CBaseViewModel* vm = pOwner->GetViewModel();
 
@@ -406,7 +433,7 @@ void CWeaponRailgun::DrawBeam(const Vector& startPos, const Vector& endPos)
 	m_pBeam->SetEndAttachment(LookupAttachment("muzzle"));
 	m_pBeam->SetColor(196, 47+random->RandomInt(-16, 16), 250);
 	m_pBeam->SetScrollRate(25.6);
-	m_pBeam->SetBrightness(255);
+	m_pBeam->SetBrightness((pOwner->GetAmmoCount(m_iPrimaryAmmoType) < RAIL_AMMO_OVERCHARGE) ? 128 : 255);
 	m_pBeam->RelinkBeam();
 	m_pBeam->LiveForTime(0.1f);
 #endif
@@ -430,11 +457,21 @@ void CWeaponRailgun::RechargeAmmo(void)
 	pPlayer->GiveAmmo(1, m_iPrimaryAmmoType, true);
 #endif // ! CLIENT_DLL
 
-	m_flNextCharge = gpGlobals->curtime + RAIL_RECHARGE_TIME;
+	m_flNextCharge = gpGlobals->curtime + (m_bJustOvercharged ? RAIL_RECHARGE_OVERCHARGE_TIME : RAIL_RECHARGE_TIME);
 
 	if ((pPlayer->GetAmmoCount(m_iPrimaryAmmoType) % 25) == 0)
 	{
 		WeaponSound(SPECIAL1);
+	}
+
+	if (m_bOverchargeDamageBenefits && pPlayer->GetAmmoCount(m_iPrimaryAmmoType) <= GetDefaultClip1())
+	{
+		m_bOverchargeDamageBenefits = false;
+	}
+
+	if (m_bJustOvercharged && pPlayer->GetAmmoCount(m_iPrimaryAmmoType) == GetDefaultClip1())
+	{
+		m_bJustOvercharged = false;
 	}
 }
 
@@ -451,7 +488,7 @@ void CWeaponRailgun::PrimaryAttack(void)
 	if (pOwner == NULL)
 		return;
 
-	if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) < 25)
+	if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) < RAIL_AMMO)
 	{
 		SendWeaponAnim(ACT_VM_DRYFIRE);
 		WeaponSound(EMPTY);
@@ -466,7 +503,8 @@ void CWeaponRailgun::PrimaryAttack(void)
 	pOwner->DoMuzzleFlash();
 	pOwner->ViewPunch(QAngle(-4, random->RandomFloat(-2, 2), 0));
 	
-	pOwner->RemoveAmmo(25, m_iPrimaryAmmoType);
+	int iMinAmmoToUse = (m_bJustOvercharged ? RAIL_AMMO_OVERCHARGE : RAIL_AMMO);
+	pOwner->RemoveAmmo(iMinAmmoToUse, m_iPrimaryAmmoType);
 
 	m_flNextPrimaryAttack = gpGlobals->curtime + GetFireRate();
 

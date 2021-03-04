@@ -638,3 +638,18 @@ event PoisonLoop
 {
 	RunEvent PoisonPulse 0.0
 }
+
+event TimerInit
+{
+  Animate HudTimer FgColor    "FgColor" Linear  0.0  0.0
+}
+
+event TimerBelow30
+{
+  Animate HudTimer FgColor    "255 48 0 255" Linear  0.0  0.0
+}
+
+event TimerAbove30
+{
+  Animate HudTimer FgColor    "FgColor" Linear  0.0  0.0
+}

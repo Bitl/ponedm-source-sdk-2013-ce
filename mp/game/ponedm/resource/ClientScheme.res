@@ -560,6 +560,43 @@ Scheme
 				"custom"	"1"
 			}
 		}
+		HudNumbersTimer
+		{
+			"1"
+			{
+				"name"		"Verdana"
+				"tall"		"32"
+				"weight"	"0"
+				"antialias" "1"
+				"additive"	"1"
+				"custom"	"1"
+			}
+		}
+		HudNumbersGlowTimer
+		{
+			"1"
+			{
+				"name"		"Verdana"
+				"tall"		"32"
+				"weight"	"0"
+				"blur"		"4"
+				"antialias" "1"
+				"additive"	"1"
+				"custom"	"1"
+			}
+		}
+		HudNumbersSmallTimer
+		{
+			"1"
+			{
+				"name"		"Verdana"
+				"tall"		"16"
+				"weight"	"1000"
+				"additive"	"1"
+				"antialias" "1"
+				"custom"	"1"
+			}
+		}
 		HudSelectionNumbers
 		{
 			"1"

@@ -40,6 +40,20 @@
 	    "text_ypos" "4"
 	}
 	
+	HudTimer
+	{
+		"fieldName"   "HudTimer"
+		"xpos"	"c-38"
+		"ypos"	"432"
+		"wide"	"108"
+		"tall"  "36"
+		"visible" "0"
+		"enabled" "1"
+		"PaintBackgroundType" "2"
+		"digit_xpos" "12"
+		"digit_ypos" "2"
+	}
+	
 	HudVoiceSelfStatus
 	{
 		"fieldName" "HudVoiceSelfStatus"
