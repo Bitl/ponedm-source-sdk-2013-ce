@@ -1,4 +1,4 @@
-??? (Released <DATE HERE>):
+Release (Released <DATE HERE>):
 Mane changes:
 - Added an additional boost when rocket/grenade jumping.
 - Added proper bindings for the Gatling Gun and the Railgun.
@@ -33,7 +33,7 @@ Misc. Changes:
 - The Railgun's beam will now decrease in brightness after 50% battery.
 - Impulse 101 will now properly fill up the player's inventory to the max.
 
-Beta (playtesting 3-3-21, released 3-5-21):
+Beta (playtesting 3-3-21, released 3-4-21):
 Mane changes:
 - Changed the player spawning algorithm, enabling support for more map spawn entities from Counter-Strike Source and Day of Defeat Source.
 - Added dm_aerowalk by Drift.
