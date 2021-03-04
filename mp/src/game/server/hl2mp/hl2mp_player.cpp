@@ -28,7 +28,6 @@
 #include <sceneentity.h>
 #include <particle_parse.h>
 #include "bots\ponedm_bot.h"
-#include "hl2/hl2_shareddefs.h"
 
 int g_iLastCitizenModel = 0;
 int g_iLastCombineModel = 0;
@@ -41,8 +40,7 @@ extern CBaseEntity				*g_pLastSpawn;
 ConVar sv_ponedm_updatecolors("sv_ponedm_updatecolors", "1", FCVAR_REPLICATED | FCVAR_NOTIFY, "Updates player color immediately.");
 ConVar sv_ponedm_updateappearance("sv_ponedm_updateappearance", "1", FCVAR_REPLICATED | FCVAR_NOTIFY, "Updates player appearance immediately.");
 ConVar sv_ponedm_damagescale_self("sv_ponedm_damagescale_self", "0.25", FCVAR_CHEAT | FCVAR_NOTIFY, "");
-ConVar sv_ponedm_damageforcescale_self("sv_ponedm_damageforcescale_self", "3", FCVAR_CHEAT | FCVAR_NOTIFY, "");
-ConVar sv_ponedm_damageforcescale_gatling("sv_ponedm_damageforcescale_gatling", "8", FCVAR_CHEAT | FCVAR_NOTIFY, "");
+ConVar sv_ponedm_damageforcescale_self("sv_ponedm_damageforcescale_self", "2.5", FCVAR_CHEAT | FCVAR_NOTIFY, "");
 #endif
 
 #define HL2MP_COMMAND_MAX_RATE 0.3
@@ -1397,11 +1395,6 @@ int CHL2MP_Player::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 		info.SetDamage(flDamage);
 
 		DeliverDamageForce(this, sv_ponedm_damageforcescale_self.GetFloat());
-	}
-
-	if (info.GetAttacker() != this && info.GetDamageType() & DMG_MINIGUN)
-	{
-		DeliverDamageForce(this, sv_ponedm_damageforcescale_gatling.GetFloat());
 	}
 	
 	gamestats->Event_PlayerDamage( this, info);
