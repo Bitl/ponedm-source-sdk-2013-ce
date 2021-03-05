@@ -1167,7 +1167,7 @@ BCOND CBotDecision::ShouldRangeAttack2()
         if (pSLAM)
         {
             //detonate if we are far enough from the threat and the SLAM and we are armed.
-            if (GetMemory()->GetPrimaryThreatDistance() >= 200.0f && pSLAM->m_bThrowSatchel && pSLAM->m_bDetonatorArmed)
+            if (pSLAM->m_bThrowSatchel && pSLAM->m_bDetonatorArmed)
             {
                 return BCOND_CAN_RANGE_ATTACK2;
             }
