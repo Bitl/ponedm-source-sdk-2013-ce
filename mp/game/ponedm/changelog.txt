@@ -1,4 +1,4 @@
-Release (Released <DATE HERE>):
+Beta 2 (Released <DATE HERE>):
 Mane changes:
 - Added an additional boost when rocket/grenade jumping.
 - Added proper bindings for the Gatling Gun and the Railgun.
@@ -37,8 +37,10 @@ Misc. Changes:
 - The Railgun's beam will now decrease in brightness after 50% battery.
 - Impulse 101 will now properly fill up the player's inventory to the max.
 - Bots will now use more types of weapons.
+- Players no longer become frozen at the end of a round.
+- Extra tracers no longer show up when firing the Railgun.
 
-Beta (playtesting 3-3-21, released 3-4-21):
+Beta (playtesting 03-03-21, released 03-04-21):
 Mane changes:
 - Changed the player spawning algorithm, enabling support for more map spawn entities from Counter-Strike Source and Day of Defeat Source.
 - Added dm_aerowalk by Drift.
@@ -84,3 +86,4 @@ Misc. Changes:
 Alpha (released 02/23/21):
 - Private test for player movement, player customization, bot functions, violence setting testing, and gameplay loop testing. 
 - First release of the mod.
+- Began development 02-14-21

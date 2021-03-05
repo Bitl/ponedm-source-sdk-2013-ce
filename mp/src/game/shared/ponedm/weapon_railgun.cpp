@@ -416,8 +416,6 @@ void CWeaponRailgun::DrawBeam(const Vector& startPos, const Vector& endPos)
 	if (pOwner == NULL)
 		return;
 
-	UTIL_Tracer(startPos, endPos, 0, TRACER_DONT_USE_ATTACHMENT, 6500, false, "GaussTracer");
-
 	float flWidth = (m_bOverchargeDamageBenefits ? 4.5f : 2.0f);
 
 	//Draw the main beam shaft
