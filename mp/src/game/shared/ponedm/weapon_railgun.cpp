@@ -431,7 +431,21 @@ void CWeaponRailgun::DrawBeam(const Vector& startPos, const Vector& endPos)
 	m_pBeam->SetStartPos(startPos);
 	m_pBeam->PointEntInit(endPos, this);
 	m_pBeam->SetEndAttachment(LookupAttachment("muzzle"));
-	m_pBeam->SetColor(196, 47+random->RandomInt(-16, 16), 250);
+
+	CHL2MP_Player* pHL2MPOwner = ToHL2MPPlayer(GetOwner());
+
+	if (pHL2MPOwner)
+	{
+		float r = (int)(pHL2MPOwner->m_vPrimaryColor.GetX() * 255);
+		float g = (int)(pHL2MPOwner->m_vPrimaryColor.GetY() * 255);
+		float b = (int)(pHL2MPOwner->m_vPrimaryColor.GetZ() * 255);
+
+		m_pBeam->SetColor(r, g + random->RandomInt(-16, 16), b);
+	}
+	else
+	{
+		m_pBeam->SetColor(196, 47 + random->RandomInt(-16, 16), 250);
+	}
 	m_pBeam->SetScrollRate(25.6);
 	m_pBeam->SetBrightness((pOwner->GetAmmoCount(m_iPrimaryAmmoType) < RAIL_AMMO_OVERCHARGE) ? 128 : 255);
 	m_pBeam->RelinkBeam();
