@@ -444,7 +444,9 @@ void CWeaponRailgun::DrawBeam(const Vector& startPos, const Vector& endPos)
 	}
 	else
 	{
-		m_pBeam->SetColor(196, 47 + random->RandomInt(-16, 16), 250);
+		m_pBeam->SetColor(255, 255, 255);
+		//save this for FR
+		//m_pBeam->SetColor(196, 47 + random->RandomInt(-16, 16), 250);
 	}
 	m_pBeam->SetScrollRate(25.6);
 	m_pBeam->SetBrightness((pOwner->GetAmmoCount(m_iPrimaryAmmoType) < RAIL_AMMO_OVERCHARGE) ? 128 : 255);
