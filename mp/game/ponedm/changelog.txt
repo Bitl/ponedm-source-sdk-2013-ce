@@ -37,7 +37,6 @@ Misc. Changes:
 - The Railgun's beam will now decrease in brightness after 50% battery.
 - Impulse 101 will now properly fill up the player's inventory to the max.
 - Bots will now use more types of weapons.
-- Players no longer become frozen at the end of a round.
 - Extra tracers no longer show up when firing the Railgun.
 
 Beta (playtesting 03-03-21, released 03-04-21):
