@@ -15,6 +15,8 @@
 #include "bots\in_utils.h"
 #endif
 
+#include "hl2mp/weapon_slam.h"
+
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -1156,6 +1158,23 @@ BCOND CBotDecision::ShouldRangeAttack2()
             else if ( pWeapon->IsWeaponZoomed() ) {
                 return BCOND_CAN_RANGE_ATTACK2;
             }
+        }
+    }
+
+    //SLAM!
+    if (pWeapon->IsSLAM())
+    {
+        CWeapon_SLAM* pSLAM = (CWeapon_SLAM *)GetHost()->GetActiveBaseWeapon();
+        if (pSLAM)
+        {
+            if (GetMemory()->GetPrimaryThreatDistance() >= 400.0f && pSLAM->m_bThrowSatchel && pSLAM->m_bDetonatorArmed)
+            {
+                return BCOND_CAN_RANGE_ATTACK2;
+            }
+        }
+        else
+        {
+            return BCOND_NONE;
         }
     }
 
