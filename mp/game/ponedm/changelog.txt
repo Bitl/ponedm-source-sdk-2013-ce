@@ -3,6 +3,9 @@ Mane changes:
 - Added an additional boost when rocket/grenade jumping.
 - Added proper bindings for the Gatling Gun and the Railgun.
 - Added a timer for games with a time limit.
+- Enabled most server movement variables. The server host can change most of these in the server settings.
+- Increased sv_airaccelerate from 10 to 150. This allows for easier air control when bunnyhopping.
+- Added a randomizer mode!
 
 Bug Fixes:
 - Fixed a bug where the Railgun doesn't display effects when hitting a player.
@@ -32,8 +35,6 @@ Misc. Changes:
 - Enabled the Flashlight by default in the server settings.
 - The Railgun's beam will now decrease in brightness after 50% battery.
 - Impulse 101 will now properly fill up the player's inventory to the max.
-- Enabled most server movement variables. The server host can change most of these in the server settings.
-- Increased sv_airaccelerate from 10 to 150.
 
 Beta (playtesting 3-3-21, released 3-4-21):
 Mane changes:

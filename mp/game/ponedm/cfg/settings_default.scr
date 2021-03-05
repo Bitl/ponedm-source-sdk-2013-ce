@@ -89,6 +89,34 @@ DESCRIPTION SERVER_OPTIONS
 		{ BOOL }
 		{ "0" }
 	}
+	
+	"sv_ponedm_randomizer"
+	{
+		"#PoneDM_Randomizer"
+		{ BOOL }
+		{ "0" }
+	}
+	
+	"sv_ponedm_randomizer_weaponcount"
+	{
+		"#PoneDM_Randomizer_WeaponCount"
+		{ NUMBER 0 -1 }
+		{ "5" }
+	}
+	
+	"sv_ponedm_updatecolors"
+	{
+		"#PoneDM_Dynamic_Colors"
+		{ BOOL }
+		{ "1" }
+	}
+	
+	"sv_ponedm_updateappearance"
+	{
+		"#PoneDM_Dynamic_Appearance"
+		{ BOOL }
+		{ "1" }
+	}
 
 	"mp_weaponstay"
 	{
@@ -117,81 +145,67 @@ DESCRIPTION SERVER_OPTIONS
 		{ BOOL }
 		{ "0" }
 	}
-
-	"sv_ponedm_updatecolors"
-	{
-		"#PoneDM_Dynamic_Colors"
-		{ BOOL }
-		{ "1" }
-	}
-	
-	"sv_ponedm_updateappearance"
-	{
-		"#PoneDM_Dynamic_Appearance"
-		{ BOOL }
-		{ "1" }
-	}
 	
 	"sv_accelerate"
 	{
 		"#PoneDM_Acceleration"
-		{ NUMBER 1 9999 }
+		{ NUMBER 0 -1 }
 		{ "10" }
 	}
 	
 	"sv_airaccelerate"
 	{
 		"#PoneDM_AirAcceleration"
-		{ NUMBER 1 9999 }
+		{ NUMBER 0 -1 }
 		{ "150" }
 	}
 	
 	"sv_wateraccelerate"
 	{
 		"#PoneDM_WaterAcceleration"
-		{ NUMBER 1 9999 }
+		{ NUMBER 0 -1 }
 		{ "10" }
 	}
 	
 	"sv_waterfriction"
 	{
 		"#PoneDM_WaterFriction"
-		{ NUMBER 1 9999 }
+		{ NUMBER 0 -1 }
 		{ "1" }
 	}
 	
 	"sv_rollspeed"
 	{
 		"#PoneDM_ViewRollSpeed"
-		{ NUMBER 1 9999 }
+		{ NUMBER 0 -1 }
 		{ "200" }
 	}
 	
 	"sv_rollangle"
 	{
 		"#PoneDM_ViewRollAngle"
-		{ NUMBER 1 9999 }
+		{ NUMBER 0 -1 }
 		{ "0" }
 	}
 	
 	"sv_friction"
 	{
 		"#PoneDM_Friction"
-		{ NUMBER 1 9999 }
+		{ NUMBER 0 -1 }
 		{ "4" }
 	}
 	
 	"sv_bounce"
 	{
 		"#PoneDM_Bounce"
-		{ NUMBER 1 9999 }
+		{ NUMBER 0 -1 }
 		{ "0" }
 	}
 	
 	"sv_maxvelocity"
 	{
 		"#PoneDM_Velocity"
-		{ NUMBER 1 9999 }
+		{ NUMBER 0 -1 }
 		{ "3500" }
 	}
 }

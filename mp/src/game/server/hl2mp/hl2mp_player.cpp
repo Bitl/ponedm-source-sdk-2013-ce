@@ -41,6 +41,8 @@ ConVar sv_ponedm_updatecolors("sv_ponedm_updatecolors", "1", FCVAR_REPLICATED | 
 ConVar sv_ponedm_updateappearance("sv_ponedm_updateappearance", "1", FCVAR_REPLICATED | FCVAR_NOTIFY, "Updates player appearance immediately.");
 ConVar sv_ponedm_damagescale_self("sv_ponedm_damagescale_self", "0.25", FCVAR_CHEAT | FCVAR_NOTIFY, "");
 ConVar sv_ponedm_damageforcescale_self("sv_ponedm_damageforcescale_self", "2.5", FCVAR_CHEAT | FCVAR_NOTIFY, "");
+ConVar sv_ponedm_randomizer("sv_ponedm_randomizer", "0", FCVAR_NOTIFY, "");
+ConVar sv_ponedm_randomizer_weaponcount("sv_ponedm_randomizer_weaponcount", "5", FCVAR_NOTIFY, "");
 #endif
 
 #define HL2MP_COMMAND_MAX_RATE 0.3
@@ -197,43 +199,82 @@ void CHL2MP_Player::Precache( void )
 #endif
 }
 
-void CHL2MP_Player::GiveAllItems( void )
+void CHL2MP_Player::GiveItems(bool bGiveAll)
 {
 	EquipSuit();
 
-	CBasePlayer::GiveAmmo(999, "AR2AltFire");
-	CBasePlayer::GiveAmmo( 999,	"Pistol");
-	CBasePlayer::GiveAmmo( 999,	"SMG1");
-	CBasePlayer::GiveAmmo( 999,	"smg1_grenade");
-	CBasePlayer::GiveAmmo( 999,	"Buckshot");
-	CBasePlayer::GiveAmmo( 999,	"357" );
-	CBasePlayer::GiveAmmo( 999,	"rpg_round");
-	CBasePlayer::GiveAmmo( 999, "XBowBolt");
-	CBasePlayer::GiveAmmo( 999, "Gatling");
-	CBasePlayer::GiveAmmo( 999, "Railgun");
-	CBasePlayer::GiveAmmo( 999,	"grenade" );
-	CBasePlayer::GiveAmmo( 999,	"slam" );
+	static const char* g_ppszAllWeaponNames[] =
+	{
+		"weapon_crowbar",
+		"weapon_pistol",
+		"weapon_357",
+		"weapon_smg1",
+		"weapon_ar2",
+		"weapon_gatling",
+		"weapon_railgun",
+		"weapon_shotgun",
+		"weapon_frag",
+		"weapon_crossbow",
+		"weapon_rpg",
+		"weapon_slam",
+		"weapon_physcannon"
+	};
 
-	GiveNamedItem( "weapon_crowbar" );
-	GiveNamedItem( "weapon_pistol" );
-	GiveNamedItem( "weapon_357" );
+	static const char* g_ppszAllAmmoNames[] =
+	{
+		"AR2AltFire",
+		"Pistol",
+		"SMG1",
+		"smg1_grenade",
+		"Buckshot",
+		"357",
+		"rpg_round",
+		"XBowBolt",
+		"Gatling",
+		"Railgun",
+		"grenade",
+		"slam"
+	};
 
-	GiveNamedItem( "weapon_smg1" );
-	GiveNamedItem( "weapon_ar2" );
-	GiveNamedItem( "weapon_gatling" );
-	GiveNamedItem( "weapon_railgun" );
-	
-	GiveNamedItem( "weapon_shotgun" );
-	GiveNamedItem( "weapon_frag" );
-	
-	GiveNamedItem( "weapon_crossbow" );
-	
-	GiveNamedItem( "weapon_rpg" );
+	if (bGiveAll)
+	{
+		//give us everything.
 
-	GiveNamedItem( "weapon_slam" );
+		int WeaponList = ARRAYSIZE(g_ppszAllWeaponNames);
+		for (int i = 0; i < WeaponList; ++i)
+		{
+			GiveNamedItem(g_ppszAllWeaponNames[i]);
+		}
 
-	GiveNamedItem( "weapon_physcannon" );
-	
+		int AmmoList = ARRAYSIZE(g_ppszAllAmmoNames);
+		for (int i = 0; i < AmmoList; ++i)
+		{
+			CBasePlayer::GiveAmmo(999, g_ppszAllAmmoNames[i]);
+		}
+	}
+	else
+	{
+		//give us some weapons.
+		int nWeapons = ARRAYSIZE(g_ppszAllWeaponNames);
+		int weaponCount = Clamp(sv_ponedm_randomizer_weaponcount.GetInt(), 1, nWeapons);
+		for (int i = 0; i < weaponCount; ++i)
+		{
+			int randomChoice = rand() % nWeapons;
+			GiveNamedItem(g_ppszAllWeaponNames[randomChoice]);
+		}
+
+		//give us ammo for our new weapons.
+		int WeaponList = ARRAYSIZE(g_ppszAllWeaponNames);
+		for (int i = 0; i < WeaponList; ++i)
+		{
+			CBaseCombatWeapon* pCheckWeapon = Weapon_OwnsThisType(g_ppszAllWeaponNames[i]);
+			if (pCheckWeapon)
+			{
+				CBasePlayer::GiveAmmo(RandomInt(10, 999), pCheckWeapon->GetPrimaryAmmoType());
+				CBasePlayer::GiveAmmo(RandomInt(10, 999), pCheckWeapon->GetSecondaryAmmoType());
+			}
+		}
+	}
 }
 
 void CHL2MP_Player::GiveDefaultItems( void )
@@ -321,7 +362,14 @@ void CHL2MP_Player::Spawn(void)
 
 		RemoveEffects( EF_NODRAW );
 		
-		GiveDefaultItems();
+		if (sv_ponedm_randomizer.GetBool())
+		{
+			GiveItems();
+		}
+		else
+		{
+			GiveDefaultItems();
+		}
 	}
 
 	SetNumAnimOverlays( 3 );
@@ -1075,7 +1123,7 @@ void CHL2MP_Player::CheatImpulseCommands( int iImpulse )
 			{
 				if( sv_cheats->GetBool() )
 				{
-					GiveAllItems();
+					GiveItems(true);
 				}
 			}
 			break;
