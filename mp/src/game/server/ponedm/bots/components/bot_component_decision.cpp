@@ -900,8 +900,7 @@ void CBotDecision::SwitchToBestWeapon()
         if ( !ShouldSwitchToWeapon( pWeapon ) )
             continue;
 
-        // TODO: Another way to detect a pistol?
-        if ( pWeapon->ClassMatches( "pistol" ) ) {
+        if (pWeapon->IsPistol()) {
             if ( !pPistol || pWeapon->GetWeight() > pPistol->GetWeight() ) {
                 pPistol = pWeapon;
             }
@@ -1167,7 +1166,8 @@ BCOND CBotDecision::ShouldRangeAttack2()
         CWeapon_SLAM* pSLAM = (CWeapon_SLAM *)GetHost()->GetActiveBaseWeapon();
         if (pSLAM)
         {
-            if (GetMemory()->GetPrimaryThreatDistance() >= 400.0f && pSLAM->m_bThrowSatchel && pSLAM->m_bDetonatorArmed)
+            //detonate if we are far enough from the threat and the SLAM and we are armed.
+            if (GetMemory()->GetPrimaryThreatDistance() >= 200.0f && pSLAM->m_bThrowSatchel && pSLAM->m_bDetonatorArmed)
             {
                 return BCOND_CAN_RANGE_ATTACK2;
             }
