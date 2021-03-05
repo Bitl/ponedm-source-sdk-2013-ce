@@ -1145,6 +1145,23 @@ BCOND CBotDecision::ShouldRangeAttack2()
     if ( !pWeapon || pWeapon->IsMeleeWeapon() )
         return BCOND_NONE;
 
+    //SLAM!
+    if (pWeapon->IsSLAM())
+    {
+        CWeapon_SLAM* pSLAM = (CWeapon_SLAM*)GetHost()->GetActiveBaseWeapon();
+        if (pSLAM)
+        {
+            if (pSLAM->m_bDetonatorArmed)
+            {
+                return BCOND_CAN_RANGE_ATTACK2;
+            }
+        }
+        else
+        {
+            return BCOND_NONE;
+        }
+    }
+
     // Snipa!
     if ( pWeapon->IsSniper() || pWeapon->IsRailgun()) {
         if ( !GetProfile()->IsEasiest() ) {
@@ -1157,24 +1174,6 @@ BCOND CBotDecision::ShouldRangeAttack2()
             else if ( pWeapon->IsWeaponZoomed() ) {
                 return BCOND_CAN_RANGE_ATTACK2;
             }
-        }
-    }
-
-    //SLAM!
-    if (pWeapon->IsSLAM())
-    {
-        CWeapon_SLAM* pSLAM = (CWeapon_SLAM *)GetHost()->GetActiveBaseWeapon();
-        if (pSLAM)
-        {
-            //detonate if we are far enough from the threat and the SLAM and we are armed.
-            if (pSLAM->m_bThrowSatchel && pSLAM->m_bDetonatorArmed)
-            {
-                return BCOND_CAN_RANGE_ATTACK2;
-            }
-        }
-        else
-        {
-            return BCOND_NONE;
         }
     }
 
