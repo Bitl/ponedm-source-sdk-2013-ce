@@ -503,7 +503,7 @@ void CWeaponRailgun::PrimaryAttack(void)
 	pOwner->DoMuzzleFlash();
 	pOwner->ViewPunch(QAngle(-4, random->RandomFloat(-2, 2), 0));
 	
-	int iMinAmmoToUse = (m_bJustOvercharged ? RAIL_AMMO_OVERCHARGE : RAIL_AMMO);
+	int iMinAmmoToUse = (m_bOverchargeDamageBenefits ? RAIL_AMMO_OVERCHARGE : RAIL_AMMO);
 	pOwner->RemoveAmmo(iMinAmmoToUse, m_iPrimaryAmmoType);
 
 	m_flNextPrimaryAttack = gpGlobals->curtime + GetFireRate();
