@@ -10,6 +10,8 @@ Mane changes:
 - Your Railgun beam's color will now change based on your primary player color.
 - Reverted back to the original Half-Life 2 Deathmatch spawn algorithm, while retaining support for Counter-Strike Source and Day of Defeat Source spawnpoints.
 - Added a difficulty selector for bots.
+- Added a keybind to quickly switch into spectator mode.
+	- Default bind: v
 
 Bug Fixes:
 - Fixed a bug where the Railgun doesn't display effects when hitting a player.

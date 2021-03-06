@@ -150,6 +150,8 @@ public:
 	unsigned short m_iGoreRearRightLeg;
 #endif
 
+	bool m_bEnterObserver;
+
 private:
 
 #ifdef PONEDM
@@ -175,7 +177,6 @@ private:
 	// This lets us rate limit the commands the players can execute so they don't overflow things like reliable buffers.
 	CUtlDict<float,int>	m_RateLimitLastCommandTimes;
 
-    bool m_bEnterObserver;
 	bool m_bReady;
 
 protected:

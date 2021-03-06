@@ -45,6 +45,27 @@ ConVar sv_ponedm_randomizer("sv_ponedm_randomizer", "0", FCVAR_NOTIFY, "");
 ConVar sv_ponedm_randomizer_weaponcount("sv_ponedm_randomizer_weaponcount", "5", FCVAR_NOTIFY, "");
 #endif
 
+void CC_SettoSpectate(void)
+{
+	CHL2MP_Player* pPlayer = ToHL2MPPlayer(UTIL_GetCommandClient());
+
+	if (pPlayer)
+	{
+		if (pPlayer->GetTeamNumber() != TEAM_SPECTATOR)
+		{
+			pPlayer->m_bEnterObserver = true;
+			pPlayer->ChangeTeam(TEAM_SPECTATOR);
+		}
+		else
+		{
+			pPlayer->PickDefaultSpawnTeam();
+			pPlayer->StopObserverMode();
+			pPlayer->Spawn();
+		}
+	}
+}
+static ConCommand dospectate("dospectate", CC_SettoSpectate, "");
+
 #define HL2MP_COMMAND_MAX_RATE 0.3
 
 void DropPrimedFragGrenade( CHL2MP_Player *pPlayer, CBaseCombatWeapon *pGrenade );
@@ -326,7 +347,7 @@ void CHL2MP_Player::GiveDefaultItems( void )
 
 void CHL2MP_Player::PickDefaultSpawnTeam( void )
 {
-	if ( GetTeamNumber() == 0 )
+	if ( GetTeamNumber() == TEAM_UNASSIGNED || GetTeamNumber() == TEAM_SPECTATOR)
 	{
 		if ( HL2MPRules()->IsTeamplay() == false )
 		{
@@ -1011,14 +1032,14 @@ bool CHL2MP_Player::BumpWeapon( CBaseCombatWeapon *pWeapon )
 
 void CHL2MP_Player::ChangeTeam( int iTeam )
 {
-/*	if ( GetNextTeamChangeTime() >= gpGlobals->curtime )
+	if ( GetNextTeamChangeTime() >= gpGlobals->curtime )
 	{
 		char szReturnString[128];
 		Q_snprintf( szReturnString, sizeof( szReturnString ), "Please wait %d more seconds before trying to switch teams again.\n", (int)(GetNextTeamChangeTime() - gpGlobals->curtime) );
 
 		ClientPrint( this, HUD_PRINTTALK, szReturnString );
 		return;
-	}*/
+	}
 
 	bool bKill = false;
 
