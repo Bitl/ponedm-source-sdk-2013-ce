@@ -205,6 +205,11 @@ void CHL2MP_Player::GiveItems(bool bGiveAll)
 
 	static const char* g_ppszAllWeaponNames[] =
 	{
+		"weapon_rpg"
+	};
+
+	/*static const char* g_ppszAllWeaponNames[] =
+	{
 		"weapon_crowbar",
 		"weapon_pistol",
 		"weapon_357",
@@ -218,7 +223,7 @@ void CHL2MP_Player::GiveItems(bool bGiveAll)
 		"weapon_rpg",
 		"weapon_slam",
 		"weapon_physcannon"
-	};
+	};*/
 
 	static const char* g_ppszAllAmmoNames[] =
 	{
@@ -270,10 +275,15 @@ void CHL2MP_Player::GiveItems(bool bGiveAll)
 			CBaseCombatWeapon* pCheckWeapon = Weapon_OwnsThisType(g_ppszAllWeaponNames[i]);
 			if (pCheckWeapon)
 			{
-				CBasePlayer::GiveAmmo(RandomInt(10, 999), pCheckWeapon->GetPrimaryAmmoType());
-				CBasePlayer::GiveAmmo(RandomInt(10, 999), pCheckWeapon->GetSecondaryAmmoType());
+				CBasePlayer::GiveAmmo(RandomInt(1, 999), pCheckWeapon->GetPrimaryAmmoType());
+				CBasePlayer::GiveAmmo(RandomInt(1, 999), pCheckWeapon->GetSecondaryAmmoType());
 			}
 		}
+	}
+
+	if (GetActiveWeapon() != Weapon_OwnsThisType("weapon_railgun"))
+	{
+		ShowCrosshair(true);
 	}
 }
 
@@ -1490,16 +1500,12 @@ void CHL2MP_Player::DeathSound( const CTakeDamageInfo &info )
 	EmitSound( filter, entindex(), ep );
 }
 
-CBaseEntity* CHL2MP_Player::EntSelectSpawnPoint( void )
+CBaseEntity* CHL2MP_Player::EntSelectSpawnPoint(void)
 {
-	CBaseEntity* pSpot;
-	CBaseEntity* pSpotFinder;
-	edict_t* player;
-
-	player = edict();
-
-	pSpot = g_pLastSpawn;
-	pSpotFinder = NULL;
+	CBaseEntity* pSpot = NULL;
+	CBaseEntity* pLastSpawnPoint = g_pLastSpawn;
+	//edict_t		*player = edict();
+	const char* pSpawnpointName = "info_player_deathmatch";
 
 	static const char* Team1Spawns[] = {
 		"info_player_rebel",
@@ -1513,100 +1519,152 @@ CBaseEntity* CHL2MP_Player::EntSelectSpawnPoint( void )
 		"info_player_allies",
 		"info_player_blue"
 	};
-	COMPILE_TIME_ASSERT(ARRAYSIZE(Team1Spawns) == ARRAYSIZE(Team2Spawns));
-	static const size_t MAX_TEAM_ATTEMPTS = ARRAYSIZE(Team1Spawns);
 	static const char* NonTeamSpawns[] = {
 		"info_player_deathmatch",
 		"info_player_start"
 	};
-	static const size_t MAX_NONTEAM_ATTEMPTS = ARRAYSIZE(NonTeamSpawns);
 
-	if (HL2MPRules()->IsTeamplay())
+	if (HL2MPRules()->IsTeamplay() == true)
 	{
-		for (int Attempt = 0; !pSpotFinder && Attempt < MAX_TEAM_ATTEMPTS; ++Attempt)
+		if (GetTeamNumber() == TEAM_BLUE)
 		{
-			if (GetTeamNumber() == TEAM_BLUE)
+			int teamBlue = ARRAYSIZE(Team2Spawns);
+			for (int i = 0; i < teamBlue; ++i)
 			{
-				pSpotFinder = gEntList.FindEntityByClassname(pSpot, Team2Spawns[Attempt]);
+				if (gEntList.FindEntityByClassname(NULL, Team2Spawns[i]) != NULL)
+				{
+					pSpawnpointName = Team2Spawns[i];
+					pLastSpawnPoint = g_pLastCombineSpawn;
+				}
 			}
-			else if (GetTeamNumber() == TEAM_RED)
+		}
+		else if (GetTeamNumber() == TEAM_RED)
+		{
+			int teamRed = ARRAYSIZE(Team1Spawns);
+			for (int i = 0; i < teamRed; ++i)
 			{
-				pSpotFinder = gEntList.FindEntityByClassname(pSpot, Team1Spawns[Attempt]);
+				if (gEntList.FindEntityByClassname(NULL, Team1Spawns[i]) != NULL)
+				{
+					pSpawnpointName = Team1Spawns[i];
+					pLastSpawnPoint = g_pLastRebelSpawn;
+				}
 			}
 		}
 	}
 	else
 	{
-		for (int Attempt = 0; !pSpotFinder && Attempt < MAX_TEAM_ATTEMPTS; ++Attempt)
+		int teamSpawn = RandomInt(0, 1);
+
+		if (teamSpawn == 1)
 		{
-			int TeamSpawn = random->RandomInt(0, 1);
-			const char** Spawns = TeamSpawn ? Team1Spawns : Team2Spawns;
-			pSpotFinder = gEntList.FindEntityByClassname(pSpot, Spawns[Attempt]);
+			int teamBlue = ARRAYSIZE(Team2Spawns);
+			for (int i = 0; i < teamBlue; ++i)
+			{
+				if (gEntList.FindEntityByClassname(NULL, Team2Spawns[i]) != NULL)
+				{
+					pSpawnpointName = Team2Spawns[i];
+				}
+			}
+		}
+		else
+		{
+			int teamRed = ARRAYSIZE(Team1Spawns);
+			for (int i = 0; i < teamRed; ++i)
+			{
+				if (gEntList.FindEntityByClassname(NULL, Team1Spawns[i]) != NULL)
+				{
+					pSpawnpointName = Team1Spawns[i];
+				}
+			}
+		}
+
+		pLastSpawnPoint = g_pLastSpawn;
+	}
+
+	if (gEntList.FindEntityByClassname(NULL, pSpawnpointName) == NULL)
+	{
+		int nonTeamSpawns = ARRAYSIZE(NonTeamSpawns);
+		for (int i = 0; i < nonTeamSpawns; ++i)
+		{
+			if (gEntList.FindEntityByClassname(NULL, NonTeamSpawns[i]) != NULL)
+			{
+				pSpawnpointName = NonTeamSpawns[i];
+				pLastSpawnPoint = g_pLastSpawn;
+			}
 		}
 	}
 
-	for (int Attempt = 0; !pSpotFinder && Attempt < MAX_NONTEAM_ATTEMPTS; ++Attempt)
-	{
-		pSpotFinder = gEntList.FindEntityByClassname(pSpot, NonTeamSpawns[Attempt]);
-	}
+	pSpot = pLastSpawnPoint;
+	// Randomize the start spot
+	for (int i = random->RandomInt(1, 5); i > 0; i--)
+		pSpot = gEntList.FindEntityByClassname(pSpot, pSpawnpointName);
+	if (!pSpot)  // skip over the null point
+		pSpot = gEntList.FindEntityByClassname(pSpot, pSpawnpointName);
 
-	if (pSpotFinder)
-	{
-		// Randomize the start spot
-		for (int i = random->RandomInt(1, 5); i > 0; i--)
-			pSpot = gEntList.FindEntityByClassname(pSpot, pSpotFinder->GetClassname());
-		if (!pSpot)  // skip over the null point
-			pSpot = gEntList.FindEntityByClassname(pSpot, pSpotFinder->GetClassname());
+	CBaseEntity* pFirstSpot = pSpot;
 
+	do
+	{
 		if (pSpot)
 		{
-			CBaseEntity* pFirstSpot = pSpot;
-
-			bool foundValidSpot = false;
-			do
+			// check if pSpot is valid
+			if (g_pGameRules->IsSpawnPointValid(pSpot, this))
 			{
-				// check if pSpot is valid
-				if (pSpot != NULL && g_pGameRules->IsSpawnPointValid(pSpot, this) && pSpot->GetLocalOrigin() != vec3_origin)
+				if (pSpot->GetLocalOrigin() == vec3_origin)
 				{
-					foundValidSpot = true;
-					break;
+					pSpot = gEntList.FindEntityByClassname(pSpot, pSpawnpointName);
+					continue;
 				}
-				// increment pSpot
-				pSpot = gEntList.FindEntityByClassname(pSpot, pSpotFinder->GetClassname());
-			} while (pSpot != pFirstSpot); // loop if we're not back to the start
 
-			// we haven't found a place to spawn yet,  so kill any guy at the first spawn point and spawn there
-			/*if (!foundValidSpot)
-			{
-				CBaseEntity* ent = NULL;
-				for (CEntitySphereQuery sphere(pSpot->GetAbsOrigin(), 128); (ent = sphere.GetCurrentEntity()) != NULL; sphere.NextEntity())
-				{
-					// if ent is a client, kill em (unless they are ourselves)
-					if (ent->IsPlayer() && !(ent->edict() == player))
-						ent->TakeDamage(CTakeDamageInfo(GetContainingEntity(INDEXENT(0)), GetContainingEntity(INDEXENT(0)), 300, DMG_GENERIC));
-				}
-			}*/
+				// if so, go to pSpot
+				goto ReturnSpot;
+			}
 		}
-	}
-	else
+		// increment pSpot
+		pSpot = gEntList.FindEntityByClassname(pSpot, pSpawnpointName);
+	} while (pSpot != pFirstSpot); // loop if we're not back to the start
+
+	// we haven't found a place to spawn yet,  so kill any guy at the first spawn point and spawn there
+	/*if ( pSpot )
 	{
-		pSpot = gEntList.FindEntityByName(NULL, gpGlobals->startspot);
-		if (!pSpot)
+		CBaseEntity *ent = NULL;
+		for ( CEntitySphereQuery sphere( pSpot->GetAbsOrigin(), 128 ); (ent = sphere.GetCurrentEntity()) != NULL; sphere.NextEntity() )
 		{
-			pSpot = g_pLastSpawn;
+			// if ent is a client, kill em (unless they are ourselves)
+			if ( ent->IsPlayer() && !(ent->edict() == player) )
+				ent->TakeDamage( CTakeDamageInfo( GetContainingEntity(INDEXENT(0)), GetContainingEntity(INDEXENT(0)), 300, DMG_GENERIC ) );
 		}
-	}
+		goto ReturnSpot;
+	}*/
 
 	if (!pSpot)
 	{
-		Warning("PutClientInServer: no player spawn on level. Navigation mesh generation will not work!\n");
-		return CBaseEntity::Instance(INDEXENT(0));
+		pSpot = gEntList.FindEntityByClassname(pSpot, "info_player_start");
+
+		if (pSpot)
+			goto ReturnSpot;
+	}
+
+ReturnSpot:
+
+	if (HL2MPRules()->IsTeamplay() == true)
+	{
+		if (GetTeamNumber() == TEAM_BLUE)
+		{
+			g_pLastCombineSpawn = pSpot;
+		}
+		else if (GetTeamNumber() == TEAM_RED)
+		{
+			g_pLastRebelSpawn = pSpot;
+		}
 	}
 
 	g_pLastSpawn = pSpot;
+
 	m_flSlamProtectTime = gpGlobals->curtime + 0.5;
+
 	return pSpot;
-} 
+}
 
 CON_COMMAND( timeleft, "prints the time remaining in the match" )
 {

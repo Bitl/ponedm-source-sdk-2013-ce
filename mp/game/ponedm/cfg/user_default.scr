@@ -93,5 +93,12 @@ DESCRIPTION INFO_OPTIONS
 		{ BOOL }
 		{ "1" }
 	}
+	
+	"crosshair"
+	{
+		"#PoneDM_Crosshair"
+		{ BOOL }
+		{ "1" }
+	}
 }
 

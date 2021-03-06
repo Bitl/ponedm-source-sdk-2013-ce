@@ -47,6 +47,7 @@ const char *g_pLaserDotThink = "LaserThinkContext";
 static ConVar sk_apc_missile_damage("sk_apc_missile_damage", "15");
 #define APC_MISSILE_DAMAGE	sk_apc_missile_damage.GetFloat()
 
+static ConVar sv_ponedm_bot_rpgguiding("sv_ponedm_bot_rpgguiding", "1", FCVAR_CHEAT | FCVAR_NOTIFY);
 #endif
 
 #ifdef CLIENT_DLL
@@ -1381,19 +1382,22 @@ void CWeaponRPG::Activate( void )
 {
 	BaseClass::Activate();
 
-	// Restore the laser pointer after transition
-	/*if ( m_bGuiding )
-	{
-		CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
-		
-		if ( pOwner == NULL )
-			return;
+#ifndef  CLIENT_DLL
+	CBasePlayer* pPlayer = ToBasePlayer(GetOwner());
 
-		if ( pOwner->GetActiveWeapon() == this )
+	//enable guiding for bots
+	if (pPlayer && pPlayer->IsFakeClient() && sv_ponedm_bot_rpgguiding.GetBool())
+	{
+		// Restore the laser pointer after transition
+		if (m_bGuiding)
 		{
-			StartGuiding();
+			if (pPlayer->GetActiveWeapon() == this)
+			{
+				StartGuiding();
+			}
 		}
-	}*/
+	}
+#endif // ! CLIENT_DLL
 }
 
 //-----------------------------------------------------------------------------

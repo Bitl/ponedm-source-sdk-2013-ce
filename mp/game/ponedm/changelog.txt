@@ -7,6 +7,7 @@ Mane changes:
 - Increased sv_airaccelerate from 10 to 150. This allows for easier air control when bunnyhopping.
 - Added a randomizer mode!
 - Your Railgun beam's color will now change based on your primary player color.
+- Reverted back to the original Half-Life 2 Deathmatch spawn algorithm, while retaining support for Counter-Strike Source and Day of Defeat Source spawnpoints.
 
 Bug Fixes:
 - Fixed a bug where the Railgun doesn't display effects when hitting a player.
@@ -37,7 +38,9 @@ Misc. Changes:
 - The Railgun's beam will now decrease in brightness after 50% battery.
 - Impulse 101 will now properly fill up the player's inventory to the max.
 - Bots will now use more types of weapons.
+	- Bots will now detonate the SLAM on command and will enable guiding on their RPGs.
 - Extra tracers no longer show up when firing the Railgun.
+- Added a crosshair toggle option to the advanced multiplayer settings.
 
 Beta (playtesting 03-03-21, released 03-04-21):
 Mane changes:
