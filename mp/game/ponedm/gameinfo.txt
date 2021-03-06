@@ -25,7 +25,6 @@
 		SearchPaths
 		{
 			game+mod			|gameinfo_path|custom/*
-			game+download			|gameinfo_path|download
 			game+game_write+mod+mod_write+default_write_path        |gameinfo_path|.
 			gamebin				|gameinfo_path|bin
 
@@ -41,6 +40,8 @@
 			game				|all_source_engine_paths|hl2/hl2_sound_misc.vpk
 			game				|all_source_engine_paths|hl2/hl2_misc.vpk
 			game				|all_source_engine_paths|hl2
+
+			game+download			|gameinfo_path|download
 
 			platform			|all_source_engine_paths|platform/platform_misc.vpk
 			platform			|all_source_engine_paths|platform
