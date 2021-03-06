@@ -15,7 +15,7 @@ WeaponData
 	"secondary_ammo"		"slam"
 	"default_clip2"			"3"
 
-	"weight"				"7"
+	"weight"				"5"
 	"item_flags"			"2"
 
 	// Weapon Sprite data is loaded by the Client DLL.
