@@ -649,12 +649,7 @@ bool CBotDecision::CanMove() const
 //================================================================================
 bool CBotDecision::IsUsingFiregun() const
 {
-    CBaseWeapon *pWeapon = GetHost()->GetActiveBaseWeapon();
-
-    if ( !pWeapon )
-        return false;
-
-    return !pWeapon->IsMeleeWeapon();
+    return false;
 }
 
 //================================================================================
@@ -892,6 +887,7 @@ void CBotDecision::SwitchToBestWeapon()
     CBaseWeapon *pShotgun = NULL;
     CBaseWeapon *pMachineGun = NULL;
     CBaseWeapon *pShortRange = NULL;
+    CBaseWeapon* pMelee = NULL;
 
     // Check to know what weapons I have
     for ( int i = 0; i < GetHost()->WeaponCount(); i++ ) {
@@ -920,6 +916,12 @@ void CBotDecision::SwitchToBestWeapon()
             }
         }
 
+        else if (pWeapon->IsMelee()) {
+            if (!pMelee || pWeapon->GetWeight() > pMelee->GetWeight()) {
+                pMelee = pWeapon;
+            }
+        }
+
         // The best rifle
         else {
             if ( !pMachineGun || pWeapon->GetWeight() > pMachineGun->GetWeight() ) {
@@ -935,6 +937,9 @@ void CBotDecision::SwitchToBestWeapon()
         }
         else if ( pMachineGun ) {
             pShortRange = pMachineGun;
+        }
+        else if (pMelee) {
+            pShortRange = pMelee;
         }
         else if ( pPistol ) {
             pShortRange = pPistol;
@@ -975,7 +980,7 @@ void CBotDecision::SwitchToBestWeapon()
 
     // We always change to our best available weapon while 
     // we are doing nothing or we run out of ammunition.
-    if ( IsIdle() || !pCurrent->HasAnyAmmo() ) {
+    if ( IsIdle() ) {
         CBaseWeapon *pBest = dynamic_cast<CBaseWeapon *>( TheGameRules->GetNextBestWeapon( GetHost(), NULL ) );
 
         if ( pBest != pCurrent ) {
@@ -1226,8 +1231,14 @@ BCOND CBotDecision::ShouldMeleeAttack1()
     float flDistance = GetMemory()->GetPrimaryThreatDistance();
 
     // TODO: Criteria to attack with a melee weapon
-    if ( flDistance > 120.0f )
+    if (flDistance > 120.0f)
+    {
         return BCOND_TOO_FAR_TO_ATTACK;
+    }
+    else
+    {
+        return BCOND_CAN_MELEE_ATTACK1;
+    }
 
     // TODO
     return BCOND_NONE;
