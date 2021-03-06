@@ -73,7 +73,7 @@ static ConVar cl_ponedm_uppermane("cl_ponedm_uppermane", "0", FCVAR_USERINFO | F
 static ConVar cl_ponedm_lowermane("cl_ponedm_lowermane", "0", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
 static ConVar cl_ponedm_tail("cl_ponedm_tail", "0", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
 
-static ConVar cl_ponedm_gibtime("cl_ponedm_gibtime", "9999", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
+static ConVar cl_ponedm_gibtime("cl_ponedm_gibtime", "30", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
 
 extern ConVar cl_ponedm_violencelevel;
 #endif

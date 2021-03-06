@@ -111,7 +111,7 @@ DESCRIPTION INFO_OPTIONS
 	{
 		"#PoneDM_GibTime"
 		{ NUMBER 0 9999 }
-		{ "9999" }
+		{ "30" }
 	}
 }
 
