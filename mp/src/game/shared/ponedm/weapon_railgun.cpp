@@ -196,6 +196,11 @@ bool CWeaponRailgun::Holster(CBaseCombatWeapon* pSwitchingTo)
 	}
 #endif
 
+	if (m_bInZoom)
+	{
+		ToggleZoom();
+	}
+
 	return BaseClass::Holster(pSwitchingTo);
 }
 

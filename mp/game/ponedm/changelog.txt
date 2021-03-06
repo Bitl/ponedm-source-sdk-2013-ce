@@ -15,6 +15,8 @@ Mane changes:
 
 Bug Fixes:
 - Fixed a bug where the Railgun doesn't display effects when hitting a player.
+- Fixed an issue where you couldn't pick up the Gatling Gun.
+- Fixed a bug where the Railgun doesn't unzoom when switching weapons.
 
 Balance Tweaks:
 - Limited how much ammo you can carry:
@@ -45,6 +47,7 @@ Misc. Changes:
 	- Bots will now detonate the SLAM on command and will enable guiding on their RPGs on the medium and hard difficulties.
 - Extra tracers no longer show up when firing the Railgun.
 - Added a crosshair toggle option to the advanced multiplayer settings.
+- Added gibs for dismemberment (enabled with cl_ponedm_violencelevel 2).
 
 Beta (playtesting 03-03-21, released 03-04-21):
 Mane changes:

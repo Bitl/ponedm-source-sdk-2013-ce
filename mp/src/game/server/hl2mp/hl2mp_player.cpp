@@ -215,6 +215,8 @@ void CHL2MP_Player::Precache( void )
 #else
 	PrecacheModel("models/ppm/player_default_base_new_pantoneshift.mdl");
 	PrecacheModel("models/ppm/c_arms_pony.mdl");
+	PrecacheModel("models/gibs/pgib_p3.mdl");
+	PrecacheModel("models/gibs/pgib_p4.mdl");
 #endif
 
 	PrecacheFootStepSounds();

@@ -78,6 +78,7 @@ bool C_Gib::InitializeGib( const char *pszModelName, Vector vecOrigin, Vector ve
 	else
 	{
 		// failed to create a physics object
+		DevMsg("C_Gib: failed to create a physics object\n");
 		Release();
 		return false;
 	}

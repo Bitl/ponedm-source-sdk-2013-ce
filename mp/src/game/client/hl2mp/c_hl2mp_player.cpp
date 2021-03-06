@@ -21,6 +21,9 @@
 	#include "materialsystem/imaterialsystem.h"
 	#include "functionproxy.h"
 	#include "effect_dispatch_data.h"
+	#include "c_te_effect_dispatch.h"
+	#include "props_shared.h"
+	#include "c_gib.h"
 #endif
 #include <ai_debug_shared.h>
 
@@ -28,7 +31,7 @@
 #if defined( CHL2MP_Player )
 #undef CHL2MP_Player	
 #endif
-#include <c_te_effect_dispatch.h>
+#include <bone_setup.h>
 
 LINK_ENTITY_TO_CLASS( player, C_HL2MP_Player );
 
@@ -70,10 +73,14 @@ static ConVar cl_ponedm_uppermane("cl_ponedm_uppermane", "0", FCVAR_USERINFO | F
 static ConVar cl_ponedm_lowermane("cl_ponedm_lowermane", "0", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
 static ConVar cl_ponedm_tail("cl_ponedm_tail", "0", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
 
+static ConVar cl_ponedm_gibtime("cl_ponedm_gibtime", "9999", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
+
 extern ConVar cl_ponedm_violencelevel;
 #endif
 
 void SpawnBlood (Vector vecSpot, const Vector &vecDir, int bloodColor, float flDamage);
+extern CBaseEntity* BreakModelCreateSingle(CBaseEntity* pOwner, breakmodel_t* pModel, const Vector& position,
+	const QAngle& angles, const Vector& velocity, const AngularImpulse& angVelocity, int nSkin, const breakablepropparams_t& params);
 
 C_HL2MP_Player::C_HL2MP_Player() : m_PlayerAnimState( this ), m_iv_angEyeAngles( "C_HL2MP_Player::m_iv_angEyeAngles" )
 {
@@ -912,6 +919,7 @@ void C_HL2MPRagdoll::DismemberBase(bool bBloodEffects, char const* szParticleBon
 		int iAttach = LookupBone(szParticleBone);
 
 		int iBloodAmount = 4;
+		int iGibAmount = 4;
 
 		if (iAttach != -1)
 		{
@@ -921,15 +929,34 @@ void C_HL2MPRagdoll::DismemberBase(bool bBloodEffects, char const* szParticleBon
 				ParticleProp()->Create("smod_blood_decap_r", PATTACH_BONE_FOLLOW, szParticleBone);
 				ParticleProp()->Create("blood_zombie_split_spray", PATTACH_BONE_FOLLOW, szParticleBone);
 				iBloodAmount = 15;
+				iGibAmount = 15;
 			}
 			else
 			{
 				ParticleProp()->Create("smod_blood_gib_r", PATTACH_BONE_FOLLOW, szParticleBone);
 			}
-		}
 
-		if (iAttach != -1)
-		{
+			for (int i = 0; i <= iGibAmount; i++)
+			{
+				int randModel = RandomInt(0, 1);
+				const char* model = "models/gibs/pgib_p3.mdl";
+
+				if (randModel == 1)
+				{
+					model = "models/gibs/pgib_p4.mdl";
+				}
+
+				Vector vecOrigin;
+				int iAttachment = Studio_BoneIndexByName(GetBaseAnimating()->GetModelPtr(), szParticleBone);
+				if (iAttachment != -1)
+				{
+					const matrix3x4_t mBone = GetBaseAnimating()->GetBone(iAttachment);
+					MatrixPosition(mBone, vecOrigin);
+					Vector offset = RandomVector(-16, 16) + vecOrigin;
+					C_Gib::CreateClientsideGib(model, offset, RandomVector(-25.0f, 25.0f), RandomAngularImpulse(-32, 32), cl_ponedm_gibtime.GetFloat());
+				}
+			}
+
 			m_iGoreDecalAmount += iBloodAmount;
 			m_iGoreDecalBone = iAttach;
 
@@ -941,7 +968,6 @@ void C_HL2MPRagdoll::DismemberBase(bool bBloodEffects, char const* szParticleBon
 void C_HL2MPRagdoll::DismemberHead()
 {
 	DismemberBase(true, "LrigNeck1");
-
 	m_iGoreHead = 3;
 }
 
@@ -985,10 +1011,10 @@ void C_HL2MPRagdoll::InitDismember()
 	if (m_iGoreFrontRightLeg > 1)
 		DismemberFrontRightLeg();
 
-	if (m_iGoreRearLeftLeg > 3)
+	if (m_iGoreRearLeftLeg > 1)
 		DismemberRearLeftLeg();
 
-	if (m_iGoreRearRightLeg > 3)
+	if (m_iGoreRearRightLeg > 1)
 		DismemberRearRightLeg();
 }
 

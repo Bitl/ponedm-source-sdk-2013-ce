@@ -61,13 +61,6 @@ DESCRIPTION INFO_OPTIONS
 		{ "54" }
 	}
 
-	"mp_decals"
-	{
-		"#Valve_Multiplayer_Decal_Limit"
-		{ NUMBER 0 4096 }
-		{ "200" }
-	}
-
 	"cl_ponedm_violencelevel"
 	{
 		"#PoneDM_ViolenceLevel"
@@ -99,6 +92,26 @@ DESCRIPTION INFO_OPTIONS
 		"#PoneDM_Crosshair"
 		{ BOOL }
 		{ "1" }
+	}
+	
+	"category2"
+	{
+		"#PoneDM_PerformanceOptions"
+		{ CATEGORY }
+	}
+	
+	"mp_decals"
+	{
+		"#Valve_Multiplayer_Decal_Limit"
+		{ NUMBER 0 4096 }
+		{ "200" }
+	}
+	
+	"cl_ponedm_gibtime"
+	{
+		"#PoneDM_GibTime"
+		{ NUMBER 0 9999 }
+		{ "9999" }
 	}
 }
 
