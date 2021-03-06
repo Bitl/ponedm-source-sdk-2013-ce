@@ -10,6 +10,8 @@ del textwindow_temp.html
 del cfg\config.cfg
 del cfg\settings.scr
 del cfg\user.scr
+del bin\client.pdb
+del bin\server.pdb
 rmdir /S /Q maps\graphs\
 rmdir /S /Q user_custom\
 rmdir /S /Q sound\
