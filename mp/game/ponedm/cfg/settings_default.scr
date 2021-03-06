@@ -90,6 +90,19 @@ DESCRIPTION SERVER_OPTIONS
 		{ "0" }
 	}
 	
+	"bot_difficulty"
+	{
+		"#PoneDM_BotDifficultyLevel"
+		{ 
+			LIST
+			"#PoneDM_BotDifficultyLevel_Random" "0"
+			"#GameUI_Easy" "1"
+			"#GameUI_Medium" "2"
+			"#GameUI_Hard" "3"
+		}
+		{ "0" }
+	}
+	
 	"sv_ponedm_randomizer"
 	{
 		"#PoneDM_Randomizer"

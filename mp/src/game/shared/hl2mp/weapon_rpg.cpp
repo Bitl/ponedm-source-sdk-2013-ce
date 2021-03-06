@@ -32,6 +32,7 @@
 	#include "smoke_trail.h"
 	#include "collisionutils.h"
 	#include "hl2_shareddefs.h"
+	#include "bots/bot.h"
 #endif
 
 #include "debugoverlay_shared.h"
@@ -1383,17 +1384,21 @@ void CWeaponRPG::Activate( void )
 	BaseClass::Activate();
 
 #ifndef  CLIENT_DLL
-	CBasePlayer* pPlayer = ToBasePlayer(GetOwner());
+	CHL2MP_Player* pPlayer = ToHL2MPPlayer(GetOwner());
 
 	//enable guiding for bots
-	if (pPlayer && pPlayer->IsFakeClient() && sv_ponedm_bot_rpgguiding.GetBool())
+	if (pPlayer && sv_ponedm_bot_rpgguiding.GetBool())
 	{
-		// Restore the laser pointer after transition
-		if (m_bGuiding)
+		IBot *pBot = pPlayer->GetBotController();
+		if (pBot && !pBot->GetProfile()->IsEasiest())
 		{
-			if (pPlayer->GetActiveWeapon() == this)
+			// Restore the laser pointer after transition
+			if (m_bGuiding)
 			{
-				StartGuiding();
+				if (pPlayer->GetActiveWeapon() == this)
+				{
+					StartGuiding();
+				}
 			}
 		}
 	}

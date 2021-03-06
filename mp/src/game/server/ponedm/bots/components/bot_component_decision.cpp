@@ -1148,17 +1148,20 @@ BCOND CBotDecision::ShouldRangeAttack2()
     //SLAM!
     if (pWeapon->IsSLAM())
     {
-        CWeapon_SLAM* pSLAM = (CWeapon_SLAM*)GetHost()->GetActiveBaseWeapon();
-        if (pSLAM)
+        if (!GetProfile()->IsEasiest())
         {
-            if (pSLAM->m_bDetonatorArmed)
+            CWeapon_SLAM* pSLAM = (CWeapon_SLAM*)GetHost()->GetActiveBaseWeapon();
+            if (pSLAM)
             {
-                return BCOND_CAN_RANGE_ATTACK2;
+                if (pSLAM->m_bDetonatorArmed)
+                {
+                    return BCOND_CAN_RANGE_ATTACK2;
+                }
             }
-        }
-        else
-        {
-            return BCOND_NONE;
+            else
+            {
+                return BCOND_NONE;
+            }
         }
     }
 

@@ -15,11 +15,20 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+DECLARE_COMMAND(bot_difficulty, 0, "", FCVAR_NOTIFY)
+
 //================================================================================
 //================================================================================
 CBotProfile::CBotProfile()
 {
-    SetSkill(RandomInt(SKILL_EASY, SKILL_HARD));
+    if (bot_difficulty.GetInt() <= 0)
+    {
+        SetSkill(RandomInt(SKILL_EASY, SKILL_HARD));
+    }
+    else
+    {
+        SetSkill(bot_difficulty.GetInt());
+    }
 }
 
 //================================================================================

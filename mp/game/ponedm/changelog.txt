@@ -6,9 +6,10 @@ Mane changes:
 - Enabled most server movement variables. The server host can change most of these in the server settings.
 - Increased sv_airaccelerate from 10 to 150. This allows for easier air control when bunnyhopping.
 - Added a randomizer mode!
-	- Server hosts can change what weapons players spawn with the weapons.txt in the scripts folder. Please note that this will change the amount of weapons you can spawn with when you use impulse 101.
+	- Server hosts can change what weapons players spawn with the weapons.txt in the scripts folder. Please note that this will also change the amount of weapons you can spawn with when you use impulse 101.
 - Your Railgun beam's color will now change based on your primary player color.
 - Reverted back to the original Half-Life 2 Deathmatch spawn algorithm, while retaining support for Counter-Strike Source and Day of Defeat Source spawnpoints.
+- Added a difficulty selector for bots.
 
 Bug Fixes:
 - Fixed a bug where the Railgun doesn't display effects when hitting a player.
@@ -39,7 +40,7 @@ Misc. Changes:
 - The Railgun's beam will now decrease in brightness after 50% battery.
 - Impulse 101 will now properly fill up the player's inventory to the max.
 - Bots will now use more types of weapons.
-	- Bots will now detonate the SLAM on command and will enable guiding on their RPGs.
+	- Bots will now detonate the SLAM on command and will enable guiding on their RPGs on the medium and hard difficulties.
 - Extra tracers no longer show up when firing the Railgun.
 - Added a crosshair toggle option to the advanced multiplayer settings.
 
