@@ -203,76 +203,80 @@ void CHL2MP_Player::GiveItems(bool bGiveAll)
 {
 	EquipSuit();
 
-	static const char* g_ppszAllWeaponNames[] =
-	{
-		"weapon_rpg"
-	};
+	CUtlVector<string_t> m_weapons;
 
-	/*static const char* g_ppszAllWeaponNames[] =
+	KeyValues* pKV = new KeyValues("Weapons");
+	if (pKV->LoadFromFile(filesystem, "scripts/weapons.txt", "GAME"))
 	{
-		"weapon_crowbar",
-		"weapon_pistol",
-		"weapon_357",
-		"weapon_smg1",
-		"weapon_ar2",
-		"weapon_gatling",
-		"weapon_railgun",
-		"weapon_shotgun",
-		"weapon_frag",
-		"weapon_crossbow",
-		"weapon_rpg",
-		"weapon_slam",
-		"weapon_physcannon"
-	};*/
+		FOR_EACH_VALUE(pKV, pSubData)
+		{
+			if (FStrEq(pSubData->GetString(), ""))
+				continue;
 
-	static const char* g_ppszAllAmmoNames[] =
+			string_t iName = AllocPooledString(pSubData->GetString());
+			if (m_weapons.Find(iName) == m_weapons.InvalidIndex())
+				m_weapons[m_weapons.AddToTail()] = iName;
+		}
+	}
+
+	pKV->deleteThis();
+
+	if (m_weapons.Count() == 0)
+		return;
+
+	CUtlVector<string_t> m_ammo;
+
+	KeyValues* pKV2 = new KeyValues("Ammo");
+	if (pKV2->LoadFromFile(filesystem, "scripts/ammo.txt", "GAME"))
 	{
-		"AR2AltFire",
-		"Pistol",
-		"SMG1",
-		"smg1_grenade",
-		"Buckshot",
-		"357",
-		"rpg_round",
-		"XBowBolt",
-		"Gatling",
-		"Railgun",
-		"grenade",
-		"slam"
-	};
+		FOR_EACH_VALUE(pKV2, pSubData)
+		{
+			if (FStrEq(pSubData->GetString(), ""))
+				continue;
+
+			string_t iName = AllocPooledString(pSubData->GetString());
+			if (m_ammo.Find(iName) == m_ammo.InvalidIndex())
+				m_ammo[m_ammo.AddToTail()] = iName;
+		}
+	}
+
+	pKV2->deleteThis();
+
+	if (m_ammo.Count() == 0)
+		return;
 
 	if (bGiveAll)
 	{
 		//give us everything.
-
-		int WeaponList = ARRAYSIZE(g_ppszAllWeaponNames);
+		int WeaponList = m_weapons.Count();
 		for (int i = 0; i < WeaponList; ++i)
 		{
-			GiveNamedItem(g_ppszAllWeaponNames[i]);
+			GiveNamedItem(STRING(m_weapons[i]));
 		}
 
-		int AmmoList = ARRAYSIZE(g_ppszAllAmmoNames);
+		int AmmoList = m_ammo.Count();
 		for (int i = 0; i < AmmoList; ++i)
 		{
-			CBasePlayer::GiveAmmo(999, g_ppszAllAmmoNames[i]);
+			CBasePlayer::GiveAmmo(999, STRING(m_ammo[i]));
 		}
 	}
 	else
 	{
 		//give us some weapons.
-		int nWeapons = ARRAYSIZE(g_ppszAllWeaponNames);
+		int nWeapons = m_weapons.Count();
 		int weaponCount = Clamp(sv_ponedm_randomizer_weaponcount.GetInt(), 1, nWeapons);
 		for (int i = 0; i < weaponCount; ++i)
 		{
-			int randomChoice = rand() % nWeapons;
-			GiveNamedItem(g_ppszAllWeaponNames[randomChoice]);
+			static int nameIndex = RandomInt(0, m_weapons.Count() - 1);
+			string_t iszName = m_weapons[++nameIndex % m_weapons.Count()];
+			GiveNamedItem(STRING(iszName));
 		}
 
 		//give us ammo for our new weapons.
-		int WeaponList = ARRAYSIZE(g_ppszAllWeaponNames);
+		int WeaponList = m_weapons.Count();
 		for (int i = 0; i < WeaponList; ++i)
 		{
-			CBaseCombatWeapon* pCheckWeapon = Weapon_OwnsThisType(g_ppszAllWeaponNames[i]);
+			CBaseCombatWeapon* pCheckWeapon = Weapon_OwnsThisType(STRING(m_weapons[i]));
 			if (pCheckWeapon)
 			{
 				CBasePlayer::GiveAmmo(RandomInt(1, 999), pCheckWeapon->GetPrimaryAmmoType());
@@ -280,6 +284,8 @@ void CHL2MP_Player::GiveItems(bool bGiveAll)
 			}
 		}
 	}
+
+	m_weapons.RemoveAll();
 
 	if (GetActiveWeapon() != Weapon_OwnsThisType("weapon_railgun"))
 	{

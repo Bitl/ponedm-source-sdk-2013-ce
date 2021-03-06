@@ -32,7 +32,7 @@ You must also run this command in your CMD with administrator purposes in order 
 * Drift. for the dm_aerowalk map. (https://gamebanana.com/maps/194479) 
 This map was licenced under the Attribution-NonCommercial-NoDerivatives 4.0 International license. (https://creativecommons.org/licenses/by-nc-nd/4.0/) 
 dm_aerowalk has not been modified. A weapon was added to the map, but the weapon was added through the mod's Mapadd system which allows items to be added to maps without modifying them. (listed below)
-* Team Fortress 2 Vintage team for the reverse-engineered bot name script code. (https://github.com/TF2V/TF2Vintage/blob/1.0/src/game/server/tf/bot/tf_bot_manager.cpp#L514)
+* Team Fortress 2 Vintage team for the reverse-engineered bot name script code used for bot names and the weapon randomizer. (https://github.com/TF2V/TF2Vintage/blob/1.0/src/game/server/tf/bot/tf_bot_manager.cpp#L514)
 * GamerDude27 for the Dircord RPC Tutorial. (https://developer.valvesoftware.com/wiki/Implementing_Discord_RPC)
 * Taito for the Gatling Gun models from Half-Life 2 Survivor Ver 2.0.
 * Railgun model comes from Alien Swarm.

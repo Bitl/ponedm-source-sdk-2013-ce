@@ -1,0 +1,15 @@
+"Ammo"
+{
+	"name" "AR2AltFire"
+	"name" "Pistol"
+	"name" "SMG1"
+	"name" "smg1_grenade"
+	"name" "Buckshot"
+	"name" "357"
+	"name" "rpg_round"
+	"name" "XBowBolt"
+	"name" "Gatling"
+	"name" "Railgun"
+	"name" "grenade"
+	"name" "slam"
+}

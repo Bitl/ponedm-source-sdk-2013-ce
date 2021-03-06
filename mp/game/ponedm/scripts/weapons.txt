@@ -1,0 +1,16 @@
+"Weapons"
+{
+	"name" "weapon_crowbar"
+	"name" "weapon_pistol"
+	"name" "weapon_357"
+	"name" "weapon_smg1"
+	"name" "weapon_ar2"
+	"name" "weapon_gatling"
+	"name" "weapon_railgun"
+	"name" "weapon_shotgun"
+	"name" "weapon_frag"
+	"name" "weapon_crossbow"
+	"name" "weapon_rpg"
+	"name" "weapon_slam"
+	"name" "weapon_physcannon"
+}
