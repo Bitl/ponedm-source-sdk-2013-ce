@@ -12,6 +12,7 @@ Mane changes:
 - Added a difficulty selector for bots.
 - Added a keybind to quickly switch into spectator mode.
 	- Default bind: v
+- Added a proper download directory.
 
 Bug Fixes:
 - Fixed a bug where the Railgun doesn't display effects when hitting a player.

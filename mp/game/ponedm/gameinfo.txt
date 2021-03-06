@@ -25,6 +25,7 @@
 		SearchPaths
 		{
 			game+mod			|gameinfo_path|custom/*
+			game+download			|gameinfo_path|download
 			game+game_write+mod+mod_write+default_write_path        |gameinfo_path|.
 			gamebin				|gameinfo_path|bin
 

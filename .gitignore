@@ -62,7 +62,6 @@ server.dylib.dSYM/
 **/game/**/custom/**
 **/game/**/maps/**
 **/game/**/bin/**
-**/game/**/download/**
 **/game/**/downloadlists/**
 **/game/**/user_custom/**
 **/game/**/cfg/config.cfg
