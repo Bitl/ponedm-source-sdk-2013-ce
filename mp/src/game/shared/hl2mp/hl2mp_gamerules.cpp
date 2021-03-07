@@ -186,7 +186,7 @@ static const char *s_PreserveEnts[] =
 char *sTeamNames[] =
 {
 	"Unassigned",
-	"Spectator",
+	"Spectators",
 	"Blue",
 	"Red",
 };
