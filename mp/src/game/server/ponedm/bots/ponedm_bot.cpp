@@ -155,26 +155,35 @@ void CPoneDM_Bot::Update()
         {
             BaseClass::Update();
 
-            //wander around.
-            Vector vecFrom(GetAbsOrigin());
-            float dist = sv_ponedm_bot_closestdistancetoplayer.GetFloat();
-            CPlayer* closestPlayer = Utils::GetClosestPlayer(GetAbsOrigin(), &dist);
-            CNavArea* pArea = closestPlayer->GetLastKnownArea();
-
-            if (pArea == NULL)
+            if (TheNavAreas.Count() > 0)
             {
-                pArea = TheNavAreas[RandomInt(0, TheNavAreas.Count() - 1)];
+                //wander around.
+                Vector vecFrom(GetAbsOrigin());
+                float dist = sv_ponedm_bot_closestdistancetoplayer.GetFloat();
+                CPlayer* closestPlayer = Utils::GetClosestPlayer(GetAbsOrigin(), &dist);
+
+                CNavArea* pArea = closestPlayer->GetLastKnownArea();
 
                 if (pArea == NULL)
+                {
+                    pArea = TheNavAreas[RandomInt(0, TheNavAreas.Count() - 1)];
+
+                    if (pArea == NULL)
+                        return;
+                }
+
+                Vector vecGoal(pArea->GetCenter());
+
+                if (!GetLocomotion() || !GetLocomotion()->IsTraversable(vecFrom, vecGoal))
                     return;
+
+                GetLocomotion()->DriveTo("Move to nearest player or randomly roam.", pArea);
             }
-
-            Vector vecGoal(pArea->GetCenter());
-
-            if (!GetLocomotion() || !GetLocomotion()->IsTraversable(vecFrom, vecGoal))
+            else
+            {
+                Kick();
                 return;
-
-            GetLocomotion()->DriveTo("Move to nearest player or randomly roam.", pArea);
+            }
         }
     }
     //respawn if we die.

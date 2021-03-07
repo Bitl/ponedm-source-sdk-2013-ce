@@ -9,6 +9,7 @@ Mane changes:
 	- Server hosts can change what weapons players spawn with the weapons.txt in the scripts folder. Please note that this will also change the amount of weapons you can spawn with when you use impulse 101.
 - Your Railgun beam's color will now change based on your primary player color.
 - Reverted back to the original Half-Life 2 Deathmatch spawn algorithm, while retaining support for Counter-Strike Source and Day of Defeat Source spawnpoints.
+- Added support for TF2 spawnpoints.
 - Added a difficulty selector for bots.
 - Added a keybind to quickly switch into spectator mode.
 	- Default bind: v
@@ -19,6 +20,7 @@ Bug Fixes:
 - Fixed an issue where you couldn't pick up the Gatling Gun.
 - Fixed a bug where the Railgun doesn't unzoom when switching weapons.
 - Fixed a bug where Spectators team name doesn't show up in the scoreboard during Free-For-All Arena matches.
+- Fixed a crash that would occur if you were loading into a map without a navigation mesh with bots.
 
 Balance Tweaks:
 - Limited how much ammo you can carry:

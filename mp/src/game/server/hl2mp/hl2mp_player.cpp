@@ -90,6 +90,7 @@ LINK_ENTITY_TO_CLASS(info_player_axis, CPointEntity);
 LINK_ENTITY_TO_CLASS(info_player_allies, CPointEntity);
 LINK_ENTITY_TO_CLASS(info_player_red, CPointEntity);
 LINK_ENTITY_TO_CLASS(info_player_blue, CPointEntity);
+LINK_ENTITY_TO_CLASS(info_player_teamspawn, CPointEntity);
 
 IMPLEMENT_SERVERCLASS_ST(CHL2MP_Player, DT_HL2MP_Player)
 	SendPropAngle( SENDINFO_VECTORELEM(m_angEyeAngles, 0), 11, SPROP_CHANGES_OFTEN ),
@@ -1550,17 +1551,19 @@ CBaseEntity* CHL2MP_Player::EntSelectSpawnPoint(void)
 		"info_player_rebel",
 		"info_player_terrorist",
 		"info_player_axis",
-		"info_player_red"
+		"info_player_red",
+		"info_player_teamspawn"
 	};
 	static const char* Team2Spawns[] = {
 		"info_player_combine",
 		"info_player_counterterrorist",
 		"info_player_allies",
-		"info_player_blue"
+		"info_player_blue",
+		"info_player_teamspawn"
 	};
 	static const char* NonTeamSpawns[] = {
 		"info_player_deathmatch",
-		"info_player_start"
+		"info_player_start",
 	};
 
 	if (HL2MPRules()->IsTeamplay() == true)
@@ -1570,10 +1573,23 @@ CBaseEntity* CHL2MP_Player::EntSelectSpawnPoint(void)
 			int teamBlue = ARRAYSIZE(Team2Spawns);
 			for (int i = 0; i < teamBlue; ++i)
 			{
-				if (gEntList.FindEntityByClassname(NULL, Team2Spawns[i]) != NULL)
+				CBaseEntity* pSpawn2 = gEntList.FindEntityByClassname(NULL, Team2Spawns[i]);
+				if (pSpawn2 != NULL)
 				{
-					pSpawnpointName = Team2Spawns[i];
-					pLastSpawnPoint = g_pLastCombineSpawn;
+					if (FStrEq(pSpawn2->GetClassname(), "info_player_teamspawn"))
+					{
+						//TF2 uses different team numbers for teams.
+						if (pSpawn2->GetTeamNumber() == TEAM_RED)
+						{
+							pSpawnpointName = Team2Spawns[i];
+							pLastSpawnPoint = g_pLastCombineSpawn;
+						}
+					}
+					else
+					{
+						pSpawnpointName = Team2Spawns[i];
+						pLastSpawnPoint = g_pLastCombineSpawn;
+					}
 				}
 			}
 		}
@@ -1582,10 +1598,23 @@ CBaseEntity* CHL2MP_Player::EntSelectSpawnPoint(void)
 			int teamRed = ARRAYSIZE(Team1Spawns);
 			for (int i = 0; i < teamRed; ++i)
 			{
-				if (gEntList.FindEntityByClassname(NULL, Team1Spawns[i]) != NULL)
+				CBaseEntity* pSpawn1 = gEntList.FindEntityByClassname(NULL, Team1Spawns[i]);
+				if (pSpawn1 != NULL)
 				{
-					pSpawnpointName = Team1Spawns[i];
-					pLastSpawnPoint = g_pLastRebelSpawn;
+					if (FStrEq(pSpawn1->GetClassname(), "info_player_teamspawn"))
+					{
+						//TF2 uses different team numbers for teams.
+						if (pSpawn1->GetTeamNumber() == TEAM_BLUE)
+						{
+							pSpawnpointName = Team1Spawns[i];
+							pLastSpawnPoint = g_pLastRebelSpawn;
+						}
+					}
+					else
+					{
+						pSpawnpointName = Team1Spawns[i];
+						pLastSpawnPoint = g_pLastRebelSpawn;
+					}
 				}
 			}
 		}
