@@ -1506,10 +1506,6 @@ int CHL2MP_Player::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 
 void CHL2MP_Player::DeathSound( const CTakeDamageInfo &info )
 {
-	//no sound if we just got shot in the head
-	if (m_iGoreHead > 1)
-		return;
-
 	if ( m_hRagdoll && m_hRagdoll->GetBaseAnimating()->IsDissolving() )
 		 return;
 
