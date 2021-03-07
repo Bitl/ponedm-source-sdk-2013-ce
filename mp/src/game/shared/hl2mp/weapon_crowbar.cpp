@@ -77,7 +77,7 @@ CWeaponCrowbar::CWeaponCrowbar( void )
 //-----------------------------------------------------------------------------
 float CWeaponCrowbar::GetDamageForActivity( Activity hitActivity )
 {
-	return 25.0f;
+	return (float)GetHL2MPWpnData().m_iPlayerDamage;
 }
 
 //-----------------------------------------------------------------------------
