@@ -52,6 +52,8 @@ Misc. Changes:
 - Extra tracers no longer show up when firing the Railgun.
 - Added a crosshair toggle option to the advanced multiplayer settings.
 - Added gibs for dismemberment (enabled with cl_ponedm_violencelevel 2).
+- Server hosts may now disable the bot ai for testing purposes.
+- Server hosts can now disable the [BOT] name tag assigned to bots.
 
 Beta (playtesting 03-03-21, released 03-04-21):
 Mane changes:

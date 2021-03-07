@@ -9,7 +9,8 @@
 
 ConVar sv_ponedm_bot_closestdistancetoplayer("sv_ponedm_bot_closestdistancetoplayer", "1800", FCVAR_CHEAT | FCVAR_NOTIFY, "");
 ConVar sv_ponedm_bot_respawn("sv_ponedm_bot_respawn", "1", FCVAR_CHEAT | FCVAR_NOTIFY, "");
-ConVar sv_ponedm_bot_ai("sv_ponedm_bot_ai", "1", FCVAR_CHEAT | FCVAR_NOTIFY, "");
+ConVar sv_ponedm_bot_ai("sv_ponedm_bot_ai", "1", FCVAR_NOTIFY, "");
+ConVar sv_ponedm_bot_tag("sv_ponedm_bot_tag", "1", FCVAR_NOTIFY, "");
 
 extern void respawn(CBaseEntity* pEdict, bool fCopyCorpse);
 
@@ -67,7 +68,8 @@ CPlayer* CreatePoneDMBot(const char* pPlayername, const Vector* vecPosition, con
         char string3[MAX_PLAYER_NAME_LENGTH];
         Q_snprintf(string3, sizeof(string3), " %s", NewPonyNameSelection());
         const char* pPlayername3 = (nameCount >= 3) ? string3 : "";
-        pPlayername = UTIL_VarArgs("[BOT] %s%s%s", pPlayername1, pPlayername2, pPlayername3);
+        const char* pBotName = sv_ponedm_bot_tag.GetBool() ? "[BOT] %s%s%s" : "%s%s%s";
+        pPlayername = UTIL_VarArgs(pBotName, pPlayername1, pPlayername2, pPlayername3);
     }
 
     edict_t* pSoul = engine->CreateFakeClient(pPlayername);
@@ -181,6 +183,7 @@ void CPoneDM_Bot::Update()
             }
             else
             {
+                Warning("No nav mesh detected. Kicking %s...\n", GetHost()->GetPlayerName());
                 Kick();
                 return;
             }

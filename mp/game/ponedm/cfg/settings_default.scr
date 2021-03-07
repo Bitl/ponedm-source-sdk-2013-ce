@@ -103,6 +103,20 @@ DESCRIPTION SERVER_OPTIONS
 		{ "0" }
 	}
 	
+	"sv_ponedm_bot_ai"
+	{
+		"#PoneDM_BotAI"
+		{ BOOL }
+		{ "1" }
+	}
+	
+	"sv_ponedm_bot_tag"
+	{
+		"#PoneDM_BotNameTag"
+		{ BOOL }
+		{ "1" }
+	}
+	
 	"sv_ponedm_randomizer"
 	{
 		"#PoneDM_Randomizer"
