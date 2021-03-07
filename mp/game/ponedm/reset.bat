@@ -21,5 +21,6 @@ rmdir /S /Q download\sound\
 rmdir /S /Q download\materials\
 rmdir /S /Q download\models\
 rmdir /S /Q downloadlists\
+COPY "..\..\..\README.md" README-AND-CREDITS.txt
 pause
 exit

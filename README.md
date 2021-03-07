@@ -15,7 +15,7 @@ To be able to build PoneDM you will need to download:
 * C++ Build Tools for Visual Studio 2013 (Not required if you already have Visual Studio 2013)
 * Multibyte MFC Library for Visual Studio 2013
 
-You must also run this command in your CMD with administrator purposes in order to get VPC to build a project:
+You must also run this command in your CMD with administrator privileges in order to get VPC to build a project:
 * REG ADD "HKLM\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\10.0\Projects\{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" /v DefaultProjectExtension /t REG_SZ /d vcproj /f
 
 ## Credits
