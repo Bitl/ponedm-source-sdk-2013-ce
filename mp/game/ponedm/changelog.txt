@@ -18,6 +18,7 @@ Bug Fixes:
 - Fixed a bug where the Railgun doesn't display effects when hitting a player.
 - Fixed an issue where you couldn't pick up the Gatling Gun.
 - Fixed a bug where the Railgun doesn't unzoom when switching weapons.
+- Fixed a bug where Spectators team name doesn't show up in the scoreboard during Free-For-All Arena matches.
 
 Balance Tweaks:
 - Limited how much ammo you can carry:

@@ -379,45 +379,25 @@ void CHL2MPClientScoreBoardDialog::UpdateTeamInfo()
 			wchar_t string1[1024];
 			wchar_t wNumPlayers[6];
 
-			if ( HL2MPRules()->IsTeamplay() == false )
-			{
-				_snwprintf( wNumPlayers, ARRAYSIZE(wNumPlayers), L"%i", iNumPlayersInGame );
-#ifdef WIN32
-				_snwprintf( name, ARRAYSIZE(name), L"%s", g_pVGuiLocalize->Find("#ScoreBoard_Deathmatch") );
-#else
-				_snwprintf( name, ARRAYSIZE(name), L"%S", g_pVGuiLocalize->Find("#ScoreBoard_Deathmatch") );
-#endif
-				
-				teamName = name;
+			_snwprintf(wNumPlayers, ARRAYSIZE(wNumPlayers), L"%i", team->Get_Number_Players());
 
-				if ( iNumPlayersInGame == 1)
-				{
-					g_pVGuiLocalize->ConstructString( string1, sizeof(string1), g_pVGuiLocalize->Find("#ScoreBoard_Player"), 2, teamName, wNumPlayers );
-				}
-				else
-				{
-					g_pVGuiLocalize->ConstructString( string1, sizeof(string1), g_pVGuiLocalize->Find("#ScoreBoard_Players"), 2, teamName, wNumPlayers );
-				}
+			if (!teamName && team)
+			{
+				g_pVGuiLocalize->ConvertANSIToUnicode(team->Get_Name(), name, sizeof(name));
+				teamName = name;
+			}
+
+			if (team->Get_Number_Players() == 1)
+			{
+				g_pVGuiLocalize->ConstructString(string1, sizeof(string1), g_pVGuiLocalize->Find("#ScoreBoard_Player"), 2, teamName, wNumPlayers);
 			}
 			else
 			{
-				_snwprintf(wNumPlayers, ARRAYSIZE(wNumPlayers), L"%i", team->Get_Number_Players());
+				g_pVGuiLocalize->ConstructString(string1, sizeof(string1), g_pVGuiLocalize->Find("#ScoreBoard_Players"), 2, teamName, wNumPlayers);
+			}
 
-				if (!teamName && team)
-				{
-					g_pVGuiLocalize->ConvertANSIToUnicode(team->Get_Name(), name, sizeof(name));
-					teamName = name;
-				}
-
-				if (team->Get_Number_Players() == 1)
-				{
-					g_pVGuiLocalize->ConstructString( string1, sizeof(string1), g_pVGuiLocalize->Find("#ScoreBoard_Player"), 2, teamName, wNumPlayers );
-				}
-				else
-				{
-					g_pVGuiLocalize->ConstructString( string1, sizeof(string1), g_pVGuiLocalize->Find("#ScoreBoard_Players"), 2, teamName, wNumPlayers );
-				}
-
+			if ( HL2MPRules()->IsTeamplay())
+			{
 				// update stats
 				wchar_t val[6];
 				V_snwprintf(val, ARRAYSIZE(val), L"%d", team->Get_Score());
