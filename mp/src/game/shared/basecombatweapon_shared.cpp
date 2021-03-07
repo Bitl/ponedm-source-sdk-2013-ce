@@ -1489,6 +1489,7 @@ bool CBaseCombatWeapon::Holster( CBaseCombatWeapon *pSwitchingTo )
 	// kill any think functions
 	SetThink(NULL);
 
+#ifndef PONEDM
 	// Send holster animation
 	SendWeaponAnim( ACT_VM_HOLSTER );
 
@@ -1498,6 +1499,9 @@ bool CBaseCombatWeapon::Holster( CBaseCombatWeapon *pSwitchingTo )
 	{
 		flSequenceDuration = SequenceDuration();
 	}
+#else
+	float flSequenceDuration = 0;
+#endif
 
 	CBaseCombatCharacter *pOwner = GetOwner();
 	if (pOwner)

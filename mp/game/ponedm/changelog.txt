@@ -1,4 +1,4 @@
-Beta 2 (Released <DATE HERE>):
+Beta 2 (Released 03-07-21):
 Mane changes:
 - Added an additional boost when rocket/grenade jumping.
 - Added proper bindings for the Gatling Gun and the Railgun.
@@ -21,6 +21,7 @@ Bug Fixes:
 - Fixed a bug where the Railgun doesn't unzoom when switching weapons.
 - Fixed a bug where Spectators team name doesn't show up in the scoreboard during Free-For-All Arena matches.
 - Fixed a crash that would occur if you were loading into a map without a navigation mesh with bots.
+- Fixed a bug where some weapons would play a lowering animation when switching weapons (rather than quickly switching).
 
 Balance Tweaks:
 - Limited how much ammo you can carry:

@@ -35,6 +35,7 @@ END_NETWORK_TABLE()
 BEGIN_DATADESC( CBaseHL2MPCombatWeapon )
 
 	DEFINE_FIELD( m_bLowered,			FIELD_BOOLEAN ),
+	DEFINE_FIELD( m_bIsHolstering,			FIELD_BOOLEAN),
 	DEFINE_FIELD( m_flRaiseTime,		FIELD_TIME ),
 	DEFINE_FIELD( m_flHolsterTime,		FIELD_TIME ),
 
@@ -113,7 +114,7 @@ bool CBaseHL2MPCombatWeapon::Deploy( void )
 {
 	// If we should be lowered, deploy in the lowered position
 	// We have to ask the player if the last time it checked, the weapon was lowered
-	if ( GetOwner() && GetOwner()->IsPlayer() )
+	if ( GetOwner() && GetOwner()->IsPlayer() && WeaponShouldBeLowered())
 	{
 		CHL2MP_Player *pPlayer = assert_cast<CHL2MP_Player*>( GetOwner() );
 		if ( pPlayer->IsWeaponLowered() )
@@ -135,6 +136,7 @@ bool CBaseHL2MPCombatWeapon::Deploy( void )
 	}
 
 	m_bLowered = false;
+	m_bIsHolstering = false;
 	return BaseClass::Deploy();
 }
 
@@ -147,6 +149,7 @@ bool CBaseHL2MPCombatWeapon::Holster( CBaseCombatWeapon *pSwitchingTo )
 	if ( BaseClass::Holster( pSwitchingTo ) )
 	{
 		SetWeaponVisible( false );
+		m_bIsHolstering = true;
 		m_flHolsterTime = gpGlobals->curtime;
 		return true;
 	}
@@ -164,6 +167,9 @@ bool CBaseHL2MPCombatWeapon::WeaponShouldBeLowered( void )
   	if ( GetIdealActivity() != ACT_VM_IDLE_LOWERED && GetIdealActivity() != ACT_VM_IDLE &&
 		 GetIdealActivity() != ACT_VM_IDLE_TO_LOWERED && GetIdealActivity() != ACT_VM_LOWERED_TO_IDLE )
   		return false;
+
+	if (m_bIsHolstering)
+		return false;
 
 	if ( m_bLowered )
 		return true;

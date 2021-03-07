@@ -43,7 +43,6 @@ public:
 	int		GetMinBurst() { return 2; }
 	int		GetMaxBurst() { return 5; }
 
-	virtual void Equip( CBaseCombatCharacter *pOwner );
 	bool	Reload( void );
 	void	DecrementAmmo(CBaseCombatCharacter *pOwner);
 	void	PrimaryAttack(void);
@@ -109,20 +108,10 @@ IMPLEMENT_ACTTABLE(CWeaponGatling);
 //=========================================================
 CWeaponGatling::CWeaponGatling( )
 {
-	m_fMinRange1		= 0;// No minimum range. 
+	m_fMaxRange1		= 8192;
 	m_fMaxRange1		= 8192;
 
 	m_nNumShotsFiredDamage = 0;
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: Give this weapon longer range when wielded by an ally NPC.
-//-----------------------------------------------------------------------------
-void CWeaponGatling::Equip( CBaseCombatCharacter *pOwner )
-{
-	m_fMaxRange1 = 8192;
-
-	BaseClass::Equip( pOwner );
 }
 
 //-----------------------------------------------------------------------------
