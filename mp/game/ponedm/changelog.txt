@@ -1,3 +1,12 @@
+Beta 3 (Released TBD):
+Mane changes:
+
+Bug Fixes:
+
+Balance Tweaks:
+
+Misc. Changes:
+
 Beta 2 (Released 03-07-21):
 Mane changes:
 - Added an additional boost when rocket/grenade jumping.
