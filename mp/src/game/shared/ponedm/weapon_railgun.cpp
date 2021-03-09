@@ -7,8 +7,8 @@
 #include "cbase.h"
 #include "npcevent.h"
 #include "in_buttons.h"
-#include "beam_shared.h"
 #include "takedamageinfo.h"
+#include "weapon_railgun.h"
 
 #ifdef CLIENT_DLL
 	#include "c_hl2mp_player.h"
@@ -16,69 +16,6 @@
 	#include "hl2mp_player.h"
 	#include "ammodef.h"
 #endif
-
-#include "weapon_hl2mpbasehlmpcombatweapon.h"
-
-#define GAUSS_BEAM_SPRITE "sprites/laserbeam.vmt"
-#define RAIL_RECHARGE_TIME 0.13f
-#define RAIL_RECHARGE_OVERCHARGE_TIME 0.2f
-#define RAIL_AMMO 25
-#define RAIL_AMMO_OVERCHARGE 50
-
-#ifdef CLIENT_DLL
-#define CWeaponRailgun C_WeaponRailgun
-#endif
-
-//-----------------------------------------------------------------------------
-// CWeaponRailgun
-//-----------------------------------------------------------------------------
-
-class CWeaponRailgun : public CBaseHL2MPCombatWeapon
-{
-	DECLARE_CLASS( CWeaponRailgun, CBaseHL2MPCombatWeapon );
-public:
-
-	DECLARE_NETWORKCLASS();
-	DECLARE_PREDICTABLE();
-#ifndef CLIENT_DLL
-	DECLARE_ACTTABLE();
-#endif
-
-	CWeaponRailgun( void );
-
-	void	Equip(CBaseCombatCharacter* pOwner);
-	bool	Deploy(void);
-	bool	Holster(CBaseCombatWeapon* pSwitchingTo);
-	void	ItemPostFrame(void);
-	void	ItemBusyFrame(void);
-	void	PrimaryAttack( void );
-	void	SecondaryAttack(void);
-	void	Fire(void);
-	void	RechargeAmmo(void);
-	void	DrawBeam(const Vector& startPos, const Vector& endPos);
-	virtual const Vector& GetBulletSpread(void)
-	{
-		static Vector cone = VECTOR_CONE_1DEGREES;
-		return cone;
-	}
-	float GetFireRate(void)
-	{
-		return 1.0f;
-	}
-
-private:
-	void	CheckZoomToggle(void);
-	void	ToggleZoom(void);
-
-private:
-	CBeam* m_pBeam;
-	CNetworkVar(float, m_flNextCharge);
-	CNetworkVar(bool, m_bInZoom);
-	CNetworkVar(bool, m_bJustOvercharged);
-	CNetworkVar(bool, m_bOverchargeDamageBenefits);
-	
-	CWeaponRailgun( const CWeaponRailgun & );
-};
 
 IMPLEMENT_NETWORKCLASS_ALIASED( WeaponRailgun, DT_WeaponRailgun )
 
@@ -229,6 +166,24 @@ void CWeaponRailgun::ItemBusyFrame(void)
 	CheckZoomToggle();
 }
 
+void CWeaponRailgun::HolsterThink(void)
+{
+	CBasePlayer* pOwner = ToBasePlayer(GetOwner());
+	if (!pOwner || !pOwner->IsAlive())
+		return;
+
+	// no check for buttons here. we're holstered.
+	if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) < GetDefaultClip1())
+	{
+		RechargeAmmo(true);
+	}
+	else if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) > GetDefaultClip1())
+	{
+		m_bJustOvercharged = true;
+		m_bOverchargeDamageBenefits = true;
+	}
+}
+
 void CWeaponRailgun::ItemPostFrame(void)
 {
 	// Allow zoom toggling
@@ -242,7 +197,7 @@ void CWeaponRailgun::ItemPostFrame(void)
 	{
 		if (((pOwner->m_nButtons & IN_ATTACK) == false) && ((pOwner->m_nButtons & IN_ATTACK2) == false))
 		{
-			RechargeAmmo();
+			RechargeAmmo(false);
 		}
 	}
 	else if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) > GetDefaultClip1())
@@ -458,7 +413,7 @@ void CWeaponRailgun::DrawBeam(const Vector& startPos, const Vector& endPos)
 #endif
 }
 
-void CWeaponRailgun::RechargeAmmo(void)
+void CWeaponRailgun::RechargeAmmo(bool bIsHolstered)
 {
 	//if (m_flNextPrimaryAttack >= gpGlobals->curtime)
 		//return;
@@ -478,9 +433,19 @@ void CWeaponRailgun::RechargeAmmo(void)
 
 	m_flNextCharge = gpGlobals->curtime + (m_bJustOvercharged ? RAIL_RECHARGE_OVERCHARGE_TIME : RAIL_RECHARGE_TIME);
 
-	if ((pPlayer->GetAmmoCount(m_iPrimaryAmmoType) % 25) == 0)
+	if (!bIsHolstered)
 	{
-		WeaponSound(SPECIAL1);
+		if ((pPlayer->GetAmmoCount(m_iPrimaryAmmoType) % 25) == 0 || pPlayer->GetAmmoCount(m_iPrimaryAmmoType) == 99)
+		{
+			WeaponSound(SPECIAL1);
+		}
+	}
+	else
+	{
+		if (pPlayer->GetAmmoCount(m_iPrimaryAmmoType) == 99)
+		{
+			WeaponSound(SPECIAL1);
+		}
 	}
 
 	if (m_bOverchargeDamageBenefits && pPlayer->GetAmmoCount(m_iPrimaryAmmoType) <= GetDefaultClip1())

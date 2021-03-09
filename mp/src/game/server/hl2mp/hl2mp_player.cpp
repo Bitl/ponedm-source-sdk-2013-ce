@@ -1437,6 +1437,20 @@ void CHL2MP_Player::Event_Killed( const CTakeDamageInfo &info )
 			m_iGoreRearLeftLeg = 3;
 	}*/
 
+	if (info.GetDamageType() & DMG_CRUSH) // crush damage
+	{
+		if (m_iGoreHead < 3)
+			m_iGoreHead = 3;
+		if (m_iGoreFrontRightLeg < 3)
+			m_iGoreFrontRightLeg = 3;
+		if (m_iGoreFrontLeftLeg < 3)
+			m_iGoreFrontLeftLeg = 3;
+		if (m_iGoreRearRightLeg < 3)
+			m_iGoreRearRightLeg = 3;
+		if (m_iGoreRearLeftLeg < 3)
+			m_iGoreRearLeftLeg = 3;
+	}
+
 	if ((info.GetDamageType() & DMG_BLAST || info.GetDamageType() & DMG_NERVEGAS)) // explosives or sawblade
 		DismemberRandomLimbs();
 

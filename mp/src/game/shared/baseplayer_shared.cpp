@@ -41,6 +41,10 @@
 #include "weapon_c4.h"
 #endif // CSTRIKE_DLL
 
+#ifdef PONEDM
+#include "ponedm/weapon_railgun.h"
+#endif
+
 #include "in_buttons.h"
 #include "engine/IEngineSound.h"
 #include "tier0/vprof.h"
@@ -286,6 +290,37 @@ void CBasePlayer::ItemPostFrame()
 			}
 		}
 	}
+
+#ifdef PONEDM
+	CBaseCombatWeapon* pWeapon;
+	CWeaponRailgun* pRailgun = NULL;
+
+	//find the railgun and update its itempostframe.
+	for (int i = 0; i < WeaponCount(); i++)
+	{
+		pWeapon = GetWeapon(i);
+
+		if (pWeapon == NULL)
+			continue;
+
+		// If we have an active weapon, skip it.
+		if (pWeapon == GetActiveWeapon())
+			continue;
+
+		if (FStrEq(pWeapon->GetClassname(), "weapon_railgun"))
+		{
+			pRailgun = (CWeaponRailgun *)pWeapon;
+			break;
+		}
+	}
+
+	if (pRailgun)
+	{
+		pRailgun->HolsterThink();
+	}
+
+#endif // PONEDM
+
 
 #if !defined( CLIENT_DLL )
 	ImpulseCommands();
