@@ -2,10 +2,10 @@ Beta 3 (Released TBD):
 Mane changes:
 
 Bug Fixes:
-- Fixed a bug where the Railgun doesn't play a sound at near 100% completion.
+- Fixed a bug where the Railgun doesn't play a sound at 100% completion.
 
 Balance Tweaks:
-- The Railgun now recharges in the background. You will know when it's ready after a beep sound plays.
+- The Railgun now recharges in the background. You will know when it's ready after a beep plays.
 
 Misc. Changes:
 
