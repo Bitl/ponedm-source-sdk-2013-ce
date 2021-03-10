@@ -317,7 +317,7 @@ void CWeaponRailgun::Fire( void )
 	FireBulletsInfo_t info(1, startPos, aimDir, vec3_origin, MAX_TRACE_LENGTH, m_iPrimaryAmmoType);
 	info.m_pAttacker = pOwner;
 	info.m_iPlayerDamage = info.m_flDamage = iDamage;
-	info.m_flDamageForceScale = info.m_flDamageForceScale / 0.5f;
+	info.m_flDamageForceScale = 0.2f;
 
 	// Fire the bullets, and force the first shot to be perfectly accurate
 	pOwner->FireBullets(info);
