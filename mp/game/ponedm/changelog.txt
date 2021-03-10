@@ -1,11 +1,17 @@
 Beta 3 (Released TBD):
 Mane changes:
+- The Railgun now recharges in the background. You will know when it's ready after a beep plays.
+	- The Railgun will charge faster than normal if the Railgun is charging in the background. This does not apply if the Railgun is overcharged.
+- It is now much easier to aim with the Railgun. The crosshair is now enabled and the beam points towards the crosshair.
 
 Bug Fixes:
 - Fixed a bug where the Railgun doesn't play a sound at 100% completion.
+- Fixed a bug where unlocalized text in the Customization menu becomes jarbled.
 
 Balance Tweaks:
-- The Railgun now recharges in the background. You will know when it's ready after a beep plays.
+- Decreased the Railgun's normal charge time by up to 31%.
+- Decreased the Railgun's overcharge charge time by up to 33%.
+- The Railgun now fires invisible bullets, allowing for better support with map triggers.
 
 Misc. Changes:
 

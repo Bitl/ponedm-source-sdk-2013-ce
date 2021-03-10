@@ -22,11 +22,13 @@ IMPLEMENT_NETWORKCLASS_ALIASED( WeaponRailgun, DT_WeaponRailgun )
 BEGIN_NETWORK_TABLE( CWeaponRailgun, DT_WeaponRailgun )
 #ifdef CLIENT_DLL
 	RecvPropBool(RECVINFO(m_bJustOvercharged)),
+	RecvPropBool(RECVINFO(m_bIsLowBattery)),
 	RecvPropBool(RECVINFO(m_bOverchargeDamageBenefits)),
 	RecvPropBool(RECVINFO(m_bInZoom)),
 	RecvPropFloat(RECVINFO(m_flNextCharge)),
 #else
 	SendPropBool(SENDINFO(m_bJustOvercharged)),
+	SendPropBool(SENDINFO(m_bIsLowBattery)),
 	SendPropBool(SENDINFO(m_bOverchargeDamageBenefits)),
 	SendPropBool(SENDINFO(m_bInZoom)),
 	SendPropFloat(SENDINFO(m_flNextCharge)),
@@ -36,6 +38,7 @@ END_NETWORK_TABLE()
 #ifdef CLIENT_DLL
 BEGIN_PREDICTION_DATA( CWeaponRailgun )
 	DEFINE_PRED_FIELD(m_bJustOvercharged, FIELD_BOOLEAN, FTYPEDESC_INSENDTABLE),
+	DEFINE_PRED_FIELD(m_bIsLowBattery, FIELD_BOOLEAN, FTYPEDESC_INSENDTABLE),
 	DEFINE_PRED_FIELD(m_bOverchargeDamageBenefits, FIELD_BOOLEAN, FTYPEDESC_INSENDTABLE),
 	DEFINE_PRED_FIELD(m_bInZoom, FIELD_BOOLEAN, FTYPEDESC_INSENDTABLE),
 	DEFINE_PRED_FIELD_TOL(m_flNextCharge, FIELD_FLOAT, FTYPEDESC_INSENDTABLE, TD_MSECTOLERANCE),
@@ -73,22 +76,11 @@ CWeaponRailgun::CWeaponRailgun( void )
 	m_bInZoom = false;
 	m_bJustOvercharged = false;
 	m_bOverchargeDamageBenefits = false;
+	m_bIsLowBattery = false;
 }
 
 void CWeaponRailgun::Equip(CBaseCombatCharacter* pOwner)
 {
-#ifndef CLIENT_DLL
-	CBasePlayer* pPlayer = ToBasePlayer(pOwner);
-
-	if (!pPlayer)
-		return BaseClass::Equip(pOwner);
-
-	if (!(pPlayer->m_Local.m_iHideHUD & HIDEHUD_CROSSHAIR))
-	{
-		pPlayer->ShowCrosshair(false);
-	}
-#endif
-
 	return BaseClass::Equip(pOwner);
 }
 
@@ -97,18 +89,6 @@ void CWeaponRailgun::Equip(CBaseCombatCharacter* pOwner)
 //-----------------------------------------------------------------------------
 bool CWeaponRailgun::Deploy(void)
 {
-#ifndef CLIENT_DLL
-	CBasePlayer* pPlayer = ToBasePlayer(GetOwner());
-
-	if (!pPlayer)
-		return BaseClass::Deploy();
-
-	if (!(pPlayer->m_Local.m_iHideHUD & HIDEHUD_CROSSHAIR))
-	{
-		pPlayer->ShowCrosshair(false);
-	}
-#endif
-
 	return BaseClass::Deploy();
 }
 //-----------------------------------------------------------------------------
@@ -121,11 +101,6 @@ bool CWeaponRailgun::Holster(CBaseCombatWeapon* pSwitchingTo)
 
 	if (!pPlayer)
 		return BaseClass::Holster(pSwitchingTo);
-
-	if (pPlayer->m_Local.m_iHideHUD & HIDEHUD_CROSSHAIR)
-	{
-		pPlayer->ShowCrosshair(true);
-	}
 
 	if (pPlayer->GetAmmoCount(m_iPrimaryAmmoType) <= 0)
 	{
@@ -192,9 +167,13 @@ void CWeaponRailgun::ItemPostFrame(void)
 	CBasePlayer* pOwner = ToBasePlayer(GetOwner());
 	if (!pOwner)
 		return;
-
 	if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) < GetDefaultClip1())
 	{
+		if ((pOwner->GetAmmoCount(m_iPrimaryAmmoType) < RAIL_AMMO_OVERCHARGE))
+		{
+			m_bIsLowBattery = true;
+		}
+
 		if (((pOwner->m_nButtons & IN_ATTACK) == false) && ((pOwner->m_nButtons & IN_ATTACK2) == false))
 		{
 			RechargeAmmo(false);
@@ -301,38 +280,47 @@ void CWeaponRailgun::Fire( void )
 	if (vm == NULL)
 		return;
 
-	Vector	startPos = pOwner->Weapon_ShootPosition();
+	/*Vector	startPos = pOwner->Weapon_ShootPosition();
 	Vector	aimDir;
 
 	Vector vecUp, vecRight, vecForward;
 
 	pOwner->EyeVectors(&aimDir);
 
-	Vector	endPos	= startPos + ( aimDir * MAX_TRACE_LENGTH );
+	Vector	endPos	= startPos + ( aimDir * MAX_TRACE_LENGTH );*/
+
+	Vector	startPos = pOwner->Weapon_ShootPosition();
+	Vector	aimDir = pOwner->GetAutoaimVector(AUTOAIM_5DEGREES);
+
+	Vector vecUp, vecRight;
+	VectorVectors(aimDir, vecRight, vecUp);
+
+	float x, y, z;
+
+	//Gassian spread
+	do {
+		x = random->RandomFloat(-0.5, 0.5) + random->RandomFloat(-0.5, 0.5);
+		y = random->RandomFloat(-0.5, 0.5) + random->RandomFloat(-0.5, 0.5);
+		z = x * x + y * y;
+	} while (z > 1);
+
+	aimDir = aimDir + x * GetBulletSpread().x * vecRight + y * GetBulletSpread().y * vecUp;
+
+	Vector	endPos = startPos + (aimDir * MAX_TRACE_LENGTH);
 	
 	//Shoot a shot straight out
 	trace_t	tr;
 	UTIL_TraceLine( startPos, endPos, MASK_SHOT, pOwner, COLLISION_GROUP_NONE, &tr );
-	
-#ifndef CLIENT_DLL
-	ClearMultiDamage();
-#endif
 
-	CBaseEntity *pHit = tr.m_pEnt;
-	
-	int iDamage = (m_bOverchargeDamageBenefits ? (GetHL2MPWpnData().m_iPlayerDamage * 2) : GetHL2MPWpnData().m_iPlayerDamage);
+	int iDamage = (m_bOverchargeDamageBenefits ? (int)(GetHL2MPWpnData().m_iPlayerDamage * 2) : GetHL2MPWpnData().m_iPlayerDamage);
 
-	CTakeDamageInfo dmgInfo( this, pOwner, iDamage, DMG_SHOCK);
+	FireBulletsInfo_t info(1, startPos, aimDir, vec3_origin, MAX_TRACE_LENGTH, m_iPrimaryAmmoType);
+	info.m_pAttacker = pOwner;
+	info.m_iPlayerDamage = info.m_flDamage = iDamage;
+	info.m_flDamageForceScale = info.m_flDamageForceScale / 0.5f;
 
-	if ( pHit != NULL )
-	{
-#ifndef CLIENT_DLL
-		CalculateBulletDamageForce( &dmgInfo, m_iPrimaryAmmoType, aimDir, tr.endpos );
-		TraceAttackToTriggers(dmgInfo, tr.startpos, tr.endpos, aimDir);
-#endif
-		pHit->DispatchTraceAttack( dmgInfo, aimDir, &tr );
-	}
-
+	// Fire the bullets, and force the first shot to be perfectly accurate
+	pOwner->FireBullets(info);
 	
 	float hitAngle = -DotProduct(tr.plane.normal, aimDir);
 
@@ -355,10 +343,8 @@ void CWeaponRailgun::Fire( void )
 
 	//Draw beam to reflection point
 	DrawBeam(tr.startpos, tr.endpos);
-	
-#ifndef CLIENT_DLL
-	ApplyMultiDamage();
 
+#ifndef CLIENT_DLL
 	// Register a muzzleflash for the AI
 	pOwner->SetMuzzleFlashTime( gpGlobals->curtime + 0.5 );
 #endif
@@ -407,7 +393,7 @@ void CWeaponRailgun::DrawBeam(const Vector& startPos, const Vector& endPos)
 		//m_pBeam->SetColor(196, 47 + random->RandomInt(-16, 16), 250);
 	}
 	m_pBeam->SetScrollRate(25.6);
-	m_pBeam->SetBrightness((pOwner->GetAmmoCount(m_iPrimaryAmmoType) < RAIL_AMMO_OVERCHARGE) ? 128 : 255);
+	m_pBeam->SetBrightness(m_bIsLowBattery ? 128 : 255);
 	m_pBeam->RelinkBeam();
 	m_pBeam->LiveForTime(0.1f);
 #endif
@@ -431,10 +417,10 @@ void CWeaponRailgun::RechargeAmmo(bool bIsHolstered)
 	pPlayer->GiveAmmo(1, m_iPrimaryAmmoType, true);
 #endif // ! CLIENT_DLL
 
-	m_flNextCharge = gpGlobals->curtime + (m_bJustOvercharged ? RAIL_RECHARGE_OVERCHARGE_TIME : RAIL_RECHARGE_TIME);
-
 	if (!bIsHolstered)
 	{
+		m_flNextCharge = gpGlobals->curtime + (m_bJustOvercharged ? RAIL_RECHARGE_OVERCHARGE_TIME : RAIL_RECHARGE_TIME);
+
 		if ((pPlayer->GetAmmoCount(m_iPrimaryAmmoType) % 25) == 0 || pPlayer->GetAmmoCount(m_iPrimaryAmmoType) == 99)
 		{
 			WeaponSound(SPECIAL1);
@@ -442,10 +428,17 @@ void CWeaponRailgun::RechargeAmmo(bool bIsHolstered)
 	}
 	else
 	{
+		m_flNextCharge = gpGlobals->curtime + (m_bJustOvercharged ? RAIL_RECHARGE_OVERCHARGE_TIME : RAIL_RECHARGE_BACKGROUND_TIME);
+
 		if (pPlayer->GetAmmoCount(m_iPrimaryAmmoType) == 99)
 		{
 			WeaponSound(SPECIAL1);
 		}
+	}
+
+	if (m_bIsLowBattery && (pPlayer->GetAmmoCount(m_iPrimaryAmmoType) > RAIL_AMMO_OVERCHARGE))
+	{
+		m_bIsLowBattery = false;
 	}
 
 	if (m_bOverchargeDamageBenefits && pPlayer->GetAmmoCount(m_iPrimaryAmmoType) <= GetDefaultClip1())

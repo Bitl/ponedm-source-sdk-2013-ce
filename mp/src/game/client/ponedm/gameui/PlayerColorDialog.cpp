@@ -216,7 +216,26 @@ void CPlayerColorDialog::LoadAppearanceOptions()
 		{
 			const char *itemName = pNode->GetString("name", "");
 			const char* itemID = pNode->GetString("id", 0);
-			m_pUpperManeList->AddItem(g_pVGuiLocalize->Find(itemName), new KeyValues("data", "id", itemID));
+			wchar_t text[128];
+			wchar_t* tempString = g_pVGuiLocalize->Find(itemName);
+
+			// setup our localized string
+			if (tempString)
+			{
+#ifdef WIN32
+				_snwprintf(text, sizeof(text) / sizeof(wchar_t) - 1, L"%s", tempString);
+#else
+				_snwprintf(text, sizeof(text) / sizeof(wchar_t) - 1, L"%S", tempString);
+#endif
+				text[sizeof(text) / sizeof(wchar_t) - 1] = 0;
+			}
+			else
+			{
+				// string wasn't found by g_pVGuiLocalize->Find()
+				g_pVGuiLocalize->ConvertANSIToUnicode(itemName, text, sizeof(text));
+			}
+
+			m_pUpperManeList->AddItem(text, new KeyValues("data", "id", itemID));
 
 			pNode = pNode->GetNextKey();
 		}
@@ -232,7 +251,27 @@ void CPlayerColorDialog::LoadAppearanceOptions()
 		{
 			const char* itemName = pNode->GetString("name", "");
 			const char* itemID = pNode->GetString("id", 0);
-			m_pLowerManeList->AddItem(g_pVGuiLocalize->Find(itemName), new KeyValues("data", "id", itemID));
+
+			wchar_t text[128];
+			wchar_t* tempString = g_pVGuiLocalize->Find(itemName);
+
+			// setup our localized string
+			if (tempString)
+			{
+#ifdef WIN32
+				_snwprintf(text, sizeof(text) / sizeof(wchar_t) - 1, L"%s", tempString);
+#else
+				_snwprintf(text, sizeof(text) / sizeof(wchar_t) - 1, L"%S", tempString);
+#endif
+				text[sizeof(text) / sizeof(wchar_t) - 1] = 0;
+			}
+			else
+			{
+				// string wasn't found by g_pVGuiLocalize->Find()
+				g_pVGuiLocalize->ConvertANSIToUnicode(itemName, text, sizeof(text));
+			}
+
+			m_pLowerManeList->AddItem(text, new KeyValues("data", "id", itemID));
 
 			pNode = pNode->GetNextKey();
 		}
@@ -248,7 +287,27 @@ void CPlayerColorDialog::LoadAppearanceOptions()
 		{
 			const char* itemName = pNode->GetString("name", "");
 			const char* itemID = pNode->GetString("id", 0);
-			m_pTailList->AddItem(g_pVGuiLocalize->Find(itemName), new KeyValues("data", "id", itemID));
+
+			wchar_t text[128];
+			wchar_t* tempString = g_pVGuiLocalize->Find(itemName);
+
+			// setup our localized string
+			if (tempString)
+			{
+#ifdef WIN32
+				_snwprintf(text, sizeof(text) / sizeof(wchar_t) - 1, L"%s", tempString);
+#else
+				_snwprintf(text, sizeof(text) / sizeof(wchar_t) - 1, L"%S", tempString);
+#endif
+				text[sizeof(text) / sizeof(wchar_t) - 1] = 0;
+			}
+			else
+			{
+				// string wasn't found by g_pVGuiLocalize->Find()
+				g_pVGuiLocalize->ConvertANSIToUnicode(itemName, text, sizeof(text));
+			}
+
+			m_pTailList->AddItem(text, new KeyValues("data", "id", itemID));
 
 			pNode = pNode->GetNextKey();
 		}

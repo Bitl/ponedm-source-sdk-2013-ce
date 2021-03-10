@@ -320,11 +320,6 @@ void CHL2MP_Player::GiveItems(bool bGiveAll)
 	}
 
 	m_weapons.RemoveAll();
-
-	if (GetActiveWeapon() != Weapon_OwnsThisType("weapon_railgun"))
-	{
-		ShowCrosshair(true);
-	}
 }
 
 void CHL2MP_Player::GiveDefaultItems( void )
@@ -738,26 +733,26 @@ void CHL2MP_Player::PlayerDeathThink()
 	}
 }
 
-void CHL2MP_Player::FireBullets ( const FireBulletsInfo_t &info )
+void CHL2MP_Player::FireBullets(const FireBulletsInfo_t &info)
 {
 	// Move other players back to history positions based on local player's lag
-	lagcompensation->StartLagCompensation( this, this->GetCurrentCommand() );
+	lagcompensation->StartLagCompensation(this, this->GetCurrentCommand());
 
 	FireBulletsInfo_t modinfo = info;
 
-	CWeaponHL2MPBase *pWeapon = dynamic_cast<CWeaponHL2MPBase *>( GetActiveWeapon() );
+	CWeaponHL2MPBase* pWeapon = dynamic_cast<CWeaponHL2MPBase*>(GetActiveWeapon());
 
-	if ( pWeapon )
+	if (pWeapon)
 	{
 		modinfo.m_iPlayerDamage = modinfo.m_flDamage = pWeapon->GetHL2MPWpnData().m_iPlayerDamage;
 	}
 
 	NoteWeaponFired();
 
-	BaseClass::FireBullets( modinfo );
+	BaseClass::FireBullets(modinfo);
 
 	// Move other players back to history positions based on local player's lag
-	lagcompensation->FinishLagCompensation( this );
+	lagcompensation->FinishLagCompensation(this);
 }
 
 void CHL2MP_Player::NoteWeaponFired( void )

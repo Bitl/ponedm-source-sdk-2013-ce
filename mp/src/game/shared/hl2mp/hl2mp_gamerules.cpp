@@ -918,7 +918,7 @@ CAmmoDef *GetAmmoDef()
 		def.AddAmmoType("SMG1_Grenade",		DMG_BURN,					TRACER_NONE,			0,			0,			5,			0,							0 );
 		def.AddAmmoType("Grenade",			DMG_BURN,					TRACER_NONE,			0,			0,			5,			0,							0 );
 		def.AddAmmoType("slam",				DMG_BURN,					TRACER_NONE,			0,			0,			5,			0,							0 );
-		def.AddAmmoType("Railgun",			DMG_BURN,					TRACER_NONE,			0,			0,			300,		0,							0 );
+		def.AddAmmoType("Railgun",			DMG_SHOCK,					TRACER_NONE,			0,			0,			300,		0,							0 );
 	}
 
 	return &def;

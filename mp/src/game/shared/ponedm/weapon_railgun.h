@@ -18,8 +18,9 @@
 #include "beam_shared.h"
 
 #define GAUSS_BEAM_SPRITE "sprites/laserbeam.vmt"
-#define RAIL_RECHARGE_TIME 0.13f
-#define RAIL_RECHARGE_OVERCHARGE_TIME 0.2f
+#define RAIL_RECHARGE_TIME 0.0897f
+#define RAIL_RECHARGE_BACKGROUND_TIME 0.055f
+#define RAIL_RECHARGE_OVERCHARGE_TIME 0.16f
 #define RAIL_AMMO 25
 #define RAIL_AMMO_OVERCHARGE 50
 
@@ -65,6 +66,11 @@ public:
 		return 1.0f;
 	}
 
+	bool IsOvercharged()
+	{
+		return m_bJustOvercharged;
+	}
+
 private:
 	void	CheckZoomToggle(void);
 	void	ToggleZoom(void);
@@ -74,6 +80,7 @@ private:
 	CNetworkVar(float, m_flNextCharge);
 	CNetworkVar(bool, m_bInZoom);
 	CNetworkVar(bool, m_bJustOvercharged);
+	CNetworkVar(bool, m_bIsLowBattery);
 	CNetworkVar(bool, m_bOverchargeDamageBenefits);
 	
 	CWeaponRailgun( const CWeaponRailgun & );
