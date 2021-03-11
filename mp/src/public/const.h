@@ -39,7 +39,7 @@
 // a player name may have 31 chars + 0 on the PC.
 // the 360 only allows 15 char + 0, but stick with the larger PC size for cross-platform communication
 #ifdef PONEDM
-#define MAX_PLAYER_NAME_LENGTH		128
+#define MAX_PLAYER_NAME_LENGTH		256
 #else
 #define MAX_PLAYER_NAME_LENGTH		32
 #endif

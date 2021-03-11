@@ -39,16 +39,15 @@ void LoadPonyNames(void)
 
 const char* NewPonyNameSelection(void)
 {
-    static char szName[64];
     if (m_botPonyNames.Count() == 0)
         return "MISSINGNO";
 
-    static int nameIndex = RandomInt(0, m_botPonyNames.Count() - 1);
-    string_t iszName = m_botPonyNames[++nameIndex % m_botPonyNames.Count()];
+    int nPoneNames = m_botPonyNames.Count();
+    int randomChoice = rand() % nPoneNames;
+    string_t iszName = m_botPonyNames[randomChoice];
     const char* pszName = STRING(iszName);
-    V_strcpy_safe(szName, pszName);
 
-    return szName;
+    return pszName;
 }
 
 //================================================================================
@@ -67,9 +66,12 @@ CPlayer* CreatePoneDMBot(const char* pPlayername, const Vector* vecPosition, con
         const char* pPlayername2 = (nameCount >= 2) ? string2 : "";
         char string3[MAX_PLAYER_NAME_LENGTH];
         Q_snprintf(string3, sizeof(string3), " %s", NewPonyNameSelection());
-        const char* pPlayername3 = (nameCount >= 3) ? string3 : "";
-        const char* pBotName = sv_ponedm_bot_tag.GetBool() ? "[BOT] %s%s%s" : "%s%s%s";
-        pPlayername = UTIL_VarArgs(pBotName, pPlayername1, pPlayername2, pPlayername3);
+        const char* pPlayername3 = (nameCount == 3) ? string3 : "";
+        const char* pBotNameFormat = sv_ponedm_bot_tag.GetBool() ? "[BOT] %s%s%s" : "%s%s%s";
+
+        char combinedName[MAX_PLAYER_NAME_LENGTH];
+        Q_snprintf(combinedName, sizeof(combinedName), pBotNameFormat, pPlayername1, pPlayername2, pPlayername3);
+        pPlayername = combinedName;
     }
 
     edict_t* pSoul = engine->CreateFakeClient(pPlayername);
