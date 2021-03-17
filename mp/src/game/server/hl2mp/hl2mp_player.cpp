@@ -62,6 +62,7 @@ void CC_SettoSpectate(void)
 			{
 				pPlayer->PickDefaultSpawnTeam();
 				pPlayer->StopObserverMode();
+				pPlayer->State_Transition(STATE_ACTIVE);
 				pPlayer->Spawn();
 			}
 			else
