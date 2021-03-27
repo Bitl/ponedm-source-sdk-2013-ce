@@ -367,15 +367,11 @@ void CWeaponRailgun::DrawBeam(const Vector& startPos, const Vector& endPos)
 	//Draw the main beam shaft
 	m_pBeam = CBeam::BeamCreate(GAUSS_BEAM_SPRITE, flWidth);
 
-	CBaseViewModel* vm = pOwner->GetViewModel();
-
-	if (vm == NULL)
-		return;
-
 	m_pBeam->SetStartPos(startPos);
 	m_pBeam->PointEntInit(endPos, this);
 	m_pBeam->SetEndAttachment(LookupAttachment("muzzle"));
 
+#ifndef FR_DLL
 	CHL2MP_Player* pHL2MPOwner = ToHL2MPPlayer(GetOwner());
 
 	if (pHL2MPOwner)
@@ -390,8 +386,10 @@ void CWeaponRailgun::DrawBeam(const Vector& startPos, const Vector& endPos)
 	{
 		m_pBeam->SetColor(255, 255, 255);
 		//save this for FR
-		//m_pBeam->SetColor(196, 47 + random->RandomInt(-16, 16), 250);
 	}
+#else
+	m_pBeam->SetColor(196, 47 + random->RandomInt(-16, 16), 250);
+#endif
 	m_pBeam->SetScrollRate(25.6);
 	m_pBeam->SetBrightness(m_bIsLowBattery ? 128 : 255);
 	m_pBeam->RelinkBeam();

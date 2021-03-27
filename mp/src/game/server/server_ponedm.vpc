@@ -73,6 +73,13 @@ $Project "Server (PoneDM)"
 			
 			$Folder "Bots"
 			{
+				$Folder "HL1 Imported"
+				{
+					$File	"ponedm\bots\interfaces\improv.h"
+					$File	"ponedm\bots\nav_path.cpp"
+					$File	"ponedm\bots\nav_path.h"
+				}
+			
 				$Folder "Base Code"
 				{
 					$Folder "Components"
@@ -105,13 +112,6 @@ $Project "Server (PoneDM)"
 						$File	"ponedm\bots\interfaces\ibotmemory.h"
 						$File	"ponedm\bots\interfaces\ibotschedule.h"
 						$File	"ponedm\bots\interfaces\ibotvision.h"
-					}
-
-					$Folder "Navigation"
-					{
-						$File	"ponedm\bots\interfaces\improv_locomotor.h"
-						$File	"ponedm\bots\nav_path.cpp"
-						$File	"ponedm\bots\nav_path.h"
 					}
 
 					$Folder "Schedules"
