@@ -1,4 +1,4 @@
-Beta 3 (Released TBD):
+Release 1.0 (Released 4-11-21):
 Mane changes:
 - The Railgun now recharges in the background. You will know when it's ready after a beep plays.
 	- The Railgun will charge faster than normal if the Railgun is charging in the background. This does not apply if the Railgun is overcharged.

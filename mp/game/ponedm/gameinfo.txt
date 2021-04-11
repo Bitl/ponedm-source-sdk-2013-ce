@@ -2,7 +2,7 @@
 {
 	game	"PoneDM"
 	title	"PoneDM"
-	title2	"Beta 3"
+	title2	""
 	icon		"resource/game"
 	type multiplayer_only
 	nomodels 1
