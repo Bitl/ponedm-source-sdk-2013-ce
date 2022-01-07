@@ -5,8 +5,6 @@ Mane changes:
 	- Ponies are dismembered on death when when gore is enabled on the client.
 	- Ponies cannot pick up weapons or items.
 
-- Added Linux support (WIP)
-
 Bug Fixes:
 - Fixed custom weapons not being given with "impulse 101".
 - Fixed some gore effects not working when gore is enabled.
