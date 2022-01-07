@@ -15,8 +15,8 @@
 #include "r_efx.h"
 #include "dlight.h"
 #ifdef PONEDM
-	#include "materialsystem/IMaterialProxy.h"
-	#include "materialsystem/IMaterialVar.h"
+	#include "materialsystem/imaterialproxy.h"
+	#include "materialsystem/imaterialvar.h"
 	#include "materialsystem/itexture.h"
 	#include "materialsystem/imaterialsystem.h"
 	#include "functionproxy.h"
