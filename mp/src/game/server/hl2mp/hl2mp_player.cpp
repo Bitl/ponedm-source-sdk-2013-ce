@@ -28,6 +28,7 @@
 #include <sceneentity.h>
 #include <particle_parse.h>
 #include "bots\ponedm_bot.h"
+#include "weapon_railgun.h"
 
 int g_iLastCitizenModel = 0;
 int g_iLastCombineModel = 0;
@@ -327,18 +328,27 @@ void CHL2MP_Player::GiveDefaultItems( void )
 {
 	EquipSuit();
 
-	CBasePlayer::GiveAmmo( 255,	"Pistol");
-	CBasePlayer::GiveAmmo( 100,	"SMG1");
-	CBasePlayer::GiveAmmo( 2,	"grenade" );
-	CBasePlayer::GiveAmmo( 6,	"Buckshot");
-	CBasePlayer::GiveAmmo( 6,	"357" );
-	CBasePlayer::GiveAmmo( 3, "smg1_grenade" );
+	if (sv_ponedm_instagib.GetBool())
+	{
+		CBasePlayer::GiveAmmo(255, "Railgun");
+		GiveNamedItem("weapon_railgun");
+		SetPreventWeaponPickup(true);
+	}
+	else
+	{
+		CBasePlayer::GiveAmmo(255, "Pistol");
+		CBasePlayer::GiveAmmo(100, "SMG1");
+		CBasePlayer::GiveAmmo(2, "grenade");
+		CBasePlayer::GiveAmmo(6, "Buckshot");
+		CBasePlayer::GiveAmmo(6, "357");
+		CBasePlayer::GiveAmmo(3, "smg1_grenade");
 
-	GiveNamedItem( "weapon_crowbar" );
-	GiveNamedItem( "weapon_pistol" );
-	GiveNamedItem( "weapon_smg1" );
-	GiveNamedItem( "weapon_frag" );
-	GiveNamedItem( "weapon_physcannon" );
+		GiveNamedItem("weapon_crowbar");
+		GiveNamedItem("weapon_pistol");
+		GiveNamedItem("weapon_smg1");
+		GiveNamedItem("weapon_frag");
+		GiveNamedItem("weapon_physcannon");
+	}
 
 	const char *szDefaultWeaponName = engine->GetClientConVarValue( engine->IndexOfEdict( edict() ), "cl_defaultweapon" );
 
@@ -350,7 +360,14 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	}
 	else
 	{
-		Weapon_Switch( Weapon_OwnsThisType( "weapon_physcannon" ) );
+		if (sv_ponedm_instagib.GetBool())
+		{
+			Weapon_Switch(Weapon_OwnsThisType("weapon_physcannon"));
+		}
+		else
+		{
+			Weapon_Switch(Weapon_OwnsThisType("weapon_railgun"));
+		}
 	}
 }
 
@@ -668,61 +685,48 @@ void CHL2MP_Player::PostThink( void )
 //-----------------------------------------------------------------------------
 void CHL2MP_Player::DismemberRandomLimbs(void)
 {
-	int iGore = 0;
+	CUniformRandomStream rand;
+
+	rand.SetSeed((int)gpGlobals->curtime);
 
 	if (m_iGoreHead < 3)
 	{
-		iGore = random->RandomInt(0, 3);
+		int iGoreHead = rand.RandomInt(0, 3);
 
-		if (iGore < 3)
-			iGore = 3;
-
-		if (m_iGoreHead < iGore)
-			m_iGoreHead = iGore;
+		if (m_iGoreHead < iGoreHead)
+			m_iGoreHead = iGoreHead;
 	}
 
 	if (m_iGoreFrontLeftLeg < 3)
 	{
-		iGore = random->RandomInt(0, 3);
+		int iGoreFrontLeftLeg = rand.RandomInt(0, 3);
 
-		if (iGore < 3)
-			iGore = 3;
-
-		if (m_iGoreFrontLeftLeg < iGore)
-			m_iGoreFrontLeftLeg = iGore;
+		if (m_iGoreFrontLeftLeg < iGoreFrontLeftLeg)
+			m_iGoreFrontLeftLeg = iGoreFrontLeftLeg;
 	}
 
 	if (m_iGoreFrontRightLeg < 3)
 	{
-		iGore = random->RandomInt(0, 3);
+		int iGoreFrontRightLeg = rand.RandomInt(0, 3);
 
-		if (iGore < 3)
-			iGore = 3;
-
-		if (m_iGoreFrontRightLeg < iGore)
-			m_iGoreFrontRightLeg = iGore;
+		if (m_iGoreFrontRightLeg < iGoreFrontRightLeg)
+			m_iGoreFrontRightLeg = iGoreFrontRightLeg;
 	}
 
 	if (m_iGoreRearLeftLeg < 3)
 	{
-		iGore = random->RandomInt(0, 3);
+		int iGoreRearLeftLeg = rand.RandomInt(0, 3);
 
-		if (iGore < 3)
-			iGore = 3;
-
-		if (m_iGoreRearLeftLeg < iGore)
-			m_iGoreRearLeftLeg = iGore;
+		if (m_iGoreRearLeftLeg < iGoreRearLeftLeg)
+			m_iGoreRearLeftLeg = iGoreRearLeftLeg;
 	}
 
 	if (m_iGoreRearRightLeg < 3)
 	{
-		iGore = random->RandomInt(0, 3);
+		int iGoreRearRightLeg = rand.RandomInt(0, 3);
 
-		if (iGore < 3)
-			iGore = 3;
-
-		if (m_iGoreRearRightLeg < iGore)
-			m_iGoreRearRightLeg = iGore;
+		if (m_iGoreRearRightLeg < iGoreRearRightLeg)
+			m_iGoreRearRightLeg = iGoreRearRightLeg;
 	}
 }
 
@@ -1404,6 +1408,22 @@ void CHL2MP_Player::Event_Killed( const CTakeDamageInfo &info )
 
 	SetNumAnimOverlays( 0 );
 
+	/*if (info.GetDamageType() & DMG_FALL) // fall damage
+	{
+		// begone legs!
+		if (m_iGoreFrontRightLeg < 3)
+			m_iGoreFrontRightLeg = 3;
+		if (m_iGoreFrontLeftLeg < 3)
+			m_iGoreFrontLeftLeg = 3;
+		if (m_iGoreRearRightLeg < 3)
+			m_iGoreRearRightLeg = 3;
+		if (m_iGoreRearLeftLeg < 3)
+			m_iGoreRearLeftLeg = 3;
+	}*/
+
+	if (sv_ponedm_instagib.GetBool() || (info.GetDamageType() & DMG_BLAST || info.GetDamageType() & DMG_NERVEGAS)) // explosives or sawblade
+		DismemberRandomLimbs();
+
 	// Note: since we're dead, it won't draw us on the client, but we don't set EF_NODRAW
 	// because we still want to transmit to the clients in our PVS.
 	CreateRagdollEntity();
@@ -1419,22 +1439,6 @@ void CHL2MP_Player::Event_Killed( const CTakeDamageInfo &info )
 			m_hRagdoll->GetBaseAnimating()->Dissolve( NULL, gpGlobals->curtime, false, ENTITY_DISSOLVE_NORMAL );
 		}
 	}
-
-	/*if (info.GetDamageType() & DMG_FALL) // fall damage
-	{
-		// begone legs!
-		if (m_iGoreFrontRightLeg < 3)
-			m_iGoreFrontRightLeg = 3;
-		if (m_iGoreFrontLeftLeg < 3)
-			m_iGoreFrontLeftLeg = 3;
-		if (m_iGoreRearRightLeg < 3)
-			m_iGoreRearRightLeg = 3;
-		if (m_iGoreRearLeftLeg < 3)
-			m_iGoreRearLeftLeg = 3;
-	}*/
-
-	if ((info.GetDamageType() & DMG_BLAST || info.GetDamageType() & DMG_NERVEGAS)) // explosives or sawblade
-		DismemberRandomLimbs();
 
 	CBaseEntity *pAttacker = info.GetAttacker();
 
@@ -1456,6 +1460,11 @@ void CHL2MP_Player::Event_Killed( const CTakeDamageInfo &info )
 
 	RemoveEffects( EF_NODRAW );	// still draw player body
 	StopZooming();
+
+	if (sv_ponedm_instagib.GetBool())
+	{
+		SetPreventWeaponPickup(false);
+	}
 
 	if (GetBotController()) {
 		GetBotController()->OnDeath(info);

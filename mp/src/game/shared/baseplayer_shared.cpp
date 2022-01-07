@@ -1868,7 +1868,15 @@ void CBasePlayer::SharedSpawn()
 
 	pl.deadflag	= false;
 	m_lifeState	= LIFE_ALIVE;
-	m_iHealth = 100;
+
+	if (!sv_ponedm_instagib.GetBool())
+	{
+		m_iHealth = 100;
+	}
+	else
+	{
+		m_iHealth = 1;
+	}
 	m_takedamage		= DAMAGE_YES;
 
 	m_Local.m_bDrawViewmodel = true;

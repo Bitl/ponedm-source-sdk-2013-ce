@@ -33,7 +33,11 @@
 	#include "hl2mp_gameinterface.h"
 	#include "hl2mp_cvars.h"
 	#include "gamestats.h"
+
+#ifdef PONEDM
+	#include "weapon_railgun.h"
 	#include "ponedm_bot.h"
+#endif
 
 //#ifdef DEBUG	
 	//#include "hl2mp_bot_temp.h"
@@ -644,6 +648,10 @@ bool CHL2MPRules::CanHavePlayerItem( CBasePlayer *pPlayer, CBaseCombatWeapon *pI
 int CHL2MPRules::WeaponShouldRespawn( CBaseCombatWeapon *pWeapon )
 {
 #ifndef CLIENT_DLL
+
+	if (sv_ponedm_instagib.GetBool())
+		return GR_WEAPON_RESPAWN_NO;
+
 	if ( pWeapon->HasSpawnFlags( SF_NORESPAWN ) )
 	{
 		return GR_WEAPON_RESPAWN_NO;

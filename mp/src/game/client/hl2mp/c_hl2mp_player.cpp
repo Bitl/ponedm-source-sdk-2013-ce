@@ -24,6 +24,7 @@
 	#include "c_te_effect_dispatch.h"
 	#include "props_shared.h"
 	#include "c_gib.h"
+	#include "weapon_railgun.h"
 #endif
 #include <ai_debug_shared.h>
 
@@ -952,7 +953,7 @@ void C_HL2MPRagdoll::DismemberBase(bool bBloodEffects, char const* szParticleBon
 				{
 					const matrix3x4_t mBone = GetBaseAnimating()->GetBone(iAttachment);
 					MatrixPosition(mBone, vecOrigin);
-					Vector offset = RandomVector(-16, 16) + vecOrigin;
+					Vector offset = RandomVector(-32, 32) + vecOrigin;
 					C_Gib::CreateClientsideGib(model, offset, RandomVector(-25.0f, 25.0f), RandomAngularImpulse(-32, 32), cl_ponedm_gibtime.GetFloat());
 				}
 			}
@@ -1157,7 +1158,7 @@ void C_HL2MPRagdoll::ImpactTrace( trace_t *pTrace, int iDamageType, const char *
 		break;
 	}
 
-	if ( iDamageType == DMG_BLAST )
+	if ( iDamageType == DMG_BLAST || iDamageType == DMG_NERVEGAS)
 	{
 		dir *= 4000;  // adjust impact strenght
 				

@@ -1,3 +1,17 @@
+Release 1.1 (Released 1-7-22):
+Mane changes:
+- Added an Instagib mode.
+	- Railguns with infinite ammo. One shot, one kill.
+	- Ponies are dismembered on death when when gore is enabled on the client.
+	- Ponies cannot pick up weapons or items.
+
+Bug Fixes:
+- Fixed custom weapons not being given with "impulse 101".
+- Fixed some gore effects not working when gore is enabled.
+
+Misc. Changes:
+- Moved the gamemode-related options to near the basic server settings. 
+
 Release 1.0 (Released 4-11-21):
 Mane changes:
 - The Railgun now recharges in the background. You will know when it's ready after a beep plays.

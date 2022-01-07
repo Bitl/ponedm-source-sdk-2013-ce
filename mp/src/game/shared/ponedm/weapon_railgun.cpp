@@ -17,6 +17,8 @@
 	#include "ammodef.h"
 #endif
 
+ConVar sv_ponedm_instagib("sv_ponedm_instagib", "0", FCVAR_NOTIFY | FCVAR_REPLICATED, "");
+
 IMPLEMENT_NETWORKCLASS_ALIASED( WeaponRailgun, DT_WeaponRailgun )
 
 BEGIN_NETWORK_TABLE( CWeaponRailgun, DT_WeaponRailgun )
@@ -102,9 +104,12 @@ bool CWeaponRailgun::Holster(CBaseCombatWeapon* pSwitchingTo)
 	if (!pPlayer)
 		return BaseClass::Holster(pSwitchingTo);
 
-	if (pPlayer->GetAmmoCount(m_iPrimaryAmmoType) <= 0)
+	if (!sv_ponedm_instagib.GetBool())
 	{
-		pPlayer->GiveAmmo(1, m_iPrimaryAmmoType, true);
+		if (pPlayer->GetAmmoCount(m_iPrimaryAmmoType) <= 0)
+		{
+			pPlayer->GiveAmmo(1, m_iPrimaryAmmoType, true);
+		}
 	}
 #endif
 
@@ -147,15 +152,18 @@ void CWeaponRailgun::HolsterThink(void)
 	if (!pOwner || !pOwner->IsAlive())
 		return;
 
-	// no check for buttons here. we're holstered.
-	if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) < GetDefaultClip1())
+	if (!sv_ponedm_instagib.GetBool())
 	{
-		RechargeAmmo(true);
-	}
-	else if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) > GetDefaultClip1())
-	{
-		m_bJustOvercharged = true;
-		m_bOverchargeDamageBenefits = true;
+		// no check for buttons here. we're holstered.
+		if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) < GetDefaultClip1())
+		{
+			RechargeAmmo(true);
+		}
+		else if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) > GetDefaultClip1())
+		{
+			m_bJustOvercharged = true;
+			m_bOverchargeDamageBenefits = true;
+		}
 	}
 }
 
@@ -167,22 +175,26 @@ void CWeaponRailgun::ItemPostFrame(void)
 	CBasePlayer* pOwner = ToBasePlayer(GetOwner());
 	if (!pOwner)
 		return;
-	if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) < GetDefaultClip1())
-	{
-		if ((pOwner->GetAmmoCount(m_iPrimaryAmmoType) < RAIL_AMMO_OVERCHARGE))
-		{
-			m_bIsLowBattery = true;
-		}
 
-		if (((pOwner->m_nButtons & IN_ATTACK) == false) && ((pOwner->m_nButtons & IN_ATTACK2) == false))
-		{
-			RechargeAmmo(false);
-		}
-	}
-	else if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) > GetDefaultClip1())
+	if (!sv_ponedm_instagib.GetBool())
 	{
-		m_bJustOvercharged = true;
-		m_bOverchargeDamageBenefits = true;
+		if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) < GetDefaultClip1())
+		{
+			if ((pOwner->GetAmmoCount(m_iPrimaryAmmoType) < RAIL_AMMO_OVERCHARGE))
+			{
+				m_bIsLowBattery = true;
+			}
+
+			if (((pOwner->m_nButtons & IN_ATTACK) == false) && ((pOwner->m_nButtons & IN_ATTACK2) == false))
+			{
+				RechargeAmmo(false);
+			}
+		}
+		else if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) > GetDefaultClip1())
+		{
+			m_bJustOvercharged = true;
+			m_bOverchargeDamageBenefits = true;
+		}
 	}
 
 	UpdateAutoFire();
@@ -208,7 +220,14 @@ void CWeaponRailgun::ItemPostFrame(void)
 			m_flNextPrimaryAttack = gpGlobals->curtime;
 		}
 
-		if (!(pOwner->GetAmmoCount(m_iPrimaryAmmoType) <= 0))
+		if (!sv_ponedm_instagib.GetBool())
+		{
+			if (!(pOwner->GetAmmoCount(m_iPrimaryAmmoType) <= 0))
+			{
+				PrimaryAttack();
+			}
+		}
+		else
 		{
 			PrimaryAttack();
 		}
@@ -477,18 +496,24 @@ void CWeaponRailgun::PrimaryAttack(void)
 
 	pOwner->DoMuzzleFlash();
 	pOwner->ViewPunch(QAngle(-4, random->RandomFloat(-2, 2), 0));
-	
-	int iMinAmmoToUse = (m_bOverchargeDamageBenefits ? RAIL_AMMO_OVERCHARGE : RAIL_AMMO);
-	pOwner->RemoveAmmo(iMinAmmoToUse, m_iPrimaryAmmoType);
+
+	if (!sv_ponedm_instagib.GetBool())
+	{
+		int iMinAmmoToUse = (m_bOverchargeDamageBenefits ? RAIL_AMMO_OVERCHARGE : RAIL_AMMO);
+		pOwner->RemoveAmmo(iMinAmmoToUse, m_iPrimaryAmmoType);
+	}
 
 	m_flNextPrimaryAttack = gpGlobals->curtime + GetFireRate();
 
 	Fire();
 
-	if (!m_iClip1 && pOwner->GetAmmoCount(m_iPrimaryAmmoType) <= 0)
+	if (!sv_ponedm_instagib.GetBool())
 	{
-		// HEV suit - indicate out of ammo condition
-		pOwner->SetSuitUpdate("!HEV_AMO0", FALSE, 0);
+		if (!m_iClip1 && pOwner->GetAmmoCount(m_iPrimaryAmmoType) <= 0)
+		{
+			// HEV suit - indicate out of ammo condition
+			pOwner->SetSuitUpdate("!HEV_AMO0", FALSE, 0);
+		}
 	}
 }
 

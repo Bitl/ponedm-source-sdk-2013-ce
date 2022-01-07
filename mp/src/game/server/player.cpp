@@ -6192,6 +6192,10 @@ void CBasePlayer::CheatImpulseCommands( int iImpulse )
 		GiveAmmo( 5,	"grenade");
 		GiveAmmo( 32,	"357" );
 		GiveAmmo( 16,	"XBowBolt" );
+#ifdef PONEDM
+		GiveAmmo(255,	"Gatling");
+		GiveAmmo(255,	"Railgun");
+#endif
 #ifdef HL2_EPISODIC
 		GiveAmmo( 5,	"Hopwire" );
 #endif		
@@ -6208,6 +6212,11 @@ void CBasePlayer::CheatImpulseCommands( int iImpulse )
 		GiveNamedItem( "weapon_crossbow" );
 #ifdef HL2_EPISODIC
 		// GiveNamedItem( "weapon_magnade" );
+#endif
+
+#ifdef PONEDM
+		GiveNamedItem("weapon_gatling");
+		GiveNamedItem("weapon_railgun");
 #endif
 		if ( GetHealth() < 100 )
 		{

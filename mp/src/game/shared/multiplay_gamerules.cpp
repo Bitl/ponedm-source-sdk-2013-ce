@@ -42,6 +42,10 @@
 	#include "NextBotManager.h"
 #endif
 
+#ifdef PONEDM
+	#include "weapon_railgun.h"
+#endif
+
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -939,6 +943,9 @@ ConVarRef suitcharger( "sk_suitcharger" );
 	//=========================================================
 	int CMultiplayRules::WeaponShouldRespawn( CBaseCombatWeapon *pWeapon )
 	{
+		if (sv_ponedm_instagib.GetBool())
+			return GR_WEAPON_RESPAWN_NO;
+
 		if ( pWeapon->HasSpawnFlags( SF_NORESPAWN ) )
 		{
 			return GR_WEAPON_RESPAWN_NO;
@@ -988,6 +995,11 @@ ConVarRef suitcharger( "sk_suitcharger" );
 	//=========================================================
 	int CMultiplayRules::ItemShouldRespawn( CItem *pItem )
 	{
+		if (sv_ponedm_instagib.GetBool())
+		{
+			return GR_ITEM_RESPAWN_NO;
+		}
+
 		if ( pItem->HasSpawnFlags( SF_NORESPAWN ) )
 		{
 			return GR_ITEM_RESPAWN_NO;
@@ -1056,14 +1068,28 @@ ConVarRef suitcharger( "sk_suitcharger" );
 	//=========================================================
 	int CMultiplayRules::DeadPlayerWeapons( CBasePlayer *pPlayer )
 	{
-		return GR_PLR_DROP_GUN_ACTIVE;
+		if (sv_ponedm_instagib.GetBool())
+		{
+			return GR_PLR_DROP_GUN_NO;
+		}
+		else
+		{
+			return GR_PLR_DROP_GUN_ACTIVE;
+		}
 	}
 
 	//=========================================================
 	//=========================================================
 	int CMultiplayRules::DeadPlayerAmmo( CBasePlayer *pPlayer )
 	{
-		return GR_PLR_DROP_AMMO_ACTIVE;
+		if (sv_ponedm_instagib.GetBool())
+		{
+			return GR_PLR_DROP_AMMO_NO;
+		}
+		else
+		{
+			return GR_PLR_DROP_AMMO_ACTIVE;
+		}
 	}
 
 	CBaseEntity *CMultiplayRules::GetPlayerSpawnSpot( CBasePlayer *pPlayer )

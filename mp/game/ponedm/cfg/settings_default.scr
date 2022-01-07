@@ -61,6 +61,27 @@ DESCRIPTION SERVER_OPTIONS
 		{ NUMBER 1 32 }
 		{ "32" }
 	}
+	
+	"sv_ponedm_randomizer"
+	{
+		"#PoneDM_Randomizer"
+		{ BOOL }
+		{ "0" }
+	}
+	
+	"sv_ponedm_randomizer_weaponcount"
+	{
+		"#PoneDM_Randomizer_WeaponCount"
+		{ NUMBER 0 -1 }
+		{ "5" }
+	}
+	
+	"sv_ponedm_instagib"
+	{
+		"#PoneDM_Instagib"
+		{ BOOL }
+		{ "0" }
+	}
 
 	"mp_timelimit"
 	{
@@ -115,20 +136,6 @@ DESCRIPTION SERVER_OPTIONS
 		"#PoneDM_BotNameTag"
 		{ BOOL }
 		{ "1" }
-	}
-	
-	"sv_ponedm_randomizer"
-	{
-		"#PoneDM_Randomizer"
-		{ BOOL }
-		{ "0" }
-	}
-	
-	"sv_ponedm_randomizer_weaponcount"
-	{
-		"#PoneDM_Randomizer_WeaponCount"
-		{ NUMBER 0 -1 }
-		{ "5" }
 	}
 	
 	"sv_ponedm_updatecolors"

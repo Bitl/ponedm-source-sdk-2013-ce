@@ -67,6 +67,10 @@
 #include "tf_gamerules.h"
 #endif
 
+#ifdef PONEDM
+#include "weapon_railgun.h"
+#endif
+
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -6627,6 +6631,12 @@ void CBaseEntity::InputAddOutput( inputdata_t &inputdata )
 			*sColon = ',';
 			sColon = strchr( sChar+1, ':' );
 		}
+
+		if (sv_ponedm_instagib.GetBool() && IsPlayer() && FStrEq(sOutputName, "Health"))
+		{
+			return;
+		}
+
 		KeyValue( sOutputName, sChar+1 );
 	}
 	else
