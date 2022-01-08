@@ -27,7 +27,7 @@
 #include "ilagcompensationmanager.h"
 #include <sceneentity.h>
 #include <particle_parse.h>
-#include "bots\ponedm_bot.h"
+#include "bots/ponedm_bot.h"
 #include "weapon_railgun.h"
 
 int g_iLastCitizenModel = 0;

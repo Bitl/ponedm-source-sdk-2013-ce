@@ -9,7 +9,7 @@
 #pragma once
 #endif
 
-#include "bots\interfaces\ibot.h"
+#include "bots/interfaces/ibot.h"
 
 class IBotVision;
 class IBotAttack;

@@ -3,7 +3,7 @@
 // Iván Bravo Bravo (linkedin.com/in/ivanbravobravo), 2017
 
 #include "cbase.h"
-#include "bots\bot.h"
+#include "bots/bot.h"
 
 #ifdef INSOURCE_DLL
 #include "in_gamerules.h"
@@ -12,7 +12,7 @@
 #else
 #include "ai_senses.h"
 #include "gamerules.h"
-#include "bots\in_utils.h"
+#include "bots/in_utils.h"
 #endif
 
 #include "hl2mp/weapon_slam.h"

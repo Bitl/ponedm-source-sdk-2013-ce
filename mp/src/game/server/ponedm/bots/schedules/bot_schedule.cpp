@@ -4,13 +4,13 @@
 
 #include "cbase.h"
 
-#include "bots\bot.h"
-#include "bots\interfaces\ibotschedule.h"
+#include "bots/bot.h"
+#include "bots/interfaces/ibotschedule.h"
 
 #ifdef INSOURCE_DLL
 #include "in_utils.h"
 #else
-#include "bots\in_utils.h"
+#include "bots/in_utils.h"
 #endif
 
 #include "in_buttons.h"

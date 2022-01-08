@@ -15,10 +15,10 @@
 #include "in_player.h"
 #endif
 
-#include "bots\bot_defs.h"
-#include "bots\interfaces\ibot.h"
-#include "bots\components\bot_components.h"
-#include "bots\schedules\bot_schedules.h"
+#include "bots/bot_defs.h"
+#include "bots/interfaces/ibot.h"
+#include "bots/components/bot_components.h"
+#include "bots/schedules/bot_schedules.h"
 
 #include "squad.h"
 
@@ -79,11 +79,9 @@ public:
 
     virtual void AddComponent( IBotComponent *pComponent );
 
-    template<typename COMPONENT>
-    COMPONENT GetComponent( int id ) const;
+    template<typename COMPONENT> COMPONENT GetComponent( int id ) const;
 
-    template<typename COMPONENT>
-    COMPONENT GetComponent( int id );
+    template<typename COMPONENT> COMPONENT GetComponent( int id );
 
     virtual void SetUpComponents();
     virtual void SetUpSchedules();

@@ -13,7 +13,7 @@
 #include "in_shareddefs.h"
 #endif
 
-#include "bots\bot_defs.h"
+#include "bots/bot_defs.h"
 
 #ifdef time
 #undef time

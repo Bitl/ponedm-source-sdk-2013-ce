@@ -3,13 +3,13 @@
 // Iván Bravo Bravo (linkedin.com/in/ivanbravobravo), 2017
 
 #include "cbase.h"
-#include "bots\bot.h"
+#include "bots/bot.h"
 
 #ifdef INSOURCE_DLL
 #include "in_utils.h"
 #include "in_gamerules.h"
 #else
-#include "bots\in_utils.h"
+#include "bots/in_utils.h"
 #endif
 
 #include "nav.h"

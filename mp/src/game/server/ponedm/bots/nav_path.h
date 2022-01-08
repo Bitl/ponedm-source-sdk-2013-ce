@@ -7,6 +7,7 @@
 #ifndef _NAV_PATH_H_
 #define _NAV_PATH_H_
 
+#include "nav_mesh.h"
 #include "nav_area.h"
 
 class CImprov;

@@ -3,7 +3,7 @@
 // Iván Bravo Bravo (linkedin.com/in/ivanbravobravo), 2017
 
 #include "cbase.h"
-#include "bots\bot.h"
+#include "bots/bot.h"
 
 #ifdef INSOURCE_DLL
 #include "in_player.h"
@@ -12,12 +12,12 @@
 #include "players_system.h"
 #include "in_utils.h"
 #else
-#include "bots\in_utils.h"
+#include "bots/in_utils.h"
 #endif
 
-#include "bots\bot_defs.h"
-#include "bots\squad_manager.h"
-#include "bots\bot_manager.h"
+#include "bots/bot_defs.h"
+#include "bots/squad_manager.h"
+#include "bots/bot_manager.h"
 
 #include "nav.h"
 #include "nav_mesh.h"

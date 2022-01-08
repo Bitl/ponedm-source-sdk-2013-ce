@@ -9,7 +9,7 @@
 #pragma once
 #endif
 
-#include "bots\bot_defs.h"
+#include "bots/bot_defs.h"
 
 //================================================================================
 // Spawn Flags
