@@ -23,7 +23,7 @@
 #pragma once
 #endif
 
-#include "bots\interfaces\ibotschedule.h"
+#include "bots/interfaces/ibotschedule.h"
 
 //================================================================================
 // Investigar una ubicación y regresar a donde estabamos si no había nada

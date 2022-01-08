@@ -4,12 +4,12 @@
 // Iván Bravo Bravo (linkedin.com/in/ivanbravobravo), 2017
 
 #include "cbase.h"
-#include "bots\bot.h"
+#include "bots/bot.h"
 
 #ifdef INSOURCE_DLL
 #include "in_utils.h"
 #else
-#include "bots\in_utils.h"
+#include "bots/in_utils.h"
 #endif
 
 #include "nav.h"
@@ -334,7 +334,9 @@ Vector & CBotLocomotion::GetGroundNormal() const
 {
     if ( !IsOnGround() ) 
     {
-        return Vector(vec3_invalid);
+        Vector &vecResult = AllocTempVector();
+        vecResult = vec3_invalid;
+        return vecResult;
     }
 
     Vector vecFloor( GetFeet() );
@@ -358,7 +360,9 @@ float CBotLocomotion::GetTolerance() const
 
 Vector & CBotLocomotion::GetVelocity() const
 {
-    return Vector(GetHost()->GetAbsVelocity());
+    Vector &vecResult = AllocTempVector();
+    vecResult = GetHost()->GetAbsVelocity();
+    return vecResult;
 }
 
 float CBotLocomotion::GetSpeed() const

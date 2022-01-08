@@ -10,13 +10,13 @@
 #pragma once
 #endif
 
-#include "bots\interfaces\ibotcomponent.h"
-#include "bots\interfaces\ibotvision.h"
-#include "bots\interfaces\ibotlocomotion.h"
-#include "bots\interfaces\ibotfollow.h"
-#include "bots\interfaces\ibotmemory.h"
-#include "bots\interfaces\ibotattack.h"
-#include "bots\interfaces\ibotdecision.h"
+#include "bots/interfaces/ibotcomponent.h"
+#include "bots/interfaces/ibotvision.h"
+#include "bots/interfaces/ibotlocomotion.h"
+#include "bots/interfaces/ibotfollow.h"
+#include "bots/interfaces/ibotmemory.h"
+#include "bots/interfaces/ibotattack.h"
+#include "bots/interfaces/ibotdecision.h"
 
 //================================================================================
 // Macros

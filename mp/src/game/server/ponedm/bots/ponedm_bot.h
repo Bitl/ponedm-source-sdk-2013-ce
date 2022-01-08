@@ -5,7 +5,7 @@
 #pragma once
 #endif
 
-#include "bots\bot.h"
+#include "bots/bot.h"
 #include "ai_hint.h"
 
 //================================================================================

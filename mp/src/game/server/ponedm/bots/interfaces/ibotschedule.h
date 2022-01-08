@@ -23,7 +23,7 @@
 #pragma once
 #endif
 
-#include "bots\interfaces\ibotcomponent.h"
+#include "bots/interfaces/ibotcomponent.h"
 
 //================================================================================
 // Macros

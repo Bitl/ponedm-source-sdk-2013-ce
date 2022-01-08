@@ -8,14 +8,14 @@
 // If you are an expert in C++ and pointers, please get this code out of misery.
 
 #include "cbase.h"
-#include "bots\bot.h"
-#include "bots\bot_manager.h"
+#include "bots/bot.h"
+#include "bots/bot_manager.h"
 
 #ifdef INSOURCE_DLL
 #include "in_utils.h"
 #include "in_player.h"
 #else
-#include "bots\in_utils.h"
+#include "bots/in_utils.h"
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!

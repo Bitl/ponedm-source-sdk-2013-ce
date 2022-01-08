@@ -9,8 +9,8 @@
 #pragma once
 #endif
 
-#include "bots\bot_defs.h"
-#include "bots\bot_utils.h"
+#include "bots/bot_defs.h"
+#include "bots/bot_utils.h"
 
 class IBotSchedule;
 class IBotComponent;
@@ -162,11 +162,9 @@ public:
 
     virtual void AddComponent( IBotComponent *pComponent ) = 0;
 
-    template<typename COMPONENT>
-    COMPONENT GetComponent( int id ) const = 0;
+    template<typename COMPONENT> COMPONENT GetComponent( int id ) const;
 
-    template<typename COMPONENT>
-    COMPONENT GetComponent( int id ) = 0;
+    template<typename COMPONENT> COMPONENT GetComponent( int id );
 
     virtual void SetUpComponents() = 0;
     virtual void SetUpSchedules() = 0;
