@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 //
 #ifdef POSIX
+#include "cbase.h"
 #include <dlfcn.h>
 #include <libgen.h>
 //#include <unistd.h>
-
-// Linux doesn't have this function so this emulates its functionality
-extern void *GetModuleHandle(const char *name);
 
 extern int GetModuleInformation(const char *name, void **base, size_t *length);
 
@@ -21,12 +19,15 @@ extern int GetModuleInformation(const char *name, void **base, size_t *length);
 #define CLIENT_DLL_NAME "./momentum/bin/client.dylib" //OSX
 #define SERVER_DLL_NAME "./momentum/bin/server.dylib" //OSX
 #define ENGINE_DLL_NAME "engine.dylib"
+#define ENGINE_DEDICATED_DLL_NAME "engine.dylib"
 #include <mach-o/dyld_images.h>
 #include <mach-o/dyld.h>
 #else
 #define CLIENT_DLL_NAME "./momentum/bin/client.so" //LINUX
 #define SERVER_DLL_NAME "./momentum/bin/server.so" //LINUX
 #define ENGINE_DLL_NAME "engine.so"
+#define ENGINE_DEDICATED_DLL_NAME "engine_srv.so"
+
 
 #endif
 

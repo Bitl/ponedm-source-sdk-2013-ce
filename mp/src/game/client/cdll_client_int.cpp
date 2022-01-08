@@ -124,7 +124,9 @@
 #include "sourcevr/isourcevirtualreality.h"
 #include "client_virtualreality.h"
 #include "mumble.h"
+#ifdef _WIN32
 #include "discord_rpc.h"
+#endif
 #include <time.h>
 
 // NVNT includes
@@ -333,9 +335,11 @@ void DispatchHudText( const char *pszName );
 static ConVar s_CV_ShowParticleCounts("showparticlecounts", "0", 0, "Display number of particles drawn per frame");
 static ConVar s_cl_team("cl_team", "default", FCVAR_USERINFO|FCVAR_ARCHIVE, "Default team when joining a game");
 static ConVar s_cl_class("cl_class", "default", FCVAR_USERINFO|FCVAR_ARCHIVE, "Default class when joining a game");
+#ifdef _WIN32
 // Discord RPC
 static ConVar cl_discord_appid("cl_discord_appid", "815383723243601970", FCVAR_DEVELOPMENTONLY | FCVAR_CHEAT);
 static ConVar cl_discord("cl_discord", "1", FCVAR_ARCHIVE);
+#endif
 static int64_t startTimestamp = time(0);
 
 #ifdef HL1MP_CLIENT_DLL
@@ -842,6 +846,7 @@ bool IsEngineThreaded()
 	return false;
 }
 
+#ifdef _WIN32
 //-----------------------------------------------------------------------------
 // Discord RPC
 //-----------------------------------------------------------------------------
@@ -877,6 +882,7 @@ static void HandleDiscordJoinRequest(const DiscordUser* request)
 {
 	// Not implemented
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Constructor
@@ -1131,6 +1137,7 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	HookHapticMessages(); // Always hook the messages
 #endif
 
+#ifdef _WIN32
 	// Discord RPC
 	if (cl_discord.GetBool())
 	{
@@ -1160,6 +1167,7 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 			Discord_UpdatePresence(&discordPresence);
 		}
 	}
+#endif
 
 	return true;
 }
@@ -1286,8 +1294,10 @@ void CHLClient::Shutdown( void )
 	ShutdownFbx();
 #endif
 
+#ifdef _WIN32
 	// Discord RPC
 	Discord_Shutdown();
+#endif
 	
 	// This call disconnects the VGui libraries which we rely on later in the shutdown path, so don't do it
 //	DisconnectTier3Libraries( );
@@ -1704,6 +1714,7 @@ void CHLClient::LevelInitPreEntity(char const* pMapName)
 	// Check low violence settings for this map
 	g_RagdollLVManager.SetLowViolence(pMapName);
 
+#ifdef _WIN32
 	// Discord RPC
 	if (cl_discord.GetBool())
 	{
@@ -1720,6 +1731,7 @@ void CHLClient::LevelInitPreEntity(char const* pMapName)
 			Discord_UpdatePresence(&discordPresence);
 		}
 	}
+#endif
 
 	gHUD.LevelInit();
 
@@ -1809,6 +1821,7 @@ void CHLClient::LevelShutdown( void )
 
 	gHUD.LevelShutdown();
 
+#ifdef _WIN32
 	// Discord RPC
 	if (cl_discord.GetBool())
 	{
@@ -1824,6 +1837,7 @@ void CHLClient::LevelShutdown( void )
 			Discord_UpdatePresence(&discordPresence);
 		}
 	}
+#endif
 
 	internalCenterPrint->Clear();
 

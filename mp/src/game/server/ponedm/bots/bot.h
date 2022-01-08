@@ -9,7 +9,7 @@
 #pragma once
 #endif
 
-#include "utlflags.h."
+#include "tier1/utlflags.h"
 
 #ifdef INSOURCE_DLL
 #include "in_player.h"

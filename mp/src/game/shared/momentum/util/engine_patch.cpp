@@ -139,7 +139,8 @@ bool CEngineBinary::Init()
     m_iModuleSize = info.SizeOfImage;
 #else //POSIX
     if (GetModuleInformation(ENGINE_DLL_NAME, &m_pModuleBase, &m_iModuleSize))
-        return false;
+        if (GetModuleInformation(ENGINE_DEDICATED_DLL_NAME, &m_pModuleBase, &m_iModuleSize))
+            return false;
 #endif //_WIN32
 
     return true;

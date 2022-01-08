@@ -1,0 +1,5 @@
+chmod -R +x devtools/bin
+chmod +x creategameprojects
+chmod +x createallprojects
+bash creategameprojects
+make -f Game_ponedm.mak
