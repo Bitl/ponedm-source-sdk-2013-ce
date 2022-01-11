@@ -6,6 +6,8 @@ Mane changes:
 	- Ponies cannot pick up weapons or items.
 
 - Added Linux support. (Thank you to Cyanide for help with this :D)
+	- Compiled under WSL Ubuntu. Tested under Pop_OS (Ubuntu).
+	- Some sounds may not work properly.
 
 Bug Fixes:
 - Fixed custom weapons not being given with "impulse 101".
