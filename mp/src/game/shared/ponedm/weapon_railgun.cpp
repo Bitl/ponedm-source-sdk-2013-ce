@@ -265,12 +265,23 @@ void CWeaponRailgun::ToggleZoom(void)
 	if (pPlayer == NULL)
 		return;
 
-#ifndef CLIENT_DLL
+	CBaseViewModel* vm = pPlayer->GetViewModel();
 
+	if (vm == NULL)
+		return;
+
+	CBaseViewModel* hands = pPlayer->GetViewModel(1);
+
+	if (hands == NULL)
+		return;
+
+#ifndef CLIENT_DLL
 	if (m_bInZoom)
 	{
 		if (pPlayer->SetFOV(this, 0, 0.2f))
 		{
+			vm->RemoveEffects(EF_NODRAW);
+			hands->RemoveEffects(EF_NODRAW);
 			m_bInZoom = false;
 		}
 	}
@@ -278,6 +289,8 @@ void CWeaponRailgun::ToggleZoom(void)
 	{
 		if (pPlayer->SetFOV(this, 20, 0.1f))
 		{
+			vm->AddEffects(EF_NODRAW);
+			hands->AddEffects(EF_NODRAW);
 			m_bInZoom = true;
 		}
 	}

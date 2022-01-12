@@ -5,13 +5,14 @@ Mane changes:
 	- Ponies are dismembered on death when when gore is enabled on the client.
 	- Ponies cannot pick up weapons or items.
 
-- Added Linux support. (Thank you to Cyanide for help with this :D)
+- Added Linux support. (Thank you to Cyanide for help with this :D) (TODO: RECOMPILE AFTER UPDATE)
 	- Compiled under WSL Ubuntu. Tested under Pop_OS (Ubuntu).
-	- Some sounds may not work properly.
+	- Known issues: Some sounds may not work properly.
 
 Bug Fixes:
 - Fixed custom weapons not being given with "impulse 101".
 - Fixed some gore effects not working when gore is enabled.
+- Fixed a bug where the viewmodel wouldn't hide at high FOVs.
 
 Misc. Changes:
 - Moved the gamemode-related options to near the basic server settings. 
