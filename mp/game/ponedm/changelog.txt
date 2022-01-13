@@ -7,15 +7,16 @@ Mane changes:
 
 - Added Linux support. (Thank you to Cyanide for help with this :D) (TODO: RECOMPILE AFTER UPDATE)
 	- Compiled under WSL Ubuntu. Tested under Pop_OS (Ubuntu).
-	- Known issues: Some sounds may not work properly.
+	- Known issues: Some sounds may not load properly.
 
 Bug Fixes:
 - Fixed custom weapons not being given with "impulse 101".
 - Fixed some gore effects not working when gore is enabled.
-- Fixed a bug where the viewmodel wouldn't hide at high FOVs.
+- Fixed a bug where the viewmodel wouldn't hide when zooming at high FOVs.
 
 Misc. Changes:
-- Moved the gamemode-related options to near the basic server settings. 
+- Moved the gamemode-related options to near the basic server settings.
+- Set the default FOV to 90.
 
 Release 1.0 (Released 4-11-21):
 Mane changes:
