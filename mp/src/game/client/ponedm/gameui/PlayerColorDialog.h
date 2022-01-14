@@ -12,7 +12,7 @@
 #endif
 
 #include <vgui_controls/Frame.h>
-#include "game_controls/basemodelpanel.h"
+#include <ponedm/gameui/advmodelpanel.h>
 
 class CCvarSlider;
 
@@ -30,7 +30,7 @@ public:
 	// returns currently entered information about the server
 	void DialogInit();
 	void LoadAppearanceOptions();
-	void UpdateCharacter();
+	void Update();
 	virtual void OnClose();
 	virtual void OnKeyCodeTyped(vgui::KeyCode code);
 	MESSAGE_FUNC_PTR(OnControlModified, "ControlModified", panel);
@@ -62,7 +62,6 @@ private:
 	vgui::ComboBox		*m_pLowerManeList;
 	vgui::ComboBox		*m_pTailList;
 
-	CModelPanel		*m_pPonyModel;
-	vgui::Label		*m_pMissingPlayerLabel;
+	CAdvModelPanel	*m_pPonyModel;
 };
 #endif

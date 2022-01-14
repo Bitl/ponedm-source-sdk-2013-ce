@@ -22,6 +22,8 @@ using namespace vgui;
 #include <vgui_controls/ComboBox.h>
 #include <vgui/ILocalize.h>
 
+#include <hl2/hl2_shareddefs.h>
+
 // for SRC
 #include <vstdlib/random.h>
 
@@ -97,8 +99,7 @@ CPlayerColorDialog::CPlayerColorDialog(vgui::Panel *parent) : BaseClass(NULL, "P
 	m_pTailList = new ComboBox(this, "TailList", 12, false);
 
 	//model
-	m_pPonyModel = new CModelPanel(this, "PonyModelPanel");
-	m_pMissingPlayerLabel = new Label(this, "MissingPlayerLabel", "#PoneDM_MissingPlayer");
+	m_pPonyModel = new CAdvModelPanel(this, "PonyModelPanel");
 
 	LoadControlSettings("Resource/PlayerColorDialog.res");
 	
@@ -193,7 +194,7 @@ CPlayerColorDialog::CPlayerColorDialog(vgui::Panel *parent) : BaseClass(NULL, "P
 	SetSizeable(false);
 	SetDeleteSelfOnClose(true);
 	MoveToCenterOfScreen();
-	UpdateCharacter();
+	Update();
 }
 
 //-----------------------------------------------------------------------------
@@ -568,46 +569,40 @@ void CPlayerColorDialog::OnTextChanged(Panel *panel)
 	{
 		int selectedUpperMane = m_pUpperManeList->GetActiveItemUserData()->GetInt("id");
 		upperMane.SetValue(selectedUpperMane);
-		UpdateCharacter();
+		Update();
 	}
 	else if (panel == m_pLowerManeList)
 	{
 		int selectedLowerMane = m_pLowerManeList->GetActiveItemUserData()->GetInt("id");
 		lowerMane.SetValue(selectedLowerMane);
-		UpdateCharacter();
+		Update();
 	}
 	else if (panel == m_pTailList)
 	{
 		int selectedTail = m_pTailList->GetActiveItemUserData()->GetInt("id");
 		tail.SetValue(selectedTail);
-		UpdateCharacter();
+		Update();
 	}
 }
 
-void CPlayerColorDialog::UpdateCharacter(void)
+void CPlayerColorDialog::Update(void)
 {
-	C_BasePlayer* pLocalPlayer = C_BasePlayer::GetLocalPlayer();
+	if (m_pPonyModel)
+	{
+		Vector origpos;
+		QAngle origang;
+		m_pPonyModel->GetCameraPositionAndAngles(origpos, origang);
+		m_pPonyModel->SetMergeMDL("models/weapons/w_crowbar.mdl", NULL, 0);
 
-	if (!pLocalPlayer)
-	{
-		m_pMissingPlayerLabel->SetVisible(true);
-		return;
-	}
-	else
-	{
-		m_pMissingPlayerLabel->SetVisible(false);
-	}
+		//HACK.
+		ConVarRef upperMane("cl_ponedm_uppermane");
+		ConVarRef lowerMane("cl_ponedm_lowermane");
+		ConVarRef tail("cl_ponedm_tail");
+		m_pPonyModel->SetBodygroup(PONEDM_UPPERMANE_BODYGROUP, upperMane.GetInt());
+		m_pPonyModel->SetBodygroup(PONEDM_LOWERMANE_BODYGROUP, lowerMane.GetInt());
+		m_pPonyModel->SetBodygroup(PONEDM_TAIL_BODYGROUP, tail.GetInt());
 
-	KeyValues* pKV2 = new KeyValues("PonyView");
-	if (pKV2->LoadFromFile(filesystem, "scripts/appearance_3dview_settings.txt", "GAME"))
-	{
-		for (KeyValues* pData = pKV2->GetFirstSubKey(); pData != NULL; pData = pData->GetNextKey())
-		{
-			if (!Q_stricmp(pData->GetName(), "model"))
-			{
-				m_pPonyModel->ParseModelInfo(pData);
-			}
-		}
+		m_pPonyModel->Update();
+		m_pPonyModel->SetCameraPositionAndAngles(origpos, origang);
 	}
-	pKV2->deleteThis();
 }
