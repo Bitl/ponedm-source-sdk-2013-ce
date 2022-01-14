@@ -20,12 +20,6 @@ enum HL2MPPlayerState
 	NUM_PLAYER_STATES
 };
 
-#ifdef PONEDM
-#define PONEDM_UPPERMANE_BODYGROUP 1
-#define PONEDM_LOWERMANE_BODYGROUP 2
-#define PONEDM_TAIL_BODYGROUP 3
-#endif
-
 #if defined( CLIENT_DLL )
 #define CHL2MP_Player C_HL2MP_Player
 #endif

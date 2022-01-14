@@ -42,7 +42,7 @@ ConCommand PlayerColorDialog("PlayerColorDialog", LoadCommand, "", FCVAR_HIDDEN)
 CPlayerColorDialog::CPlayerColorDialog(vgui::Panel *parent) : BaseClass(NULL, "PlayerColorDialog")
 {
 	SetSize(348, 460);
-	
+
 	//primary
 	m_pPrimaryColorRSlider = new CCvarSlider( this, "PrimaryRedSlider", "#GameUI_PrimaryColor_R", 0, 255, "cl_ponedm_primarycolor_r", false );
 
@@ -95,6 +95,10 @@ CPlayerColorDialog::CPlayerColorDialog(vgui::Panel *parent) : BaseClass(NULL, "P
 	m_pUpperManeList = new ComboBox(this, "UpperManeList", 12, false);
 	m_pLowerManeList = new ComboBox(this, "LowerManeList", 12, false);
 	m_pTailList = new ComboBox(this, "TailList", 12, false);
+
+	//model
+	m_pPonyModel = new CModelPanel(this, "PonyModelPanel");
+	m_pMissingPlayerLabel = new Label(this, "MissingPlayerLabel", "#PoneDM_MissingPlayer");
 
 	LoadControlSettings("Resource/PlayerColorDialog.res");
 	
@@ -184,11 +188,12 @@ CPlayerColorDialog::CPlayerColorDialog(vgui::Panel *parent) : BaseClass(NULL, "P
 		Q_snprintf(buf, sizeof(buf), " %.1f", cl_ponedm_tertiarycolor_b);
 		m_pTertiaryColorBLabel->SetText(buf);
 	}
-	
+
 	LoadAppearanceOptions();
 	SetSizeable(false);
 	SetDeleteSelfOnClose(true);
 	MoveToCenterOfScreen();
+	UpdateCharacter();
 }
 
 //-----------------------------------------------------------------------------
@@ -318,7 +323,6 @@ void CPlayerColorDialog::LoadAppearanceOptions()
 	ConVarRef upperMane("cl_ponedm_uppermane");
 	ConVarRef lowerMane("cl_ponedm_lowermane");
 	ConVarRef tail("cl_ponedm_tail");
-
 	m_pUpperManeList->ActivateItem(upperMane.GetInt());
 	m_pLowerManeList->ActivateItem(lowerMane.GetInt());
 	m_pTailList->ActivateItem(tail.GetInt());
@@ -341,16 +345,17 @@ void CPlayerColorDialog::OnClose()
 	m_pTertiaryColorGSlider->ApplyChanges();
 	m_pTertiaryColorBSlider->ApplyChanges();
 
-	int selectedUpperMane = m_pUpperManeList->GetActiveItemUserData()->GetInt("id");
 	ConVarRef upperMane("cl_ponedm_uppermane");
+	ConVarRef lowerMane("cl_ponedm_lowermane");
+	ConVarRef tail("cl_ponedm_tail");
+
+	int selectedUpperMane = m_pUpperManeList->GetActiveItemUserData()->GetInt("id");
 	upperMane.SetValue(selectedUpperMane);
 
 	int selectedLowerMane = m_pLowerManeList->GetActiveItemUserData()->GetInt("id");
-	ConVarRef lowerMane("cl_ponedm_lowermane");
 	lowerMane.SetValue(selectedLowerMane);
 
 	int selectedTail = m_pTailList->GetActiveItemUserData()->GetInt("id");
-	ConVarRef tail("cl_ponedm_tail");
 	tail.SetValue(selectedTail);
 	
 	BaseClass::OnClose();
@@ -555,22 +560,54 @@ void CPlayerColorDialog::OnTextChanged(Panel *panel)
 		}
 	}
 
+	ConVarRef upperMane("cl_ponedm_uppermane");
+	ConVarRef lowerMane("cl_ponedm_lowermane");
+	ConVarRef tail("cl_ponedm_tail");
+
 	if (panel == m_pUpperManeList)
 	{
 		int selectedUpperMane = m_pUpperManeList->GetActiveItemUserData()->GetInt("id");
-		ConVarRef upperMane("cl_ponedm_uppermane");
 		upperMane.SetValue(selectedUpperMane);
+		UpdateCharacter();
 	}
 	else if (panel == m_pLowerManeList)
 	{
 		int selectedLowerMane = m_pLowerManeList->GetActiveItemUserData()->GetInt("id");
-		ConVarRef lowerMane("cl_ponedm_lowermane");
 		lowerMane.SetValue(selectedLowerMane);
+		UpdateCharacter();
 	}
 	else if (panel == m_pTailList)
 	{
 		int selectedTail = m_pTailList->GetActiveItemUserData()->GetInt("id");
-		ConVarRef tail("cl_ponedm_tail");
 		tail.SetValue(selectedTail);
+		UpdateCharacter();
 	}
+}
+
+void CPlayerColorDialog::UpdateCharacter(void)
+{
+	C_BasePlayer* pLocalPlayer = C_BasePlayer::GetLocalPlayer();
+
+	if (!pLocalPlayer)
+	{
+		m_pMissingPlayerLabel->SetVisible(true);
+		return;
+	}
+	else
+	{
+		m_pMissingPlayerLabel->SetVisible(false);
+	}
+
+	KeyValues* pKV2 = new KeyValues("PonyView");
+	if (pKV2->LoadFromFile(filesystem, "scripts/appearance_3dview_settings.txt", "GAME"))
+	{
+		for (KeyValues* pData = pKV2->GetFirstSubKey(); pData != NULL; pData = pData->GetNextKey())
+		{
+			if (!Q_stricmp(pData->GetName(), "model"))
+			{
+				m_pPonyModel->ParseModelInfo(pData);
+			}
+		}
+	}
+	pKV2->deleteThis();
 }

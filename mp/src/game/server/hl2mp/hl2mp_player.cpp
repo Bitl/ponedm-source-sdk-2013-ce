@@ -29,6 +29,7 @@
 #include <particle_parse.h>
 #include "bots/ponedm_bot.h"
 #include "weapon_railgun.h"
+#include "hl2_shareddefs.h"
 
 int g_iLastCitizenModel = 0;
 int g_iLastCombineModel = 0;

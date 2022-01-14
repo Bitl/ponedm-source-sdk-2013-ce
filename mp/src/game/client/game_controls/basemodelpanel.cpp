@@ -30,6 +30,11 @@
 #include "dlight.h"
 #include "activitylist.h"
 
+#ifdef PONEDM
+	#include "hl2_shareddefs.h"
+	#include "c_hl2mp_player.h"
+#endif
+
 #include "basemodelpanel.h"
 
 bool UseHWMorphModels();
@@ -390,6 +395,19 @@ void CModelPanel::SetupModel( void )
 		pEnt->m_nSkin = m_pModelInfo->m_nSkin;
 	}
 
+#ifdef PONEDM
+	if (Q_strstr(GetModelName(), "models/ppm/"))
+	{
+		//HACK.
+		ConVarRef upperMane("cl_ponedm_uppermane");
+		ConVarRef lowerMane("cl_ponedm_lowermane");
+		ConVarRef tail("cl_ponedm_tail");
+		m_hModel->SetBodygroup(PONEDM_UPPERMANE_BODYGROUP, upperMane.GetInt());
+		m_hModel->SetBodygroup(PONEDM_LOWERMANE_BODYGROUP, lowerMane.GetInt());
+		m_hModel->SetBodygroup(PONEDM_TAIL_BODYGROUP, tail.GetInt());
+	}
+#endif
+
 	// do we have any animation information?
 	if ( m_pModelInfo->m_Animations.Count() > 0 && m_pModelInfo->m_Animations.IsValidIndex( m_iDefaultAnimation ) )
 	{
@@ -508,7 +526,7 @@ void CModelPanel::Paint()
 
 	C_BasePlayer *pLocalPlayer = C_BasePlayer::GetLocalPlayer();
 
-	if ( !pLocalPlayer || !m_pModelInfo )
+	if ( !pLocalPlayer || !m_pModelInfo)
 		return;
 
 	MDLCACHE_CRITICAL_SECTION();

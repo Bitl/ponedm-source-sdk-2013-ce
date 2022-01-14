@@ -12,6 +12,7 @@
 #endif
 
 #include <vgui_controls/Frame.h>
+#include "game_controls/basemodelpanel.h"
 
 class CCvarSlider;
 
@@ -29,14 +30,13 @@ public:
 	// returns currently entered information about the server
 	void DialogInit();
 	void LoadAppearanceOptions();
-
-private:
+	void UpdateCharacter();
 	virtual void OnClose();
 	virtual void OnKeyCodeTyped(vgui::KeyCode code);
-	
-	MESSAGE_FUNC_PTR( OnControlModified, "ControlModified", panel );
-    MESSAGE_FUNC_PTR( OnTextChanged, "TextChanged", panel );
+	MESSAGE_FUNC_PTR(OnControlModified, "ControlModified", panel);
+	MESSAGE_FUNC_PTR(OnTextChanged, "TextChanged", panel);
 
+private:
 	CCvarSlider			*m_pPrimaryColorRSlider;
     vgui::TextEntry		*m_pPrimaryColorRLabel;
 	CCvarSlider			*m_pPrimaryColorGSlider;
@@ -61,7 +61,8 @@ private:
 	vgui::ComboBox		*m_pUpperManeList;
 	vgui::ComboBox		*m_pLowerManeList;
 	vgui::ComboBox		*m_pTailList;
+
+	CModelPanel		*m_pPonyModel;
+	vgui::Label		*m_pMissingPlayerLabel;
 };
-
-
 #endif

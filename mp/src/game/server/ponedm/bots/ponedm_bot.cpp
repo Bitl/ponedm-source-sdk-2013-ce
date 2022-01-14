@@ -3,6 +3,7 @@
 #include "bot_manager.h"
 #include "bots/in_utils.h"
 #include "in_buttons.h"
+#include "hl2_shareddefs.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
