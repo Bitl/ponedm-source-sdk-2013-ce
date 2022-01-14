@@ -222,4 +222,7 @@
 	"name" "Twist"
 	"name" "Whirl"
 	"name" "Wish"
+	"name" "Digital"
+	"name" "Note"
+	"name" "Flame"
 }

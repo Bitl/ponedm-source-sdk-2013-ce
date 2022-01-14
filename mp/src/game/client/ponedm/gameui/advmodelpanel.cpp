@@ -9,13 +9,13 @@
 
 DECLARE_BUILD_FACTORY( CAdvModelPanel );
 
-static ConVar cl_advpanel_design("cl_advpanel_design", "0", FCVAR_DEVELOPMENTONLY, "");
+static ConVar cl_advpanel_design("cl_advpanel_design", "0", FCVAR_NONE, "");
 
 CAdvModelPanel::CAdvModelPanel(vgui::Panel *parent, const char *name) : CBaseModelPanel(parent, name)
 {
 	SetParent(parent);
 	SetScheme("ClientScheme");
-	SetProportional(true);
+	//SetProportional(true);
 	SetVisible(true);
 	m_bShouldPaint = true;
 	m_bAutoRotate = false;
@@ -37,6 +37,8 @@ void CAdvModelPanel::ApplySettings(KeyValues *inResourceData)
 	BaseClass::ApplySettings(inResourceData);
 
 	m_bAutoRotate = inResourceData->GetBool("autorotate", false);
+
+	InvalidateLayout(false, true);
 }
 
 

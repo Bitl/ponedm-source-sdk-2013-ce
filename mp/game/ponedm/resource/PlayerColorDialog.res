@@ -751,10 +751,10 @@
 	{
 		"ControlName"		"CAdvModelPanel"
 		"fieldName"		"PonyModelPanel"
-		"xpos"		"248"
-		"ypos"		"40"
-		"wide"		"160"
-		"tall"		"160"
+		"xpos"		"468"
+		"ypos"		"70"
+		"wide"		"300"
+		"tall"		"300"
 		"autoResize"		"0"
 		"pinCorner"		"0"
 		"RoundedCorners"		"15"
@@ -787,10 +787,6 @@
 			{
 				"name"		"Default"
 				"sequence"	"run_mp_all"
-				"pose_parameters"
-				{
-					"move_x" "1.0"
-				}
 			}
 		}
 	}
@@ -1006,7 +1002,7 @@
 		"ControlName"		"Label"
 		"fieldName"		"PreviewLabel"
 		"xpos"		"589"
-		"ypos"		"49"
+		"ypos"		"40"
 		"wide"		"64"
 		"tall"		"24"
 		"autoResize"		"0"
