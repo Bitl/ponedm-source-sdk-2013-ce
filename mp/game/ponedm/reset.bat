@@ -16,6 +16,8 @@ del bin\server.pdb
 del sound\sound.cache
 rmdir /S /Q maps\graphs\
 rmdir /S /Q materials\vgui\logos\ui\
+rmdir /S /Q materials\
+rmdir /S /Q models\
 rmdir /S /Q download\user_custom\
 rmdir /S /Q download\sound\
 rmdir /S /Q download\materials\
