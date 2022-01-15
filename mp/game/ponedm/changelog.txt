@@ -20,6 +20,7 @@ Misc. Changes:
 - Moved the gamemode-related options to near the basic server settings.
 - Set the default FOV to 90.
 - Added more bot names.
+- Added a custom spray made by spoon (https://twitter.com/Sugarfrogg_)!
 - Bound "t" to the spray key by default.
 - Fixed the texture for spray_canned.
 
