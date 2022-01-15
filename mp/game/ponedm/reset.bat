@@ -14,7 +14,6 @@ del bin\client.pdb
 del bin\server.pdb
 rmdir /S /Q maps\graphs\
 rmdir /S /Q download\user_custom\
-rmdir /S /Q sound\
 rmdir /S /Q materials\
 rmdir /S /Q models\
 rmdir /S /Q download\sound\
