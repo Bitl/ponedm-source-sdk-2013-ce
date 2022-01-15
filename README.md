@@ -40,6 +40,7 @@ dm_aerowalk has not been modified. A weapon was added to the map, but the weapon
 * SirMasters for the Mapadd implementation. (https://github.com/sirmastercombat/SirMasters_Mod) This is used to add items to maps (without editing the maps themselves) by using script files.
 * Additional fixes for Linux done by [Cyanide/BlendedAppleSeeds](https://github.com/Bitl/ponedm-source-sdk-2013-ce/pull/1)
 * Soundscape fix for Linux by [TotallyMehis](https://github.com/ValveSoftware/source-sdk-2013/pull/448/files)
+* Model panel based off old [TF2 Classic code](https://github.com/danielmm8888/TF2Classic/blob/d070129a436a8a070659f0267f6e63564a519a47/src/game/client/tf/vgui/controls/tf_advmodelpanel.cpp)
 
 PoneDM includes models from PPM/2 (https://gitlab.com/DBotThePony/PPM). These models were created and modified by the following people
 * [Durpy](https://steamcommunity.com/id/xDeRpYx/)

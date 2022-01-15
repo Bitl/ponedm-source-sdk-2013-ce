@@ -6,7 +6,7 @@ Mane changes:
 	- Ponies cannot pick up weapons or items.
 
 - Added Linux support. (Thank you to Cyanide for help with this :D) (TODO: RECOMPILE AFTER UPDATE)
-	- Compiled under WSL Ubuntu. Tested under Pop_OS (Ubuntu).
+	- Compiled under WSL 2 Ubuntu on Windows 10 21H1. Tested under Pop_OS (Ubuntu).
 	- Known issues: Some sounds may not load properly.
 
 - A model preview will now appear in the customization panel!
@@ -15,7 +15,7 @@ Mane changes:
 Bug Fixes:
 - Fixed custom weapons not being given with "impulse 101".
 - Fixed some gore effects not working when gore is enabled.
-- Fixed a bug where the viewmodel wouldn't hide when zooming at high FOVs.
+- Fixed a bug where the viewmodel wouldn't hide when zooming in on high FOVs.
 
 Misc. Changes:
 - Moved the gamemode-related options to near the basic server settings.
