@@ -22,6 +22,7 @@ Misc. Changes:
 - Added more bot names.
 - Added a custom spray made by spoon (https://twitter.com/Sugarfrogg_)!
 - Bound "t" to the spray key by default.
+- Fixed the texture for spray_canned.
 
 Release 1.0 (Released 4-11-21):
 Mane changes:
