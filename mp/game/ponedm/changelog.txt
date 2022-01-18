@@ -12,6 +12,7 @@ Mane changes:
 	- Press and hold the left mouse button to rotate.
 
 - You can now remove your upper mane and tail.
+- Gamemodes are now considered 1 option.
 
 Bug Fixes:
 - Fixed custom weapons not being given with "impulse 101".
@@ -26,7 +27,6 @@ Misc. Changes:
 - Bound "t" to the spray key by default.
 - Fixed the texture for spray_canned.
 - Changed the pony color for the Blue team when Teamplay mode is enabled.
-- Gamemodes are now considered 1 option.
 
 Release 1.0 (Released 4-11-21):
 Mane changes:
