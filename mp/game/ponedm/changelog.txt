@@ -11,6 +11,8 @@ Mane changes:
 - A model preview will now appear in the customization panel!
 	- Press and hold the left mouse button to rotate.
 
+- You can now remove your upper mane and tail.
+
 Bug Fixes:
 - Fixed custom weapons not being given with "impulse 101".
 - Fixed some gore effects not working when gore is enabled.

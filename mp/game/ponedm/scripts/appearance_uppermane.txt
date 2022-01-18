@@ -110,4 +110,9 @@
 		"name"		"#PoneDM_Emo2"
 		"id"		"21"
 	}
+	"22"
+	{
+		"name"		"#PoneDM_None"
+		"id"		"22"
+	}
 }
