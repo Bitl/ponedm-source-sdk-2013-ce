@@ -1,4 +1,4 @@
-Release 1.1 (Released ?-?-22):
+Release 1.1 (Released 1-19-22):
 Mane changes:
 - Added an Instagib mode.
 	- Railguns with infinite ammo. One shot, one kill.
