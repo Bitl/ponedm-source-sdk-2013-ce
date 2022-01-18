@@ -1,5 +1,7 @@
-chmod -R +x devtools/bin
-chmod +x creategameprojects
-chmod +x createallprojects
-bash creategameprojects
-make -f Game_ponedm.mak
+sudo git pull origin main
+cd mp/src
+sudo chmod -R +x devtools/bin
+sudo chmod +x creategameprojects
+sudo chmod +x createallprojects
+sudo bash creategameprojects
+sudo make -f Game_ponedm.mak
