@@ -1,5 +1,5 @@
 RUN SANDBOX FIRST
-cd valve/steam-runtime
+cd /valve/steam-runtime
 ./shell.sh --arch=i386
 
 UPDATE BY USING
@@ -8,7 +8,7 @@ sudo git pull origin main
 USE cd ../../ TO BACK PUT OF DIR
 
 TO CREATE MAKEFILE
-cd mp/src
+cd /projects/ponedm-source-sdk-2013-ce/mp/src
 sudo chmod -R +x devtools/bin
 sudo chmod +x creategameprojects
 sudo chmod +x createallprojects
