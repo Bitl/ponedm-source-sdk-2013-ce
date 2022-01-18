@@ -39,5 +39,7 @@ extern int GetModuleInformation(const char *name, void **base, size_t *length);
 #define CLIENT_DLL_NAME "./momentum/bin/client.dll" //WIN32
 #define SERVER_DLL_NAME "./momentum/bin/server.dll" //WIN32
 #define ENGINE_DLL_NAME "engine.dll"
+//just in case...
+#define ENGINE_DEDICATED_DLL_NAME "engine.dll"
 
 #endif //OS_UTILS_H
