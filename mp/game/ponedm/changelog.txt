@@ -6,7 +6,7 @@ Mane changes:
 	- Ponies cannot pick up weapons or items.
 
 - Added Linux support. (Thank you to Cyanide for help with this :D) (TODO: RECOMPILE AFTER UPDATE)
-	- Compiled under WSL 2 Ubuntu on Windows 10 21H1. Tested under Pop_OS (Ubuntu).
+	- Compiled and tested under Pop_OS (Ubuntu).
 
 - A model preview will now appear in the customization panel!
 	- Press and hold the left mouse button to rotate.
