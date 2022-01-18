@@ -496,9 +496,9 @@ void CHL2MP_Player::UpdatePlayerColor(void)
 		vecNewColor.z = 63.0f / 255.0f;
 		break;
 	case TEAM_BLUE:
-		vecNewColor.x = 153.0f / 255.0f;
-		vecNewColor.y = 204.0f / 255.0f;
-		vecNewColor.z = 255.0f / 255.0f;
+		vecNewColor.x = 93.3f / 255.0f;
+		vecNewColor.y = 166.2f / 255.0f;
+		vecNewColor.z = 225.4f / 255.0f;
 		break;
 	default:
 	case TEAM_UNASSIGNED:
