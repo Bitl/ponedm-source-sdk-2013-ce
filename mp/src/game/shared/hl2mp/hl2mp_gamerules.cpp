@@ -61,6 +61,7 @@ extern CBaseEntity	 *g_pLastRebelSpawn;
 
 #endif
 
+ConVar sv_ponedm_gamemode("sv_ponedm_gamemode", "0", FCVAR_NOTIFY | FCVAR_REPLICATED, "0 = normal, 1 = randomizer, 2 = instagib");
 
 REGISTER_GAMERULES_CLASS( CHL2MPRules );
 
@@ -649,7 +650,7 @@ int CHL2MPRules::WeaponShouldRespawn( CBaseCombatWeapon *pWeapon )
 {
 #ifndef CLIENT_DLL
 
-	if (sv_ponedm_instagib.GetBool())
+	if (sv_ponedm_gamemode.GetInt() == 2)
 		return GR_WEAPON_RESPAWN_NO;
 
 	if ( pWeapon->HasSpawnFlags( SF_NORESPAWN ) )
@@ -822,10 +823,26 @@ int CHL2MPRules::PlayerRelationship( CBaseEntity *pPlayer, CBaseEntity *pTarget 
 
 const char *CHL2MPRules::GetGameDescription( void )
 { 
-	if ( IsTeamplay() )
-		return "Team Arena"; 
+	if (IsTeamplay())
+	{
+		if (sv_ponedm_gamemode.GetInt() == 1)
+			return "Team Randomizer";
+		else if (sv_ponedm_gamemode.GetInt() == 2)
+			return "Team Instagib";
+		else
+			return "Team Arena";
+	}
+	else
+	{
+		if (sv_ponedm_gamemode.GetInt() == 1)
+			return "Free-For All Randomizer";
+		else if (sv_ponedm_gamemode.GetInt() == 2)
+			return "Free-For All Instagib";
+		else
+			return "Free-For All Arena";
+	}
 
-	return "Free-For-All Arena"; 
+	return "PoneDM";
 } 
 
 bool CHL2MPRules::IsConnectedUserInfoChangeAllowed( CBasePlayer *pPlayer )

@@ -78,7 +78,7 @@ server.dylib.dSYM/
 **/game/**/textwindow_temp.html
 **/game/**/vpk_PDM.bat
 **/game/**/README-AND-CREDITS.txt
-**/game/**/materials/vgui/logos/ui/
+**/game/mp/game/ponedm/materials/vgui/logos/ui/
 
 # shader files
 *.tmp

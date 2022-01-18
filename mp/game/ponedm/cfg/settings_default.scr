@@ -95,10 +95,15 @@ DESCRIPTION SERVER_OPTIONS
 		{ CATEGORY }
 	}
 	
-	"sv_ponedm_randomizer"
+	"sv_ponedm_gamemode"
 	{
-		"#PoneDM_Randomizer"
-		{ BOOL }
+		"#PoneDM_Gamemode"
+		{ 
+			LIST
+			"#PoneDM_GamemodeNormal" "0"
+			"#PoneDM_Randomizer" "1"
+			"#PoneDM_Instagib" "2"
+		}
 		{ "0" }
 	}
 	
@@ -107,13 +112,6 @@ DESCRIPTION SERVER_OPTIONS
 		"#PoneDM_Randomizer_WeaponCount"
 		{ NUMBER 0 -1 }
 		{ "5" }
-	}
-	
-	"sv_ponedm_instagib"
-	{
-		"#PoneDM_Instagib"
-		{ BOOL }
-		{ "0" }
 	}
 	
 	"category4"

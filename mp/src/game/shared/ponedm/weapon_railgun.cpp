@@ -9,6 +9,7 @@
 #include "in_buttons.h"
 #include "takedamageinfo.h"
 #include "weapon_railgun.h"
+#include "hl2mp_gamerules.h"
 
 #ifdef CLIENT_DLL
 	#include "c_hl2mp_player.h"
@@ -16,8 +17,6 @@
 	#include "hl2mp_player.h"
 	#include "ammodef.h"
 #endif
-
-ConVar sv_ponedm_instagib("sv_ponedm_instagib", "0", FCVAR_NOTIFY | FCVAR_REPLICATED, "");
 
 IMPLEMENT_NETWORKCLASS_ALIASED( WeaponRailgun, DT_WeaponRailgun )
 
@@ -104,7 +103,7 @@ bool CWeaponRailgun::Holster(CBaseCombatWeapon* pSwitchingTo)
 	if (!pPlayer)
 		return BaseClass::Holster(pSwitchingTo);
 
-	if (!sv_ponedm_instagib.GetBool())
+	if (sv_ponedm_gamemode.GetInt() != 2)
 	{
 		if (pPlayer->GetAmmoCount(m_iPrimaryAmmoType) <= 0)
 		{
@@ -152,7 +151,7 @@ void CWeaponRailgun::HolsterThink(void)
 	if (!pOwner || !pOwner->IsAlive())
 		return;
 
-	if (!sv_ponedm_instagib.GetBool())
+	if (sv_ponedm_gamemode.GetInt() != 2)
 	{
 		// no check for buttons here. we're holstered.
 		if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) < GetDefaultClip1())
@@ -176,7 +175,7 @@ void CWeaponRailgun::ItemPostFrame(void)
 	if (!pOwner)
 		return;
 
-	if (!sv_ponedm_instagib.GetBool())
+	if (sv_ponedm_gamemode.GetInt() != 2)
 	{
 		if (pOwner->GetAmmoCount(m_iPrimaryAmmoType) < GetDefaultClip1())
 		{
@@ -220,7 +219,7 @@ void CWeaponRailgun::ItemPostFrame(void)
 			m_flNextPrimaryAttack = gpGlobals->curtime;
 		}
 
-		if (!sv_ponedm_instagib.GetBool())
+		if (sv_ponedm_gamemode.GetInt() != 2)
 		{
 			if (!(pOwner->GetAmmoCount(m_iPrimaryAmmoType) <= 0))
 			{
@@ -510,7 +509,7 @@ void CWeaponRailgun::PrimaryAttack(void)
 	pOwner->DoMuzzleFlash();
 	pOwner->ViewPunch(QAngle(-4, random->RandomFloat(-2, 2), 0));
 
-	if (!sv_ponedm_instagib.GetBool())
+	if (sv_ponedm_gamemode.GetInt() != 2)
 	{
 		int iMinAmmoToUse = (m_bOverchargeDamageBenefits ? RAIL_AMMO_OVERCHARGE : RAIL_AMMO);
 		pOwner->RemoveAmmo(iMinAmmoToUse, m_iPrimaryAmmoType);
@@ -520,7 +519,7 @@ void CWeaponRailgun::PrimaryAttack(void)
 
 	Fire();
 
-	if (!sv_ponedm_instagib.GetBool())
+	if (sv_ponedm_gamemode.GetInt() != 2)
 	{
 		if (!m_iClip1 && pOwner->GetAmmoCount(m_iPrimaryAmmoType) <= 0)
 		{

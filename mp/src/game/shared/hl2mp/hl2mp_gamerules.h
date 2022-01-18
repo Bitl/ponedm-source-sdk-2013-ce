@@ -26,6 +26,8 @@
 #define VEC_CROUCH_TRACE_MIN	HL2MPRules()->GetHL2MPViewVectors()->m_vCrouchTraceMin
 #define VEC_CROUCH_TRACE_MAX	HL2MPRules()->GetHL2MPViewVectors()->m_vCrouchTraceMax
 
+extern ConVar sv_ponedm_gamemode;
+
 enum
 {
 	TEAM_BLUE = (LAST_SHARED_TEAM+1),

@@ -69,6 +69,7 @@
 
 #ifdef PONEDM
 #include "weapon_railgun.h"
+#include "hl2mp_gamerules.h"
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -6632,7 +6633,7 @@ void CBaseEntity::InputAddOutput( inputdata_t &inputdata )
 			sColon = strchr( sChar+1, ':' );
 		}
 
-		if (sv_ponedm_instagib.GetBool() && IsPlayer() && FStrEq(sOutputName, "Health"))
+		if (sv_ponedm_gamemode.GetInt() == 2 && IsPlayer() && FStrEq(sOutputName, "Health"))
 		{
 			return;
 		}

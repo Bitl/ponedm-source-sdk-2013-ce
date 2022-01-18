@@ -28,8 +28,6 @@
 #define CWeaponRailgun C_WeaponRailgun
 #endif
 
-extern ConVar sv_ponedm_instagib;
-
 //-----------------------------------------------------------------------------
 // CWeaponRailgun
 //-----------------------------------------------------------------------------

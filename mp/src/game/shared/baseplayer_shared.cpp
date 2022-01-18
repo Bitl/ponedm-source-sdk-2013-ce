@@ -43,6 +43,7 @@
 
 #ifdef PONEDM
 #include "ponedm/weapon_railgun.h"
+#include "hl2mp_gamerules.h"
 #endif
 
 #include "in_buttons.h"
@@ -1869,7 +1870,7 @@ void CBasePlayer::SharedSpawn()
 	pl.deadflag	= false;
 	m_lifeState	= LIFE_ALIVE;
 
-	if (!sv_ponedm_instagib.GetBool())
+	if (sv_ponedm_gamemode.GetInt() != 2)
 	{
 		m_iHealth = 100;
 	}

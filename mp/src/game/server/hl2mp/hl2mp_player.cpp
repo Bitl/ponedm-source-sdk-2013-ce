@@ -43,7 +43,6 @@ ConVar sv_ponedm_updatecolors("sv_ponedm_updatecolors", "1", FCVAR_REPLICATED | 
 ConVar sv_ponedm_updateappearance("sv_ponedm_updateappearance", "1", FCVAR_REPLICATED | FCVAR_NOTIFY, "Updates player appearance immediately.");
 ConVar sv_ponedm_damagescale_self("sv_ponedm_damagescale_self", "0.25", FCVAR_CHEAT | FCVAR_NOTIFY, "");
 ConVar sv_ponedm_damageforcescale_self("sv_ponedm_damageforcescale_self", "4", FCVAR_CHEAT | FCVAR_NOTIFY, "");
-ConVar sv_ponedm_randomizer("sv_ponedm_randomizer", "0", FCVAR_NOTIFY, "");
 ConVar sv_ponedm_randomizer_weaponcount("sv_ponedm_randomizer_weaponcount", "5", FCVAR_NOTIFY, "");
 #endif
 
@@ -329,11 +328,10 @@ void CHL2MP_Player::GiveDefaultItems( void )
 {
 	EquipSuit();
 
-	if (sv_ponedm_instagib.GetBool())
+	if (sv_ponedm_gamemode.GetInt() == 2)
 	{
 		CBasePlayer::GiveAmmo(255, "Railgun");
 		GiveNamedItem("weapon_railgun");
-		SetPreventWeaponPickup(true);
 	}
 	else
 	{
@@ -361,7 +359,7 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	}
 	else
 	{
-		if (sv_ponedm_instagib.GetBool())
+		if (sv_ponedm_gamemode.GetInt() == 2)
 		{
 			Weapon_Switch(Weapon_OwnsThisType("weapon_physcannon"));
 		}
@@ -369,6 +367,11 @@ void CHL2MP_Player::GiveDefaultItems( void )
 		{
 			Weapon_Switch(Weapon_OwnsThisType("weapon_railgun"));
 		}
+	}
+
+	if (sv_ponedm_gamemode.GetInt() == 2)
+	{
+		SetPreventWeaponPickup(true);
 	}
 }
 
@@ -413,6 +416,11 @@ void CHL2MP_Player::PickDefaultSpawnTeam( void )
 //-----------------------------------------------------------------------------
 void CHL2MP_Player::Spawn(void)
 {
+	if (sv_ponedm_gamemode.GetInt() == 2)
+	{
+		SetPreventWeaponPickup(false);
+	}
+
 	m_flNextTeamChangeTime = 0.0f;
 
 	PickDefaultSpawnTeam();
@@ -426,7 +434,7 @@ void CHL2MP_Player::Spawn(void)
 
 		RemoveEffects( EF_NODRAW );
 		
-		if (sv_ponedm_randomizer.GetBool())
+		if (sv_ponedm_gamemode.GetInt() == 1)
 		{
 			GiveItems();
 		}
@@ -1422,7 +1430,7 @@ void CHL2MP_Player::Event_Killed( const CTakeDamageInfo &info )
 			m_iGoreRearLeftLeg = 3;
 	}*/
 
-	if (sv_ponedm_instagib.GetBool() || (info.GetDamageType() & DMG_BLAST || info.GetDamageType() & DMG_NERVEGAS)) // explosives or sawblade
+	if (sv_ponedm_gamemode.GetInt() == 2 || (info.GetDamageType() & DMG_BLAST || info.GetDamageType() & DMG_NERVEGAS)) // explosives or sawblade
 		DismemberRandomLimbs();
 
 	// Note: since we're dead, it won't draw us on the client, but we don't set EF_NODRAW
@@ -1462,7 +1470,7 @@ void CHL2MP_Player::Event_Killed( const CTakeDamageInfo &info )
 	RemoveEffects( EF_NODRAW );	// still draw player body
 	StopZooming();
 
-	if (sv_ponedm_instagib.GetBool())
+	if (sv_ponedm_gamemode.GetInt() == 2)
 	{
 		SetPreventWeaponPickup(false);
 	}
