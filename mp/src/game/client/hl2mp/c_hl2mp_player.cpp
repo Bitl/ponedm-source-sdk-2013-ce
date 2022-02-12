@@ -73,6 +73,8 @@ static ConVar cl_ponedm_tertiarycolor_b("cl_ponedm_tertiarycolor_b", "255", FCVA
 static ConVar cl_ponedm_uppermane("cl_ponedm_uppermane", "0", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
 static ConVar cl_ponedm_lowermane("cl_ponedm_lowermane", "0", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
 static ConVar cl_ponedm_tail("cl_ponedm_tail", "0", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
+static ConVar cl_ponedm_horn("cl_ponedm_horn", "0", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
+static ConVar cl_ponedm_wings("cl_ponedm_wings", "0", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
 
 static ConVar cl_ponedm_gibtime("cl_ponedm_gibtime", "30", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
 
@@ -790,6 +792,8 @@ IMPLEMENT_CLIENTCLASS_DT_NOBASE( C_HL2MPRagdoll, DT_HL2MPRagdoll, CHL2MPRagdoll 
 	RecvPropInt(RECVINFO(m_iUpperManeBodygroup)),
 	RecvPropInt(RECVINFO(m_iLowerManeBodygroup)),
 	RecvPropInt(RECVINFO(m_iTailBodygroup)),
+	RecvPropInt(RECVINFO(m_iHornBodygroup)),
+	RecvPropInt(RECVINFO(m_iWingsBodygroup)),
 #endif
 	RecvPropEHandle(RECVINFO(m_hPlayer)),
 	RecvPropInt(RECVINFO(m_nModelIndex)),
@@ -822,6 +826,8 @@ C_HL2MPRagdoll::C_HL2MPRagdoll()
 	m_iUpperManeBodygroup = 0;
 	m_iLowerManeBodygroup = 0;
 	m_iTailBodygroup = 0;
+	m_iHornBodygroup = 0;
+	m_iWingsBodygroup = 0;
 #endif
 }
 
@@ -1470,6 +1476,8 @@ void C_HL2MPRagdoll::OnDataChanged( DataUpdateType_t type )
 				SetBodygroup(PONEDM_UPPERMANE_BODYGROUP, m_iUpperManeBodygroup);
 				SetBodygroup(PONEDM_LOWERMANE_BODYGROUP, m_iLowerManeBodygroup);
 				SetBodygroup(PONEDM_TAIL_BODYGROUP, m_iTailBodygroup);
+				SetBodygroup(PONEDM_HORN_BODYGROUP, m_iHornBodygroup);
+				SetBodygroup(PONEDM_WINGS_BODYGROUP, m_iWingsBodygroup);
 			//}
 		}
 	}

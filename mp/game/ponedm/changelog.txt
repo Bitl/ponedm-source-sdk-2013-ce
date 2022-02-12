@@ -1,3 +1,9 @@
+Release 1.? (Released ?-??-22):
+Mane changes:
+Bug Fixes:
+Balance Tweaks:
+Misc. Changes:
+
 Release 1.1 (Released 1-19-22):
 Mane changes:
 - Added an Instagib mode.

@@ -273,14 +273,20 @@ void SpawnPoneDMBots(int botCount)
             int iUpperMane = RandomInt(0, pPlayer->GetBodygroupCount(PONEDM_UPPERMANE_BODYGROUP));
             int iLowerMane = RandomInt(0, pPlayer->GetBodygroupCount(PONEDM_LOWERMANE_BODYGROUP));
             int iTail = RandomInt(0, pPlayer->GetBodygroupCount(PONEDM_TAIL_BODYGROUP));
+            int iHorn = RandomInt(0, pPlayer->GetBodygroupCount(PONEDM_HORN_BODYGROUP));
+            int iWings = RandomInt(0, pPlayer->GetBodygroupCount(PONEDM_WINGS_BODYGROUP));
 
             pPlayer->m_iUpperManeBodygroup = iUpperMane;
             pPlayer->m_iLowerManeBodygroup = iLowerMane;
             pPlayer->m_iTailBodygroup = iTail;
+            pPlayer->m_iHornBodygroup = iHorn;
+            pPlayer->m_iWingsBodygroup = iWings;
 
             pPlayer->SetBodygroup(PONEDM_UPPERMANE_BODYGROUP, pPlayer->m_iUpperManeBodygroup);
             pPlayer->SetBodygroup(PONEDM_LOWERMANE_BODYGROUP, pPlayer->m_iLowerManeBodygroup);
             pPlayer->SetBodygroup(PONEDM_TAIL_BODYGROUP, pPlayer->m_iTailBodygroup);
+            pPlayer->SetBodygroup(PONEDM_HORN_BODYGROUP, pPlayer->m_iHornBodygroup);
+            pPlayer->SetBodygroup(PONEDM_WINGS_BODYGROUP, pPlayer->m_iWingsBodygroup);
         }
     }
 }

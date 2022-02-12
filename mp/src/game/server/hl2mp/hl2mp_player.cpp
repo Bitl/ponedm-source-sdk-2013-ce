@@ -173,6 +173,8 @@ CHL2MP_Player::CHL2MP_Player() : m_PlayerAnimState( this )
 	m_iUpperManeBodygroup = 0;
 	m_iLowerManeBodygroup = 0;
 	m_iTailBodygroup = 0;
+	m_iHornBodygroup = 0;
+	m_iWingsBodygroup = 0;
 #endif
 
 	BaseClass::ChangeTeam( 0 );
@@ -547,9 +549,13 @@ void CHL2MP_Player::UpdatePlayerAppearance()
 		m_iUpperManeBodygroup = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_uppermane"));
 		m_iLowerManeBodygroup = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_lowermane"));
 		m_iTailBodygroup = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_tail"));
+		m_iHornBodygroup = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_horn"));
+		m_iWingsBodygroup = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_wings"));
 		SetBodygroup(PONEDM_UPPERMANE_BODYGROUP, m_iUpperManeBodygroup);
 		SetBodygroup(PONEDM_LOWERMANE_BODYGROUP, m_iLowerManeBodygroup);
 		SetBodygroup(PONEDM_TAIL_BODYGROUP, m_iTailBodygroup);
+		SetBodygroup(PONEDM_HORN_BODYGROUP, m_iHornBodygroup);
+		SetBodygroup(PONEDM_WINGS_BODYGROUP, m_iWingsBodygroup);
 	}
 }
 
@@ -1264,6 +1270,8 @@ public:
 	CNetworkVar(int, m_iUpperManeBodygroup);
 	CNetworkVar(int, m_iLowerManeBodygroup);
 	CNetworkVar(int, m_iTailBodygroup);
+	CNetworkVar(int, m_iHornBodygroup);
+	CNetworkVar(int, m_iWingsBodygroup);
 	CNetworkVar(unsigned short, m_iGoreHead);
 	CNetworkVar(unsigned short, m_iGoreFrontLeftLeg);
 	CNetworkVar(unsigned short, m_iGoreFrontRightLeg);
@@ -1286,6 +1294,8 @@ IMPLEMENT_SERVERCLASS_ST_NOBASE( CHL2MPRagdoll, DT_HL2MPRagdoll )
 	SendPropInt(SENDINFO(m_iUpperManeBodygroup), -1, SPROP_UNSIGNED),
 	SendPropInt(SENDINFO(m_iLowerManeBodygroup), -1, SPROP_UNSIGNED),
 	SendPropInt(SENDINFO(m_iTailBodygroup), -1, SPROP_UNSIGNED),
+	SendPropInt(SENDINFO(m_iHornBodygroup), -1, SPROP_UNSIGNED),
+	SendPropInt(SENDINFO(m_iWingsBodygroup), -1, SPROP_UNSIGNED),
 #endif
 	SendPropEHandle( SENDINFO( m_hPlayer ) ),
 	SendPropModelIndex( SENDINFO( m_nModelIndex ) ),
@@ -1329,6 +1339,8 @@ void CHL2MP_Player::CreateRagdollEntity( void )
 		pRagdoll->m_iUpperManeBodygroup = m_iUpperManeBodygroup;
 		pRagdoll->m_iLowerManeBodygroup = m_iLowerManeBodygroup;
 		pRagdoll->m_iTailBodygroup = m_iTailBodygroup;
+		pRagdoll->m_iHornBodygroup = m_iHornBodygroup;
+		pRagdoll->m_iWingsBodygroup = m_iWingsBodygroup;
 #endif
 		pRagdoll->m_vecForce = m_vecTotalBulletForce;
 		pRagdoll->SetAbsOrigin( GetAbsOrigin() );

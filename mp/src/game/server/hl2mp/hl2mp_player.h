@@ -141,6 +141,8 @@ public:
 	CNetworkVar(int, m_iUpperManeBodygroup);
 	CNetworkVar(int, m_iLowerManeBodygroup);
 	CNetworkVar(int, m_iTailBodygroup);
+	CNetworkVar(int, m_iHornBodygroup);
+	CNetworkVar(int, m_iWingsBodygroup);
 
 	// Gore
 	unsigned short m_iGoreHead;

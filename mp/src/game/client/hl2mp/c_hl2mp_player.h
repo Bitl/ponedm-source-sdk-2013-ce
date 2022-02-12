@@ -222,6 +222,8 @@ private:
 	int m_iUpperManeBodygroup;
 	int m_iLowerManeBodygroup;
 	int m_iTailBodygroup;
+	int m_iHornBodygroup;
+	int m_iWingsBodygroup;
 
 	// gore stuff
 	int m_iGoreHead;

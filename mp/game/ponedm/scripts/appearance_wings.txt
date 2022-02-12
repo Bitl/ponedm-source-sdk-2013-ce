@@ -1,0 +1,18 @@
+"WingAppearance"
+{
+	"1"
+	{
+		"name"		"#PoneDM_None"
+		"id"		"0"
+	}
+	"2"
+	{
+		"name"		"Normal (Temp)"
+		"id"		"1"
+	}
+	"3"
+	{
+		"name"		"Bat (Temp)"
+		"id"		"2"
+	}
+}
