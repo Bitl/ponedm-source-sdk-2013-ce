@@ -47,7 +47,7 @@
 	}
 	"10"
 	{
-		"name"		"#PoneDM_Swishy3"
+		"name"		"#PoneDM_Intellectual"
 		"id"		"9"
 	}
 	"11"
