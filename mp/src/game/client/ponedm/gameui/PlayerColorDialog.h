@@ -31,6 +31,7 @@ public:
 	void DialogInit();
 	void LoadAppearanceOptions();
 	void Update();
+	KeyValues *LoadAppearanceFile(const char *kvName, const char* scriptPath, vgui::ComboBox* comboBox);
 	virtual void OnClose();
 	virtual void OnKeyCodeTyped(vgui::KeyCode code);
 	MESSAGE_FUNC_PTR(OnControlModified, "ControlModified", panel);
@@ -61,6 +62,8 @@ private:
 	vgui::ComboBox		*m_pUpperManeList;
 	vgui::ComboBox		*m_pLowerManeList;
 	vgui::ComboBox		*m_pTailList;
+	vgui::ComboBox		*m_pHornList;
+	vgui::ComboBox		*m_pWingsList;
 
 	CAdvModelPanel	*m_pPonyModel;
 };

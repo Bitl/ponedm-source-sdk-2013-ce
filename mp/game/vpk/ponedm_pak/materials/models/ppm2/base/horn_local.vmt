@@ -23,7 +23,7 @@
 		
 	"Proxies"
 	{
-		"PrimaryPlayerColor"
+		"PrimaryPlayerColorLocal"
 		{
 			"resultVar"		"$colortint_tmp"
 		}

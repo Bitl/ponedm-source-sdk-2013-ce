@@ -1,5 +1,6 @@
 Release 1.? (Released ?-??-22):
 Mane changes:
+- Added various horn and wing options!
 Bug Fixes:
 Balance Tweaks:
 Misc. Changes:

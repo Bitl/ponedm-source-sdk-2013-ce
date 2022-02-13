@@ -7,7 +7,7 @@
 	}
 	"2"
 	{
-		"name"		"Normal (Temp)"
+		"name"		"#PoneDM_TheOriginal"
 		"id"		"1"
 	}
 }

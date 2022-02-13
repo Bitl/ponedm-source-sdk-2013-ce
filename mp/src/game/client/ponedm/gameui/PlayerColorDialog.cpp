@@ -97,6 +97,8 @@ CPlayerColorDialog::CPlayerColorDialog(vgui::Panel *parent) : BaseClass(NULL, "P
 	m_pUpperManeList = new ComboBox(this, "UpperManeList", 12, false);
 	m_pLowerManeList = new ComboBox(this, "LowerManeList", 12, false);
 	m_pTailList = new ComboBox(this, "TailList", 12, false);
+	m_pHornList = new ComboBox(this, "HornList", 12, false);
+	m_pWingsList = new ComboBox(this, "WingsList", 12, false);
 
 	//model
 	m_pPonyModel = new CAdvModelPanel(this, "PonyModelPanel");
@@ -208,125 +210,73 @@ void CPlayerColorDialog::DialogInit()
 {
 }
 
+KeyValues* CPlayerColorDialog::LoadAppearanceFile(const char* kvName, const char* scriptPath, vgui::ComboBox* comboBox)
+{
+	KeyValues* pKV = new KeyValues(kvName);
+	if (pKV->LoadFromFile(filesystem, scriptPath, "GAME"))
+	{
+		KeyValues* pNode = pKV->GetFirstSubKey();
+		while (pNode)
+		{
+			const char* itemName = pNode->GetString("name", "");
+			const char* itemID = pNode->GetString("id", 0);
+			wchar_t text[128];
+			wchar_t* tempString = g_pVGuiLocalize->Find(itemName);
+
+			// setup our localized string
+			if (tempString)
+			{
+#ifdef WIN32
+				_snwprintf(text, sizeof(text) / sizeof(wchar_t) - 1, L"%s", tempString);
+#else
+				_snwprintf(text, sizeof(text) / sizeof(wchar_t) - 1, L"%S", tempString);
+#endif
+				text[sizeof(text) / sizeof(wchar_t) - 1] = 0;
+			}
+			else
+			{
+				// string wasn't found by g_pVGuiLocalize->Find()
+				g_pVGuiLocalize->ConvertANSIToUnicode(itemName, text, sizeof(text));
+			}
+
+			comboBox->AddItem(text, new KeyValues("data", "id", itemID));
+
+			pNode = pNode->GetNextKey();
+		}
+	}
+
+	return pKV;
+}
+
 void CPlayerColorDialog::LoadAppearanceOptions()
 {
 	m_pUpperManeList->DeleteAllItems();
 	m_pLowerManeList->DeleteAllItems();
 	m_pTailList->DeleteAllItems();
+	m_pHornList->DeleteAllItems();
+	m_pWingsList->DeleteAllItems();
 
-	KeyValues* pKV = new KeyValues("UpperManeAppearance");
-	if (pKV->LoadFromFile(filesystem, "scripts/appearance_uppermane.txt", "GAME"))
-	{
-		KeyValues* pNode = pKV->GetFirstSubKey();
-		while (pNode)
-		{
-			const char *itemName = pNode->GetString("name", "");
-			const char* itemID = pNode->GetString("id", 0);
-			wchar_t text[128];
-			wchar_t* tempString = g_pVGuiLocalize->Find(itemName);
-
-			// setup our localized string
-			if (tempString)
-			{
-#ifdef WIN32
-				_snwprintf(text, sizeof(text) / sizeof(wchar_t) - 1, L"%s", tempString);
-#else
-				_snwprintf(text, sizeof(text) / sizeof(wchar_t) - 1, L"%S", tempString);
-#endif
-				text[sizeof(text) / sizeof(wchar_t) - 1] = 0;
-			}
-			else
-			{
-				// string wasn't found by g_pVGuiLocalize->Find()
-				g_pVGuiLocalize->ConvertANSIToUnicode(itemName, text, sizeof(text));
-			}
-
-			m_pUpperManeList->AddItem(text, new KeyValues("data", "id", itemID));
-
-			pNode = pNode->GetNextKey();
-		}
-	}
-
+	KeyValues* pKV = LoadAppearanceFile("UpperManeAppearance", "scripts/appearance_uppermane.txt", m_pUpperManeList);
 	pKV->deleteThis();
-
-	KeyValues* pKV2 = new KeyValues("LowerManeAppearance");
-	if (pKV2->LoadFromFile(filesystem, "scripts/appearance_lowermane.txt", "GAME"))
-	{
-		KeyValues* pNode = pKV2->GetFirstSubKey();
-		while (pNode)
-		{
-			const char* itemName = pNode->GetString("name", "");
-			const char* itemID = pNode->GetString("id", 0);
-
-			wchar_t text[128];
-			wchar_t* tempString = g_pVGuiLocalize->Find(itemName);
-
-			// setup our localized string
-			if (tempString)
-			{
-#ifdef WIN32
-				_snwprintf(text, sizeof(text) / sizeof(wchar_t) - 1, L"%s", tempString);
-#else
-				_snwprintf(text, sizeof(text) / sizeof(wchar_t) - 1, L"%S", tempString);
-#endif
-				text[sizeof(text) / sizeof(wchar_t) - 1] = 0;
-			}
-			else
-			{
-				// string wasn't found by g_pVGuiLocalize->Find()
-				g_pVGuiLocalize->ConvertANSIToUnicode(itemName, text, sizeof(text));
-			}
-
-			m_pLowerManeList->AddItem(text, new KeyValues("data", "id", itemID));
-
-			pNode = pNode->GetNextKey();
-		}
-	}
-
+	KeyValues* pKV2 = LoadAppearanceFile("LowerManeAppearance", "scripts/appearance_lowermane.txt", m_pLowerManeList);
 	pKV2->deleteThis();
-
-	KeyValues* pKV3 = new KeyValues("TailAppearance");
-	if (pKV3->LoadFromFile(filesystem, "scripts/appearance_tail.txt", "GAME"))
-	{
-		KeyValues* pNode = pKV3->GetFirstSubKey();
-		while (pNode)
-		{
-			const char* itemName = pNode->GetString("name", "");
-			const char* itemID = pNode->GetString("id", 0);
-
-			wchar_t text[128];
-			wchar_t* tempString = g_pVGuiLocalize->Find(itemName);
-
-			// setup our localized string
-			if (tempString)
-			{
-#ifdef WIN32
-				_snwprintf(text, sizeof(text) / sizeof(wchar_t) - 1, L"%s", tempString);
-#else
-				_snwprintf(text, sizeof(text) / sizeof(wchar_t) - 1, L"%S", tempString);
-#endif
-				text[sizeof(text) / sizeof(wchar_t) - 1] = 0;
-			}
-			else
-			{
-				// string wasn't found by g_pVGuiLocalize->Find()
-				g_pVGuiLocalize->ConvertANSIToUnicode(itemName, text, sizeof(text));
-			}
-
-			m_pTailList->AddItem(text, new KeyValues("data", "id", itemID));
-
-			pNode = pNode->GetNextKey();
-		}
-	}
-
+	KeyValues* pKV3 = LoadAppearanceFile("TailAppearance", "scripts/appearance_tail.txt", m_pTailList);
 	pKV3->deleteThis();
+	KeyValues* pKV4 = LoadAppearanceFile("HornAppearance", "scripts/appearance_horn.txt", m_pHornList);
+	pKV4->deleteThis();
+	KeyValues* pKV5 = LoadAppearanceFile("WingAppearance", "scripts/appearance_wings.txt", m_pWingsList);
+	pKV5->deleteThis();
 
 	ConVarRef upperMane("cl_ponedm_uppermane");
 	ConVarRef lowerMane("cl_ponedm_lowermane");
 	ConVarRef tail("cl_ponedm_tail");
+	ConVarRef horn("cl_ponedm_horn");
+	ConVarRef wings("cl_ponedm_wings");
 	m_pUpperManeList->ActivateItem(upperMane.GetInt());
 	m_pLowerManeList->ActivateItem(lowerMane.GetInt());
 	m_pTailList->ActivateItem(tail.GetInt());
+	m_pHornList->ActivateItem(horn.GetInt());
+	m_pWingsList->ActivateItem(wings.GetInt());
 }
 
 //-----------------------------------------------------------------------------
@@ -349,6 +299,8 @@ void CPlayerColorDialog::OnClose()
 	ConVarRef upperMane("cl_ponedm_uppermane");
 	ConVarRef lowerMane("cl_ponedm_lowermane");
 	ConVarRef tail("cl_ponedm_tail");
+	ConVarRef horn("cl_ponedm_horn");
+	ConVarRef wings("cl_ponedm_wings");
 
 	int selectedUpperMane = m_pUpperManeList->GetActiveItemUserData()->GetInt("id");
 	upperMane.SetValue(selectedUpperMane);
@@ -358,6 +310,12 @@ void CPlayerColorDialog::OnClose()
 
 	int selectedTail = m_pTailList->GetActiveItemUserData()->GetInt("id");
 	tail.SetValue(selectedTail);
+
+	int selectedHorn = m_pHornList->GetActiveItemUserData()->GetInt("id");
+	horn.SetValue(selectedHorn);
+
+	int selectedWings = m_pWingsList->GetActiveItemUserData()->GetInt("id");
+	wings.SetValue(selectedWings);
 	
 	BaseClass::OnClose();
 	MarkForDeletion();
@@ -564,6 +522,8 @@ void CPlayerColorDialog::OnTextChanged(Panel *panel)
 	ConVarRef upperMane("cl_ponedm_uppermane");
 	ConVarRef lowerMane("cl_ponedm_lowermane");
 	ConVarRef tail("cl_ponedm_tail");
+	ConVarRef horn("cl_ponedm_horn");
+	ConVarRef wings("cl_ponedm_wings");
 
 	if (panel == m_pUpperManeList)
 	{
@@ -583,6 +543,18 @@ void CPlayerColorDialog::OnTextChanged(Panel *panel)
 		tail.SetValue(selectedTail);
 		Update();
 	}
+	else if (panel == m_pHornList)
+	{
+		int selectedHorn = m_pHornList->GetActiveItemUserData()->GetInt("id");
+		horn.SetValue(selectedHorn);
+		Update();
+	}
+	else if (panel == m_pWingsList)
+	{
+		int selectedWings = m_pWingsList->GetActiveItemUserData()->GetInt("id");
+		wings.SetValue(selectedWings);
+		Update();
+	}
 }
 
 void CPlayerColorDialog::Update(void)
@@ -598,9 +570,13 @@ void CPlayerColorDialog::Update(void)
 		ConVarRef upperMane("cl_ponedm_uppermane");
 		ConVarRef lowerMane("cl_ponedm_lowermane");
 		ConVarRef tail("cl_ponedm_tail");
+		ConVarRef horn("cl_ponedm_horn");
+		ConVarRef wings("cl_ponedm_wings");
 		m_pPonyModel->SetBodygroup(PONEDM_UPPERMANE_BODYGROUP, upperMane.GetInt());
 		m_pPonyModel->SetBodygroup(PONEDM_LOWERMANE_BODYGROUP, lowerMane.GetInt());
 		m_pPonyModel->SetBodygroup(PONEDM_TAIL_BODYGROUP, tail.GetInt());
+		m_pPonyModel->SetBodygroup(PONEDM_HORN_BODYGROUP, horn.GetInt());
+		m_pPonyModel->SetBodygroup(PONEDM_WINGS_BODYGROUP, wings.GetInt());
 
 		m_pPonyModel->Update();
 		m_pPonyModel->SetCameraPositionAndAngles(origpos, origang);

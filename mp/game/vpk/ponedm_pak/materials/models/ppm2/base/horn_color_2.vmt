@@ -23,7 +23,7 @@
 		
 	"Proxies"
 	{
-		"SecondaryPlayerColor"
+		"TertiaryPlayerColor"
 		{
 			"resultVar"		"$colortint_tmp"
 		}

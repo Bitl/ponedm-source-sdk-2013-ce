@@ -7,12 +7,12 @@
 	}
 	"2"
 	{
-		"name"		"Normal (Temp)"
+		"name"		"#PoneDM_TheOriginal"
 		"id"		"1"
 	}
 	"3"
 	{
-		"name"		"Bat (Temp)"
+		"name"		"#PoneDM_Bat"
 		"id"		"2"
 	}
 }

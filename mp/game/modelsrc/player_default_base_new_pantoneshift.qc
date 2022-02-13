@@ -205,11 +205,13 @@ $bodygroup "Tail"
 $bodygroup "Horn"
 {
 	blank
+	//TODO: add more horns
 	studio "ref_horn_01.smd"
 }
 $bodygroup "Wings"
 {
 	blank
+	//TODO: add more wings
 	studio "ref_wings_folded_hr.smd"
 	studio "wing_bat_closed_hr.smd"
 }
