@@ -1,4 +1,4 @@
-Release 1.? (Released ?-??-22):
+Release 1.2 (Released ?-??-22): (TODO, COMPILE LINUX)
 Mane changes:
 - Added various horn and wing options!
 Bug Fixes:
@@ -13,7 +13,7 @@ Mane changes:
 	- Ponies are dismembered on death when when gore is enabled on the client.
 	- Ponies cannot pick up weapons or items.
 
-- Added Linux support. (Thank you to Cyanide for help with this :D) (TODO: RECOMPILE AFTER UPDATE)
+- Added Linux support. (Thank you to Cyanide for help with this :D)
 	- Compiled and tested under Pop_OS (Ubuntu).
 
 - A model preview will now appear in the customization panel!
