@@ -1,8 +1,7 @@
-Release 1.2 (Released ?-??-22): (TODO, COMPILE LINUX)
+Release 1.1.1 (Released ?-??-22): (TODO, COMPILE LINUX)
 Mane changes:
 - Added various horn and wing options!
-Bug Fixes:
-Balance Tweaks:
+
 Misc. Changes:
 - Renamed "Swishy 3" to  "Intellectual"
 
