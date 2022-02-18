@@ -1,4 +1,4 @@
-Release 1.1.1 (Released ?-??-22): (TODO, COMPILE LINUX)
+Release 1.1.1 (Released 2-19-22):
 Mane changes:
 - Added various horn and wing options!
 
