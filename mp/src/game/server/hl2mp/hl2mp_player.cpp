@@ -339,7 +339,7 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	{
 		if (GetTeamNumber() == TEAM_ZOMBIES)
 		{
-			GiveNamedItem("weapon_crowbar");
+			GiveNamedItem("weapon_fists");
 		}
 		else
 		{
@@ -357,6 +357,7 @@ void CHL2MP_Player::GiveDefaultItems( void )
 			CBasePlayer::GiveAmmo(6, "357");
 			CBasePlayer::GiveAmmo(3, "smg1_grenade");
 
+			GiveNamedItem("weapon_fists");
 			GiveNamedItem("weapon_crowbar");
 			GiveNamedItem("weapon_pistol");
 			GiveNamedItem("weapon_smg1");
@@ -381,7 +382,7 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	{
 		if (GetTeamNumber() == TEAM_ZOMBIES)
 		{
-			Weapon_Switch(Weapon_OwnsThisType("weapon_crowbar"));
+			Weapon_Switch(Weapon_OwnsThisType("weapon_fists"));
 			return;
 		}
 

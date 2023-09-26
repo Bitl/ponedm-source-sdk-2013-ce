@@ -1,0 +1,73 @@
+// Crowbar
+
+WeaponData
+{
+	// Weapon data is loaded by both the Game and Client DLLs.
+	"printname"	"#PoneDM_Fists"
+	"viewmodel"				"models/ppm/c_arms_pony.mdl"
+	"playermodel"			"models/ppm/c_arms_pony.mdl"
+	"anim_prefix"			"crowbar"
+	"bucket"				"0"
+	"bucket_position"		"2"
+
+	"clip_size"				"-1"
+	"primary_ammo"			"None"
+	"secondary_ammo"		"None"
+
+	"weight"				"3"
+	"item_flags"			"0"
+
+	"MeleeWeapon"		"1"
+
+	"damage"		"35"
+
+	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
+	SoundData
+	{
+		"single_shot"		"Weapon_Crowbar.Single"
+		"melee_hit"			"Weapon_Crowbar.Melee_Hit"
+		"melee_hit_world"	"Weapon_Crowbar.Melee_HitWorld"
+	}
+
+	// Weapon Sprite data is loaded by the Client DLL.
+	TextureData
+	{
+		"weapon"
+		{
+				"file"		"sprites/640hud1"
+				"x"			"192"
+				"y"			"224"
+				"width"		"32"
+				"height"	"16"
+		}
+		"weapon_s"
+		{	
+				"file"		"sprites/640hud1"
+				"x"			"192"
+				"y"			"224"
+				"width"		"32"
+				"height"	"16"
+		}
+		"ammo"
+		{
+				"file"		"sprites/640hud1"
+				"x"			"192"
+				"y"			"224"
+				"width"		"32"
+				"height"	"16"
+		}
+		"crosshair"
+		{
+				"font"		"Crosshairs"
+				"character"	"Q"
+		}
+		"autoaim"
+		{
+				"file"		"sprites/crosshairs"
+				"x"		"0"
+				"y"		"48"
+				"width"		"24"
+				"height"	"24"
+		}
+	}
+}

@@ -6217,6 +6217,7 @@ void CBasePlayer::CheatImpulseCommands( int iImpulse )
 #ifdef PONEDM
 		GiveNamedItem("weapon_gatling");
 		GiveNamedItem("weapon_railgun");
+		GiveNamedItem("weapon_fists");
 #endif
 		if ( GetHealth() < 100 )
 		{
