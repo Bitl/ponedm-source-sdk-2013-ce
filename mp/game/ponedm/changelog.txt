@@ -2,7 +2,7 @@ Release 1.2 (Released ?-??-??):
 Mane changes:
 - Introducing BRAINS ARE MAGIC!
 	- A new game mode based on "Infection" from the Halo series.
-	- In a game with bots, zombie bots are more agressive and survivor bots have a chance of being infected by "The Sickness"
+- Added "HOOVES" (fists) as a weapon for all modes.
 
 Misc. Changes:
 - Improved Discord Rich Presence details.

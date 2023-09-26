@@ -333,6 +333,7 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	if (sv_ponedm_gamemode.GetInt() == 2)
 	{
 		CBasePlayer::GiveAmmo(255, "Railgun");
+		GiveNamedItem("weapon_fists");
 		GiveNamedItem("weapon_railgun");
 	}
 	else
@@ -550,6 +551,19 @@ void CHL2MP_Player::Spawn(void)
 
 	if (GetBotController()) {
 		GetBotController()->Spawn();
+
+		//zombie bots will be more agressive.
+		if (GetTeamNumber() == TEAM_ZOMBIES)
+		{
+			CBotProfile* profile = GetBotController()->GetProfile();
+
+			profile->SetAggression(200.0f);
+			profile->SetMemoryDuration(20.0f);
+			profile->SetReactionDelay(0.0f);
+			profile->SetAlertDuration(10.0f);
+			profile->SetAimSpeed(AIM_SPEED_VERYFAST, AIM_SPEED_VERYFAST);
+			profile->SetAttackDelay(0.0f);
+		}
 	}
 }
 
