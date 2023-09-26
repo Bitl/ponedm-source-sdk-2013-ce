@@ -26,6 +26,7 @@
 #include "eventqueue.h"
 #include "physics_collisionevent.h"
 #include "gamestats.h"
+#include "hl2mp_gamerules.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -1391,9 +1392,9 @@ bool CPropCombineBall::IsAttractiveTarget( CBaseEntity *pEntity )
 			 return false;
 		
 		//No tracking teammates in teammode!
-		if ( g_pGameRules->IsTeamplay() )
+		if ((sv_ponedm_gamemode.GetInt() == 3) || HL2MPRules()->IsTeamplay())
 		{
-			if ( g_pGameRules->PlayerRelationship( GetOwnerEntity(), pEntity ) == GR_TEAMMATE )
+			if (HL2MPRules()->PlayerRelationship( GetOwnerEntity(), pEntity ) == GR_TEAMMATE )
 				 return false;
 		}
 #endif

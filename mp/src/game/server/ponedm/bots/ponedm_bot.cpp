@@ -232,7 +232,7 @@ void SpawnPoneDMBots(int botCount)
             Vector m_vSecondaryColor = vec3_origin;
             Vector m_vTertiaryColor = vec3_origin;
 
-            if (!TheGameRules->IsTeamplay())
+            if (!TheGameRules->IsTeamplay() && pPlayer->GetTeamNumber() != TEAM_ZOMBIES)
             {
                 float flColors[3];
 
@@ -287,6 +287,18 @@ void SpawnPoneDMBots(int botCount)
             pPlayer->SetBodygroup(PONEDM_TAIL_BODYGROUP, pPlayer->m_iTailBodygroup);
             pPlayer->SetBodygroup(PONEDM_HORN_BODYGROUP, pPlayer->m_iHornBodygroup);
             pPlayer->SetBodygroup(PONEDM_WINGS_BODYGROUP, pPlayer->m_iWingsBodygroup);
+
+            if (pPlayer->GetTeamNumber() == TEAM_ZOMBIES)
+            {
+                CBotProfile *profile = pPlayer->GetBotController()->GetProfile();
+
+                profile->SetAggression(200.0f);
+                profile->SetMemoryDuration(20.0f);
+                profile->SetReactionDelay(0.0f);
+                profile->SetAlertDuration(10.0f);
+                profile->SetAimSpeed(AIM_SPEED_VERYFAST, AIM_SPEED_VERYFAST);
+                profile->SetAttackDelay(0.0f);
+            }
         }
     }
 }

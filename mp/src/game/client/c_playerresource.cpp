@@ -68,6 +68,7 @@ C_PlayerResource::C_PlayerResource()
 #ifdef HL2MP
 	m_Colors[TEAM_BLUE] = COLOR_BLUE;
 	m_Colors[TEAM_RED] = COLOR_RED;
+	m_Colors[TEAM_ZOMBIES] = COLOR_GREEN;
 	m_Colors[TEAM_UNASSIGNED] = COLOR_PINK;
 #endif
 

@@ -14,6 +14,7 @@
 #include "iviewrender_beams.h"			// flashlight beam
 #include "r_efx.h"
 #include "dlight.h"
+#include "c_team.h"
 #ifdef PONEDM
 	#include "materialsystem/imaterialproxy.h"
 	#include "materialsystem/imaterialvar.h"
@@ -98,11 +99,22 @@ C_HL2MP_Player::C_HL2MP_Player() : m_PlayerAnimState( this ), m_iv_angEyeAngles(
 	m_blinkTimer.Invalidate();
 
 	m_pFlashlightBeam = NULL;
+
+#ifdef GLOWS_ENABLE
+	m_pGlowEffect = NULL;
+#endif // GLOWS_ENABLE
 }
 
 C_HL2MP_Player::~C_HL2MP_Player( void )
 {
 	ReleaseFlashlight();
+
+	if ((sv_ponedm_gamemode.GetInt() == 3) && GetTeamNumber() == TEAM_ZOMBIES)
+	{
+#ifdef GLOWS_ENABLE
+		DestroyGlowEffect();
+#endif // GLOWS_ENABLE
+	}
 }
 
 int C_HL2MP_Player::GetIDTarget() const
@@ -162,7 +174,7 @@ void C_HL2MP_Player::TraceAttack( const CTakeDamageInfo &info, const Vector &vec
 
 		if ( pAttacker )
 		{
-			if ( HL2MPRules()->IsTeamplay() && pAttacker->InSameTeam( this ) == true )
+			if (((sv_ponedm_gamemode.GetInt() == 3) || HL2MPRules()->IsTeamplay()) && pAttacker->InSameTeam(this) == true)
 				return;
 		}
 
@@ -197,9 +209,12 @@ void C_HL2MP_Player::Initialize( void )
 	GetPoseParameterRange( m_headPitchPoseParam, m_headPitchMin, m_headPitchMax );
 
 	CStudioHdr *hdr = GetModelPtr();
-	for ( int i = 0; i < hdr->GetNumPoseParameters() ; i++ )
+	if (hdr)
 	{
-		SetPoseParameter( hdr, i, 0.0 );
+		for (int i = 0; i < hdr->GetNumPoseParameters(); i++)
+		{
+			SetPoseParameter(hdr, i, 0.0);
+		}
 	}
 }
 
@@ -306,8 +321,59 @@ void C_HL2MP_Player::ClientThink( void )
 		m_vLookAtTarget = GetAbsOrigin() + vForward * 512;
 	}
 
+#ifdef GLOWS_ENABLE
+	if ((sv_ponedm_gamemode.GetInt() == 3) && GetTeamNumber() == TEAM_ZOMBIES)
+	{
+		if (!IsAlive())
+		{
+			DestroyGlowEffect();
+		}
+	}
+#endif // GLOWS_ENABLE
+
 	UpdateIDTarget();
 }
+
+#ifdef GLOWS_ENABLE
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void C_HL2MP_Player::UpdateGlowEffect()
+{
+	if (sv_ponedm_gamemode.GetInt() != 3)
+	{
+		DestroyGlowEffect();
+		return;
+	}
+
+	if (GetTeamNumber() > TEAM_UNASSIGNED)
+	{
+		DestroyGlowEffect();
+		return;
+	}
+
+	// destroy the existing effect
+	if (m_pGlowEffect)
+	{
+		DestroyGlowEffect();
+	}
+
+	// create a new effect if we have a cart
+	m_pGlowEffect = new CGlowObject(this, Vector(m_vPrimaryColor.GetX() + 30, m_vPrimaryColor.GetY() + 30, m_vPrimaryColor.GetZ() + 30), 1.0, true);
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void C_HL2MP_Player::DestroyGlowEffect(void)
+{
+	if (m_pGlowEffect)
+	{
+		delete m_pGlowEffect;
+		m_pGlowEffect = NULL;
+	}
+}
+#endif // GLOWS_ENABLE
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -371,7 +437,14 @@ void C_HL2MP_Player::PreThink( void )
 
 	BaseClass::PreThink();
 
-	SetMaxSpeed(PONEDM_PLAYERSPEED);
+	if (sv_ponedm_gamemode.GetInt() == 3 && GetTeamNumber() == TEAM_UNASSIGNED)
+	{
+		SetMaxSpeed(PONEDM_PLAYERSPEED / 2);
+	}
+	else
+	{
+		SetMaxSpeed(PONEDM_PLAYERSPEED);
+	}
 }
 
 const QAngle &C_HL2MP_Player::EyeAngles()
@@ -540,6 +613,8 @@ void C_HL2MP_Player::OnDataChanged( DataUpdateType_t type )
 	}
 
 	UpdateVisibility();
+
+	UpdateGlowEffect();
 }
 
 void C_HL2MP_Player::PostDataUpdate( DataUpdateType_t updateType )
@@ -1284,6 +1359,23 @@ void C_HL2MPRagdoll::ClientThink(void)
 		{
 			m_pDizzyEffect->StopEmission();
 			m_pDizzyEffect = NULL;
+		}
+	}
+
+
+	EHANDLE hPlayer = GetPlayerHandle();
+
+	if (hPlayer)
+	{
+		C_HL2MP_Player* hl2mppPlayer = ToHL2MPPlayer(hPlayer);
+
+		if (hl2mppPlayer)
+		{
+			if (sv_ponedm_gamemode.GetInt() == 3 && hl2mppPlayer->GetTeamNumber() == TEAM_ZOMBIES)
+			{
+				hl2mppPlayer->disableBlink = true;
+				m_nSkin = 1;
+			}
 		}
 	}
 

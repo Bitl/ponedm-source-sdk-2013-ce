@@ -61,7 +61,7 @@ extern CBaseEntity	 *g_pLastRebelSpawn;
 
 #endif
 
-ConVar sv_ponedm_gamemode("sv_ponedm_gamemode", "0", FCVAR_NOTIFY | FCVAR_REPLICATED, "0 = normal, 1 = randomizer, 2 = instagib");
+ConVar sv_ponedm_gamemode("sv_ponedm_gamemode", "0", FCVAR_NOTIFY | FCVAR_REPLICATED, "0 = normal, 1 = randomizer, 2 = instagib, 3 = zombie");
 
 REGISTER_GAMERULES_CLASS( CHL2MPRules );
 
@@ -194,6 +194,7 @@ char *sTeamNames[] =
 	"Spectators",
 	"Blue",
 	"Red",
+	"Zombies",
 };
 
 CHL2MPRules::CHL2MPRules()
@@ -214,6 +215,7 @@ CHL2MPRules::CHL2MPRules()
 
 	m_hRespawnableItemsAndWeapons.RemoveAll();
 	m_tmNextPeriodicThink = 0;
+	m_tmNextZombieModeThink = gpGlobals->curtime + 50.0;
 	m_flRestartGameTime = 0;
 	m_bCompleteReset = false;
 	m_bHeardAllPlayersReady = false;
@@ -315,6 +317,24 @@ void CHL2MPRules::PlayerSpawn(CBasePlayer* pPlayer)
 #endif
 }
 
+//I KNOW, CTeam.GetNumPlayers exists, however for whatever reason this doesn't work for us for the zombie mode.
+int CHL2MPRules::GetNumTeamMembers(int teamIndex)
+{
+	int iPlayers = 0;
+
+	for (int i = 1; i <= gpGlobals->maxClients; i++)
+	{
+		CBasePlayer* pPlayer = UTIL_PlayerByIndex(i);
+
+		if (pPlayer && pPlayer->GetTeamNumber() == TEAM_UNASSIGNED)
+		{
+			iPlayers++;
+		}
+	}
+
+	return iPlayers;
+}
+
 void CHL2MPRules::Think( void )
 {
 
@@ -359,7 +379,7 @@ void CHL2MPRules::Think( void )
 				return;
 			}
 		}
-		else
+		else if (sv_ponedm_gamemode.GetInt() != 3)
 		{
 			// check if any player is over the frag limit
 			for ( int i = 1; i <= gpGlobals->maxClients; i++ )
@@ -375,10 +395,23 @@ void CHL2MPRules::Think( void )
 		}
 	}
 
+	if (sv_ponedm_gamemode.GetInt() == 3 && gpGlobals->curtime > m_tmNextZombieModeThink)
+	{
+		// if all survivors are zombies, the zombies win.
+		if (GetNumTeamMembers(TEAM_UNASSIGNED) <= 0)
+		{
+			GoToIntermission();
+			return;
+		}
+
+		m_tmNextZombieModeThink = gpGlobals->curtime + 5.0;
+	}
+
 	if ( gpGlobals->curtime > m_tmNextPeriodicThink )
 	{		
 		CheckAllPlayersReady();
 		CheckRestartGame();
+
 		m_tmNextPeriodicThink = gpGlobals->curtime + 1.0;
 	}
 
@@ -650,7 +683,7 @@ int CHL2MPRules::WeaponShouldRespawn( CBaseCombatWeapon *pWeapon )
 {
 #ifndef CLIENT_DLL
 
-	if (sv_ponedm_gamemode.GetInt() == 2)
+	if ((sv_ponedm_gamemode.GetInt() == 2) || (sv_ponedm_gamemode.GetInt() == 3))
 		return GR_WEAPON_RESPAWN_NO;
 
 	if ( pWeapon->HasSpawnFlags( SF_NORESPAWN ) )
@@ -809,7 +842,7 @@ int CHL2MPRules::PlayerRelationship( CBaseEntity *pPlayer, CBaseEntity *pTarget 
 #ifndef CLIENT_DLL
 	// half life multiplay has a simple concept of Player Relationships.
 	// you are either on another player's team, or you are not.
-	if ( !pPlayer || !pTarget || !pTarget->IsPlayer() || IsTeamplay() == false )
+	if ( !pPlayer || !pTarget || !pTarget->IsPlayer() || ((sv_ponedm_gamemode.GetInt() != 3) && IsTeamplay() == false) )
 		return GR_NOTTEAMMATE;
 
 	if ( (*GetTeamID(pPlayer) != '\0') && (*GetTeamID(pTarget) != '\0') && !stricmp( GetTeamID(pPlayer), GetTeamID(pTarget) ) )
@@ -838,6 +871,8 @@ const char *CHL2MPRules::GetGameDescription( void )
 			return "Free-For All Randomizer";
 		else if (sv_ponedm_gamemode.GetInt() == 2)
 			return "Free-For All Instagib";
+		else if (sv_ponedm_gamemode.GetInt() == 3)
+			return "Brains Are Magic";
 		else
 			return "Free-For All Arena";
 	}
@@ -1041,6 +1076,7 @@ void CHL2MPRules::RestartGame()
 
 	CTeam *pRebels = GetGlobalTeam( TEAM_RED );
 	CTeam *pCombine = GetGlobalTeam( TEAM_BLUE );
+	CTeam* pZeds = GetGlobalTeam(TEAM_ZOMBIES);
 
 	if ( pRebels )
 	{
@@ -1050,6 +1086,11 @@ void CHL2MPRules::RestartGame()
 	if ( pCombine )
 	{
 		pCombine->SetScore( 0 );
+	}
+
+	if (pZeds)
+	{
+		pZeds->SetScore(0);
 	}
 
 	m_flIntermissionEndTime = 0;

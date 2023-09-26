@@ -103,6 +103,7 @@ DESCRIPTION SERVER_OPTIONS
 			"#PoneDM_GamemodeNormal" "0"
 			"#PoneDM_Randomizer" "1"
 			"#PoneDM_Instagib" "2"
+			"#PoneDM_Zombies" "3"
 		}
 		{ "0" }
 	}
@@ -164,7 +165,7 @@ DESCRIPTION SERVER_OPTIONS
 	{
 		"#Valve_Time_Limit"
 		{ NUMBER 0 -1 }
-		{ "0" }
+		{ "10" }
 	}
 
 	"mp_fraglimit"

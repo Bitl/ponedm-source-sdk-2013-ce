@@ -1015,7 +1015,16 @@ void CHL2_Player::Spawn(void)
 
 	m_pPlayerAISquad = g_AI_SquadManager.FindCreateSquad(AllocPooledString(PLAYER_SQUADNAME));
 
-	SetMaxSpeed(PONEDM_PLAYERSPEED);
+	extern ConVar sv_ponedm_gamemode;
+
+	if (sv_ponedm_gamemode.GetInt() == 3 && GetTeamNumber() == TEAM_UNASSIGNED)
+	{
+		SetMaxSpeed(PONEDM_PLAYERSPEED / 1.4f);
+	}
+	else
+	{
+		SetMaxSpeed(PONEDM_PLAYERSPEED);
+	}
 
 	// Setup our flashlight values
 #ifdef HL2_EPISODIC

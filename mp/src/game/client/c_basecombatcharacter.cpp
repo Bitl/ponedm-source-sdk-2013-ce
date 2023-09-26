@@ -117,7 +117,7 @@ void C_BaseCombatCharacter::GetGlowEffectColor( float *r, float *g, float *b )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-/*
+
 void C_BaseCombatCharacter::EnableGlowEffect( float r, float g, float b )
 {
 	// destroy the existing effect
@@ -128,7 +128,7 @@ void C_BaseCombatCharacter::EnableGlowEffect( float r, float g, float b )
 
 	m_pGlowEffect = new CGlowObject( this, Vector( r, g, b ), 1.0, true );
 }
-*/
+
 
 //-----------------------------------------------------------------------------
 // Purpose: 

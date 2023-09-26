@@ -138,6 +138,7 @@ C_BaseFlex::C_BaseFlex() :
 
 	m_flFlexDelayedWeight = NULL;
 	m_cFlexDelayedWeight = 0;
+	disableBlink = false;
 
 	/// Make sure size is correct
 	Assert( PHONEME_CLASS_STRONG + 1 == NUM_PHONEME_CLASSES );
@@ -1231,37 +1232,40 @@ bool C_BaseFlex::SetupGlobalWeights( const matrix3x4_t *pBoneToWorld, int nFlexW
 	}
 
 	ProcessSceneEvents( false );
-
-	// check for blinking
-	if (m_blinktoggle != m_prevblinktoggle)
+	
+	if (disableBlink)
 	{
-		m_prevblinktoggle = m_blinktoggle;
-		m_blinktime = gpGlobals->curtime + g_CV_BlinkDuration.GetFloat();
-	}
-
-	if (m_iBlink == -1)
-	{
-		m_iBlink = AddGlobalFlexController("Eyes_Blink");
-		//m_iBlink = AddGlobalFlexController( "blink" );
-	}
-
-	// FIXME: this needs a better algorithm
-	// blink the eyes
-	float flBlinkDuration = g_CV_BlinkDuration.GetFloat();
-	float flOOBlinkDuration = ( flBlinkDuration > 0 ) ? 1.0f / flBlinkDuration : 0.0f;
-	float t = ( m_blinktime - gpGlobals->curtime ) * M_PI * 0.5 * flOOBlinkDuration;
-	if (t > 0)
-	{
-		// do eyeblink falloff curve
-		t = cos(t);
-		if (t > 0.0f && t < 1.0f)
+		// check for blinking
+		if (m_blinktoggle != m_prevblinktoggle)
 		{
-			t = sqrtf( t ) * 2.0f;
-			if (t > 1.0f)
-				t = 2.0f - t;
-			t = clamp( t, 0.0f, 1.0f );
-			// add it to whatever the blink track is doing
-			g_flexweight[m_iBlink] = clamp( g_flexweight[m_iBlink] + t, 0.0f, 1.0f );
+			m_prevblinktoggle = m_blinktoggle;
+			m_blinktime = gpGlobals->curtime + g_CV_BlinkDuration.GetFloat();
+		}
+
+		if (m_iBlink == -1)
+		{
+			m_iBlink = AddGlobalFlexController("Eyes_Blink");
+			//m_iBlink = AddGlobalFlexController( "blink" );
+		}
+
+		// FIXME: this needs a better algorithm
+		// blink the eyes
+		float flBlinkDuration = g_CV_BlinkDuration.GetFloat();
+		float flOOBlinkDuration = (flBlinkDuration > 0) ? 1.0f / flBlinkDuration : 0.0f;
+		float t = (m_blinktime - gpGlobals->curtime) * M_PI * 0.5 * flOOBlinkDuration;
+		if (t > 0)
+		{
+			// do eyeblink falloff curve
+			t = cos(t);
+			if (t > 0.0f && t < 1.0f)
+			{
+				t = sqrtf(t) * 2.0f;
+				if (t > 1.0f)
+					t = 2.0f - t;
+				t = clamp(t, 0.0f, 1.0f);
+				// add it to whatever the blink track is doing
+				g_flexweight[m_iBlink] = clamp(g_flexweight[m_iBlink] + t, 0.0f, 1.0f);
+			}
 		}
 	}
 

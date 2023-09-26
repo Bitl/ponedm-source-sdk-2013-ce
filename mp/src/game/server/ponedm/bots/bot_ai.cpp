@@ -308,6 +308,11 @@ void CBot::GatherWeaponConditions()
         return;
     }
 
+    if (pWeapon->IsMeleeWeapon())
+    {
+        return;
+    }
+
     // Primary ammunition
     {
         int ammo = 0;
@@ -355,11 +360,11 @@ void CBot::GatherWeaponConditions()
     }
 
     // You have no ammunition of any kind, you are defenseless
-    if ( HasCondition( BCOND_EMPTY_PRIMARY_AMMO ) &&
+    /*if (HasCondition(BCOND_EMPTY_PRIMARY_AMMO) &&
          HasCondition( BCOND_EMPTY_CLIP1_AMMO ) &&
          HasCondition( BCOND_EMPTY_SECONDARY_AMMO ) &&
          HasCondition( BCOND_EMPTY_CLIP2_AMMO ) )
-        SetCondition( BCOND_HELPLESS );
+        SetCondition( BCOND_HELPLESS );*/
 }
 
 //================================================================================

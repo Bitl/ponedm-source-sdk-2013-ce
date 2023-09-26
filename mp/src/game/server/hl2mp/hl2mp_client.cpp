@@ -57,10 +57,7 @@ void FinishClientPutInServer( CHL2MP_Player *pPlayer )
 	// notify other clients of player joining the game
 	UTIL_ClientPrintAll( HUD_PRINTNOTIFY, "#Game_connected", sName[0] != 0 ? sName : "<unconnected>" );
 
-	if ( HL2MPRules()->IsTeamplay() == true )
-	{
-		ClientPrint( pPlayer, HUD_PRINTTALK, "You are on team %s1\n", pPlayer->GetTeam()->GetName() );
-	}
+	ClientPrint(pPlayer, HUD_PRINTTALK, "You are on team %s1\n", pPlayer->GetTeam()->GetName());
 
 	if (!pPlayer->IsFakeClient())
 	{
@@ -171,6 +168,11 @@ void respawn( CBaseEntity *pEdict, bool fCopyCorpse )
 	{
 		if (gpGlobals->curtime > pPlayer->GetDeathTime() + DEATH_ANIMATION_TIME)
 		{
+			if (sv_ponedm_gamemode.GetInt() == 3 && pPlayer->GetTeamNumber() == TEAM_UNASSIGNED)
+			{
+				pPlayer->ChangeTeam(TEAM_ZOMBIES);
+			}
+
 			// respawn player
 			pPlayer->Spawn();
 		}

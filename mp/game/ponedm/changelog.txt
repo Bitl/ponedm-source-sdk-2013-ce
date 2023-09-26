@@ -1,3 +1,17 @@
+Release 1.2 (Released ?-??-??):
+Mane changes:
+- Introducing BRAINS ARE MAGIC!
+	- A new game mode based on "Infection" from the Halo series.
+	- In a game with bots, zombie bots are more agressive and survivor bots have a chance of being infected by "The Sickness"
+
+Misc. Changes:
+- Improved Discord Rich Presence details.
+- Enabled a 10-minute timer by default.
+- Improved bot handling of melee attacks.
+
+Bug Fixes:
+- Fixed a bug where spectators viewed players as enemies.
+
 Release 1.1.1 (Released 2-19-22):
 Mane changes:
 - Added various horn and wing options!

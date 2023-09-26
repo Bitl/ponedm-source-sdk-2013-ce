@@ -290,14 +290,16 @@ private:
 	bool			SetupEmphasisBlend( Emphasized_Phoneme *classes, int phoneme );
 	void			ComputeBlendedSetting( Emphasized_Phoneme *classes, float emphasis_intensity );
 
-#ifdef HL2_CLIENT_DLL
 public:
+#ifdef HL2_CLIENT_DLL
 
 	Vector			m_vecLean;
 	CInterpolatedVar< Vector >	m_iv_vecLean;
 	Vector			m_vecShift;
 	CInterpolatedVar< Vector >	m_iv_vecShift;
 #endif
+
+	bool disableBlink;
 };
 
 

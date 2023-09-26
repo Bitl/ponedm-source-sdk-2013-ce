@@ -91,6 +91,12 @@ public:
 	CNetworkVector(m_vTertiaryColor);
 #endif
 
+#ifdef GLOWS_ENABLE
+private:
+	void UpdateGlowEffect(void);
+	void DestroyGlowEffect(void);
+#endif // GLOWS_ENABLE
+
 private:
 	
 	C_HL2MP_Player( const C_HL2MP_Player & );
@@ -130,6 +136,10 @@ private:
 	CNetworkVar( HL2MPPlayerState, m_iPlayerState );	
 
 	bool m_fIsWalking;
+
+#ifdef GLOWS_ENABLE
+	CGlowObject* m_pGlowEffect;
+#endif // GLOWS_ENABLE
 };
 
 inline C_HL2MP_Player *ToHL2MPPlayer( CBaseEntity *pEntity )

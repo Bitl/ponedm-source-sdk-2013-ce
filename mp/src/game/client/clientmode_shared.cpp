@@ -37,6 +37,7 @@
 #include "hud_vote.h"
 #include "ienginevgui.h"
 #include "sourcevr/isourcevirtualreality.h"
+#include "clienteffectprecachesystem.h"
 #if defined( _X360 )
 #include "xbox/xbox_console.h"
 #endif
@@ -272,6 +273,11 @@ static void __MsgFunc_VGUIMenu( bf_read &msg )
 
 	gViewPortInterface->ShowPanel( viewport, bShow );
 }
+
+CLIENTEFFECT_REGISTER_BEGIN(PrecachePostProcessingEffectsGlow)
+CLIENTEFFECT_MATERIAL("dev/glow_color")
+CLIENTEFFECT_MATERIAL("dev/halo_add_to_screen")
+CLIENTEFFECT_REGISTER_END_CONDITIONAL(engine->GetDXSupportLevel() >= 90)
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -789,6 +795,8 @@ bool ClientModeShared::DoPostScreenSpaceEffects( const CViewSetup *pSetup )
 			return false;
 	}
 #endif 
+
+	g_GlowObjectManager.RenderGlowEffects(pSetup, 0);
 	return true;
 }
 

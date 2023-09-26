@@ -326,6 +326,8 @@ void CHL2MPClientScoreBoardDialog::ApplySchemeSettings( vgui::IScheme *pScheme )
 //-----------------------------------------------------------------------------
 void CHL2MPClientScoreBoardDialog::InitScoreboardSections()
 {
+	m_pPlayerList->RemoveAllSections();
+
 	m_pPlayerList->SetBgColor( Color(0, 0, 0, 0) );
 	m_pPlayerList->SetBorder(NULL);
 
@@ -340,6 +342,11 @@ void CHL2MPClientScoreBoardDialog::InitScoreboardSections()
 	}
 	else
 	{
+		if (sv_ponedm_gamemode.GetInt() == 3)
+		{
+			AddSection(TYPE_TEAM, TEAM_ZOMBIES);
+		}
+
 		AddSection( TYPE_TEAM, TEAM_UNASSIGNED );
 	}
 	AddSection( TYPE_TEAM, TEAM_SPECTATOR );
@@ -396,7 +403,7 @@ void CHL2MPClientScoreBoardDialog::UpdateTeamInfo()
 				g_pVGuiLocalize->ConstructString(string1, sizeof(string1), g_pVGuiLocalize->Find("#ScoreBoard_Players"), 2, teamName, wNumPlayers);
 			}
 
-			if ( HL2MPRules()->IsTeamplay())
+			if ((sv_ponedm_gamemode.GetInt() == 3) || HL2MPRules()->IsTeamplay())
 			{
 				// update stats
 				wchar_t val[6];
@@ -478,6 +485,7 @@ int CHL2MPClientScoreBoardDialog::GetSectionFromTeamNumber( int teamNumber )
 	switch ( teamNumber )
 	{
 	case TEAM_BLUE:
+	case TEAM_ZOMBIES:
 		return SCORESECTION_COMBINE;
 	case TEAM_RED:
 		return SCORESECTION_REBELS;

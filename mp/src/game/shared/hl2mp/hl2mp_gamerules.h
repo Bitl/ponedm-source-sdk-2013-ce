@@ -32,6 +32,7 @@ enum
 {
 	TEAM_BLUE = (LAST_SHARED_TEAM+1),
 	TEAM_RED,
+	TEAM_ZOMBIES,
 	TEAM_COUNT
 };
 
@@ -108,6 +109,7 @@ public:
 	virtual Vector VecWeaponRespawnSpot( CBaseCombatWeapon *pWeapon );
 	virtual int WeaponShouldRespawn( CBaseCombatWeapon *pWeapon );
 	virtual void Think( void );
+	virtual int GetNumTeamMembers(int teamIndex);
 	virtual void CreateStandardEntities( void );
 	virtual void ClientSettingsChanged( CBasePlayer *pPlayer );
 	virtual int PlayerRelationship( CBaseEntity *pPlayer, CBaseEntity *pTarget );
@@ -156,6 +158,7 @@ private:
 	CNetworkVar( float, m_flGameStartTime );
 	CUtlVector<EHANDLE> m_hRespawnableItemsAndWeapons;
 	float m_tmNextPeriodicThink;
+	float m_tmNextZombieModeThink;
 	float m_flRestartGameTime;
 	bool m_bCompleteReset;
 	bool m_bAwaitingReadyRestart;

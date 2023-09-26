@@ -943,7 +943,7 @@ ConVarRef suitcharger( "sk_suitcharger" );
 	//=========================================================
 	int CMultiplayRules::WeaponShouldRespawn( CBaseCombatWeapon *pWeapon )
 	{
-		if (sv_ponedm_gamemode.GetInt() == 2)
+		if ((sv_ponedm_gamemode.GetInt() == 2) || (sv_ponedm_gamemode.GetInt() == 3))
 			return GR_WEAPON_RESPAWN_NO;
 
 		if ( pWeapon->HasSpawnFlags( SF_NORESPAWN ) )
@@ -995,7 +995,7 @@ ConVarRef suitcharger( "sk_suitcharger" );
 	//=========================================================
 	int CMultiplayRules::ItemShouldRespawn( CItem *pItem )
 	{
-		if (sv_ponedm_gamemode.GetInt() == 2)
+		if ((sv_ponedm_gamemode.GetInt() == 2) || (sv_ponedm_gamemode.GetInt() == 3))
 		{
 			return GR_ITEM_RESPAWN_NO;
 		}
@@ -1068,7 +1068,7 @@ ConVarRef suitcharger( "sk_suitcharger" );
 	//=========================================================
 	int CMultiplayRules::DeadPlayerWeapons( CBasePlayer *pPlayer )
 	{
-		if (sv_ponedm_gamemode.GetInt() == 2)
+		if ((sv_ponedm_gamemode.GetInt() == 2) || (sv_ponedm_gamemode.GetInt() == 3 && pPlayer->GetTeamNumber() == TEAM_ZOMBIES))
 		{
 			return GR_PLR_DROP_GUN_NO;
 		}
@@ -1082,7 +1082,7 @@ ConVarRef suitcharger( "sk_suitcharger" );
 	//=========================================================
 	int CMultiplayRules::DeadPlayerAmmo( CBasePlayer *pPlayer )
 	{
-		if (sv_ponedm_gamemode.GetInt() == 2)
+		if ((sv_ponedm_gamemode.GetInt() == 2) || (sv_ponedm_gamemode.GetInt() == 3 && pPlayer->GetTeamNumber() == TEAM_ZOMBIES))
 		{
 			return GR_PLR_DROP_AMMO_NO;
 		}

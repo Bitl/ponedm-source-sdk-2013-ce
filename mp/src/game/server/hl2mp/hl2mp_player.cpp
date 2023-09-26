@@ -337,18 +337,36 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	}
 	else
 	{
-		CBasePlayer::GiveAmmo(255, "Pistol");
-		CBasePlayer::GiveAmmo(100, "SMG1");
-		CBasePlayer::GiveAmmo(2, "grenade");
-		CBasePlayer::GiveAmmo(6, "Buckshot");
-		CBasePlayer::GiveAmmo(6, "357");
-		CBasePlayer::GiveAmmo(3, "smg1_grenade");
+		if (GetTeamNumber() == TEAM_ZOMBIES)
+		{
+			GiveNamedItem("weapon_crowbar");
+		}
+		else
+		{
+			CBasePlayer::GiveAmmo(255, "Pistol");
+			CBasePlayer::GiveAmmo(100, "SMG1");
+			CBasePlayer::GiveAmmo(2, "grenade");
+			if (sv_ponedm_gamemode.GetInt() == 3)
+			{
+				CBasePlayer::GiveAmmo(18, "Buckshot");
+			}
+			else
+			{
+				CBasePlayer::GiveAmmo(6, "Buckshot");
+			}
+			CBasePlayer::GiveAmmo(6, "357");
+			CBasePlayer::GiveAmmo(3, "smg1_grenade");
 
-		GiveNamedItem("weapon_crowbar");
-		GiveNamedItem("weapon_pistol");
-		GiveNamedItem("weapon_smg1");
-		GiveNamedItem("weapon_frag");
-		GiveNamedItem("weapon_physcannon");
+			GiveNamedItem("weapon_crowbar");
+			GiveNamedItem("weapon_pistol");
+			GiveNamedItem("weapon_smg1");
+			if (sv_ponedm_gamemode.GetInt() == 3)
+			{
+				GiveNamedItem("weapon_shotgun");
+			}
+			GiveNamedItem("weapon_frag");
+			GiveNamedItem("weapon_physcannon");
+		}
 	}
 
 	const char *szDefaultWeaponName = engine->GetClientConVarValue( engine->IndexOfEdict( edict() ), "cl_defaultweapon" );
@@ -361,6 +379,12 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	}
 	else
 	{
+		if (GetTeamNumber() == TEAM_ZOMBIES)
+		{
+			Weapon_Switch(Weapon_OwnsThisType("weapon_crowbar"));
+			return;
+		}
+
 		if (sv_ponedm_gamemode.GetInt() == 2)
 		{
 			Weapon_Switch(Weapon_OwnsThisType("weapon_physcannon"));
@@ -370,11 +394,6 @@ void CHL2MP_Player::GiveDefaultItems( void )
 			Weapon_Switch(Weapon_OwnsThisType("weapon_railgun"));
 		}
 	}
-
-	if (sv_ponedm_gamemode.GetInt() == 2)
-	{
-		SetPreventWeaponPickup(true);
-	}
 }
 
 void CHL2MP_Player::PickDefaultSpawnTeam( void )
@@ -383,7 +402,38 @@ void CHL2MP_Player::PickDefaultSpawnTeam( void )
 	{
 		if ( HL2MPRules()->IsTeamplay() == false )
 		{
-			ChangeTeam(TEAM_UNASSIGNED);
+			//todo, work on teams
+			if (sv_ponedm_gamemode.GetInt() == 3)
+			{
+				CTeam* pCombine = g_Teams[TEAM_ZOMBIES];
+				CTeam* pRebels = g_Teams[TEAM_UNASSIGNED];
+
+				if (pCombine == NULL || pRebels == NULL)
+				{
+					int team = random->RandomInt(0, 1);
+					ChangeTeam((team == 1 ? TEAM_ZOMBIES : TEAM_UNASSIGNED));
+				}
+				else
+				{
+					if (pCombine->GetNumPlayers() > pRebels->GetNumPlayers())
+					{
+						ChangeTeam(TEAM_UNASSIGNED);
+					}
+					else if (pCombine->GetNumPlayers() < pRebels->GetNumPlayers())
+					{
+						ChangeTeam(TEAM_ZOMBIES);
+					}
+					else
+					{
+						int team = random->RandomInt(0, 1);
+						ChangeTeam((team == 1 ? TEAM_ZOMBIES : TEAM_UNASSIGNED));
+					}
+				}
+			}
+			else
+			{
+				ChangeTeam(TEAM_UNASSIGNED);
+			}
 		}
 		else
 		{
@@ -418,7 +468,7 @@ void CHL2MP_Player::PickDefaultSpawnTeam( void )
 //-----------------------------------------------------------------------------
 void CHL2MP_Player::Spawn(void)
 {
-	if (sv_ponedm_gamemode.GetInt() == 2)
+	if ((sv_ponedm_gamemode.GetInt() == 2) || (sv_ponedm_gamemode.GetInt() == 3 && GetTeamNumber() == TEAM_ZOMBIES))
 	{
 		SetPreventWeaponPickup(false);
 	}
@@ -446,6 +496,11 @@ void CHL2MP_Player::Spawn(void)
 		}
 	}
 
+	if ((sv_ponedm_gamemode.GetInt() == 2) || (sv_ponedm_gamemode.GetInt() == 3 && GetTeamNumber() == TEAM_ZOMBIES))
+	{
+		SetPreventWeaponPickup(true);
+	}
+
 	SetNumAnimOverlays( 3 );
 	ResetAnimation();
 
@@ -460,6 +515,11 @@ void CHL2MP_Player::Spawn(void)
 	m_iGoreRearLeftLeg = 0;
 	m_iGoreRearRightLeg = 0;
 	SetContextThink(&CHL2MP_Player::CustomizationUpdateThink, gpGlobals->curtime, "CustomizationUpdateThink");
+
+	if (GetTeamNumber() == TEAM_ZOMBIES)
+	{
+		m_nSkin = 1;
+	}
 #endif
 
 	m_nRenderFX = kRenderNormal;
@@ -504,26 +564,34 @@ void CHL2MP_Player::UpdatePlayerColor(void)
 		vecNewColor.x = 255.0f / 255.0f;
 		vecNewColor.y = 63.0f / 255.0f;
 		vecNewColor.z = 63.0f / 255.0f;
+		m_vPrimaryColor = vecNewColor;
 		break;
 	case TEAM_BLUE:
 		vecNewColor.x = 93.3f / 255.0f;
 		vecNewColor.y = 166.2f / 255.0f;
 		vecNewColor.z = 225.4f / 255.0f;
+		m_vPrimaryColor = vecNewColor;
 		break;
-	default:
+	case TEAM_ZOMBIES:
+		vecNewColor.x = 93.0f / 255.0f;
+		vecNewColor.y = 180.0f / 255.0f;
+		vecNewColor.z = 117.0f / 255.0f;
+		m_vPrimaryColor = vecNewColor;
+		break;
 	case TEAM_UNASSIGNED:
+	default:
 		if (!IsFakeClient())
 		{
 			vecNewColor.x = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_primarycolor_r")) / 255.0f;
 			vecNewColor.y = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_primarycolor_g")) / 255.0f;
 			vecNewColor.z = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_primarycolor_b")) / 255.0f;
+			m_vPrimaryColor = vecNewColor;
 		}
 		break;
 	}
 
 	if (!IsFakeClient())
 	{
-		m_vPrimaryColor = vecNewColor;
 		Vector vecNewSecondaryColor;
 
 		vecNewSecondaryColor.x = V_atoi(engine->GetClientConVarValue(entindex(), "cl_ponedm_secondarycolor_r")) / 255.0f;
@@ -824,9 +892,6 @@ bool CHL2MP_Player::WantsLagCompensationOnEntity( const CBasePlayer *pPlayer, co
 
 Activity CHL2MP_Player::TranslateTeamActivity( Activity ActToTranslate )
 {
-	if ( m_iModelType == TEAM_BLUE )
-		 return ActToTranslate;
-	
 	if ( ActToTranslate == ACT_RUN )
 		 return ACT_RUN_AIM_AGITATED;
 
@@ -1060,7 +1125,7 @@ bool CHL2MP_Player::BumpWeapon( CBaseCombatWeapon *pWeapon )
 
 void CHL2MP_Player::ChangeTeam( int iTeam )
 {
-	if ( GetNextTeamChangeTime() >= gpGlobals->curtime )
+	if (GetNextTeamChangeTime() >= gpGlobals->curtime)
 	{
 		char szReturnString[128];
 		Q_snprintf( szReturnString, sizeof( szReturnString ), "Please wait %d more seconds before trying to switch teams again.\n", (int)(GetNextTeamChangeTime() - gpGlobals->curtime) );
@@ -1071,10 +1136,12 @@ void CHL2MP_Player::ChangeTeam( int iTeam )
 
 	bool bKill = false;
 
-	if ( HL2MPRules()->IsTeamplay() != true && iTeam != TEAM_SPECTATOR )
+	if ((sv_ponedm_gamemode.GetInt() != 3))
 	{
-		//don't let them try to join combine or rebels during deathmatch.
-		iTeam = TEAM_UNASSIGNED;
+		if (HL2MPRules()->IsTeamplay() != true && iTeam != TEAM_SPECTATOR)
+		{
+			iTeam = TEAM_UNASSIGNED;
+		}
 	}
 
 	if ( HL2MPRules()->IsTeamplay() == true )
@@ -1089,7 +1156,10 @@ void CHL2MP_Player::ChangeTeam( int iTeam )
 
 	SetModel("models/ppm/player_default_base_new_pantoneshift.mdl");
 
-	m_flNextTeamChangeTime = gpGlobals->curtime + TEAM_CHANGE_INTERVAL;
+	if ((sv_ponedm_gamemode.GetInt() != 3))
+	{
+		m_flNextTeamChangeTime = gpGlobals->curtime + TEAM_CHANGE_INTERVAL;
+	}
 
 	if ( iTeam == TEAM_SPECTATOR )
 	{
@@ -1109,6 +1179,12 @@ bool CHL2MP_Player::HandleCommand_JoinTeam( int team )
 	if ( !GetGlobalTeam( team ) || team == 0 )
 	{
 		Warning( "HandleCommand_JoinTeam( %d ) - invalid team index.\n", team );
+		return false;
+	}
+
+	if ((sv_ponedm_gamemode.GetInt() == 3))
+	{
+		Warning("HandleCommand_JoinTeam( %d ) - no brains allowed\n", team);
 		return false;
 	}
 
@@ -1482,7 +1558,7 @@ void CHL2MP_Player::Event_Killed( const CTakeDamageInfo &info )
 	RemoveEffects( EF_NODRAW );	// still draw player body
 	StopZooming();
 
-	if (sv_ponedm_gamemode.GetInt() == 2)
+	if ((sv_ponedm_gamemode.GetInt() == 2) || (sv_ponedm_gamemode.GetInt() == 3 && GetTeamNumber() == TEAM_ZOMBIES))
 	{
 		SetPreventWeaponPickup(false);
 	}
@@ -1645,6 +1721,59 @@ CBaseEntity* CHL2MP_Player::EntSelectSpawnPoint(void)
 			}
 		}
 	}
+	else if (sv_ponedm_gamemode.GetInt() == 3)
+	{
+		if (GetTeamNumber() == TEAM_ZOMBIES)
+		{
+			int teamBlue = ARRAYSIZE(Team2Spawns);
+			for (int i = 0; i < teamBlue; ++i)
+			{
+				CBaseEntity* pSpawn2 = gEntList.FindEntityByClassname(NULL, Team2Spawns[i]);
+				if (pSpawn2 != NULL)
+				{
+					if (FStrEq(pSpawn2->GetClassname(), "info_player_teamspawn"))
+					{
+						//TF2 uses different team numbers for teams.
+						if (pSpawn2->GetTeamNumber() == TEAM_RED)
+						{
+							pSpawnpointName = Team2Spawns[i];
+							pLastSpawnPoint = g_pLastCombineSpawn;
+						}
+					}
+					else
+					{
+						pSpawnpointName = Team2Spawns[i];
+						pLastSpawnPoint = g_pLastCombineSpawn;
+					}
+				}
+			}
+		}
+		else if (GetTeamNumber() == TEAM_UNASSIGNED)
+		{
+			int teamRed = ARRAYSIZE(Team1Spawns);
+			for (int i = 0; i < teamRed; ++i)
+			{
+				CBaseEntity* pSpawn1 = gEntList.FindEntityByClassname(NULL, Team1Spawns[i]);
+				if (pSpawn1 != NULL)
+				{
+					if (FStrEq(pSpawn1->GetClassname(), "info_player_teamspawn"))
+					{
+						//TF2 uses different team numbers for teams.
+						if (pSpawn1->GetTeamNumber() == TEAM_BLUE)
+						{
+							pSpawnpointName = Team1Spawns[i];
+							pLastSpawnPoint = g_pLastRebelSpawn;
+						}
+					}
+					else
+					{
+						pSpawnpointName = Team1Spawns[i];
+						pLastSpawnPoint = g_pLastRebelSpawn;
+					}
+				}
+			}
+		}
+	}
 	else
 	{
 		int teamSpawn = RandomInt(0, 1);
@@ -1748,6 +1877,17 @@ ReturnSpot:
 			g_pLastCombineSpawn = pSpot;
 		}
 		else if (GetTeamNumber() == TEAM_RED)
+		{
+			g_pLastRebelSpawn = pSpot;
+		}
+	}
+	else
+	{
+		if (GetTeamNumber() == TEAM_ZOMBIES)
+		{
+			g_pLastCombineSpawn = pSpot;
+		}
+		else if (GetTeamNumber() == TEAM_UNASSIGNED)
 		{
 			g_pLastRebelSpawn = pSpot;
 		}

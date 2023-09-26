@@ -15,7 +15,7 @@ $Configuration
 	$Compiler
 	{
 		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\game\shared\hl2;.\hl2;$SRCDIR\game\shared\hl2mp;.\hl2mp;$SRCDIR\game\shared\sdk2013ce;.\sdk2013ce;$SRCDIR\game\shared\ponedm;.\ponedm;.\ponedm\bots"
-		$PreprocessorDefinitions		"$BASE;HL2MP;HL2_DLL;SDK2013CE;PONEDM"
+		$PreprocessorDefinitions		"$BASE;HL2MP;HL2_DLL;SDK2013CE;PONEDM;GLOWS_ENABLE"
 	}
 }
 
@@ -69,6 +69,8 @@ $Project "Server (PoneDM)"
 				$File	"$SRCDIR\game\shared\ponedm\weapon_gatling.cpp"
 				$File	"$SRCDIR\game\shared\ponedm\weapon_railgun.cpp"
 				$File	"$SRCDIR\game\shared\ponedm\weapon_railgun.h"
+				$File	"$SRCDIR\game\shared\ponedm\weapon_fists.cpp"
+				$File	"$SRCDIR\game\shared\ponedm\weapon_fists.h"
 			}
 			
 			$Folder "Bots"

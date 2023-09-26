@@ -886,12 +886,19 @@ void CBotDecision::SwitchToBestWeapon()
     if ( pCurrent == NULL )
         return;
 
+    if (GetHost()->GetTeamNumber() == TEAM_ZOMBIES)
+    {
+        GetHost()->Weapon_Switch(GetHost()->Weapon_OwnsThisType("weapon_crowbar"));
+        return;
+    }
+
     // Best Weapons
     CBaseWeapon *pPistol = NULL;
     CBaseWeapon *pSniper = NULL;
     CBaseWeapon *pShotgun = NULL;
     CBaseWeapon *pMachineGun = NULL;
     CBaseWeapon *pShortRange = NULL;
+    CBaseWeapon* pMelee = NULL;
 
     // Check to know what weapons I have
     for ( int i = 0; i < GetHost()->WeaponCount(); i++ ) {
@@ -899,6 +906,11 @@ void CBotDecision::SwitchToBestWeapon()
 
         if ( !ShouldSwitchToWeapon( pWeapon ) )
             continue;
+
+        if (pWeapon->IsMeleeWeapon())
+        {
+            pMelee = pWeapon;
+        }
 
         if (pWeapon->IsPistol()) {
             if ( !pPistol || pWeapon->GetWeight() > pPistol->GetWeight() ) {
@@ -929,19 +941,26 @@ void CBotDecision::SwitchToBestWeapon()
     }
 
     // The best short-range weapon
+    if (pShotgun) {
+        pShortRange = pShotgun;
+    }
+    else if (pMachineGun) {
+        pShortRange = pMachineGun;
+    }
+    else if (pPistol) {
+        pShortRange = pPistol;
+    }
+    else if (pSniper) {
+        pShortRange = pSniper;
+    }
+
+    if (HasCondition(BCOND_EMPTY_PRIMARY_AMMO) &&
+        HasCondition(BCOND_EMPTY_CLIP1_AMMO) &&
+        HasCondition(BCOND_EMPTY_SECONDARY_AMMO) &&
+        HasCondition(BCOND_EMPTY_CLIP2_AMMO))
     {
-        if ( pShotgun ) {
-            pShortRange = pShotgun;
-        }
-        else if ( pMachineGun ) {
-            pShortRange = pMachineGun;
-        }
-        else if ( pPistol ) {
-            pShortRange = pPistol;
-        }
-        else if ( pSniper ) {
-            pShortRange = pSniper;
-        }
+        GetHost()->Weapon_Switch(pMelee);
+        return;
     }
 
     float closeRange = 400.0f;
@@ -1074,8 +1093,11 @@ BCOND CBotDecision::ShouldRangeAttack1()
     CBaseWeapon *pWeapon = GetHost()->GetActiveBaseWeapon();
 
     // TODO: A way to support attacks without a [CBaseWeapon]
-    if ( !pWeapon || pWeapon->IsMeleeWeapon() )
+    if ( !pWeapon )
         return BCOND_NONE;
+
+    if (pWeapon->IsMeleeWeapon())
+        return ShouldMeleeAttack1();
 
     //float flDistance = memory->GetDistance();
 
@@ -1142,8 +1164,11 @@ BCOND CBotDecision::ShouldRangeAttack2()
     CBaseWeapon *pWeapon = GetHost()->GetActiveBaseWeapon();
 
     // TODO: A way to support attacks without a [CBaseWeapon]
-    if ( !pWeapon || pWeapon->IsMeleeWeapon() )
+    if ( !pWeapon)
         return BCOND_NONE;
+
+    if (pWeapon->IsMeleeWeapon())
+        return ShouldMeleeAttack2();
 
     //SLAM!
     if (pWeapon->IsSLAM())
@@ -1230,7 +1255,7 @@ BCOND CBotDecision::ShouldMeleeAttack1()
         return BCOND_TOO_FAR_TO_ATTACK;
 
     // TODO
-    return BCOND_NONE;
+    return BCOND_CAN_MELEE_ATTACK1;
 }
 
 //================================================================================

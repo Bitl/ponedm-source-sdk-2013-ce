@@ -129,6 +129,8 @@
 #endif
 #include <time.h>
 
+#include "hl2mp_gamerules.h"
+
 // NVNT includes
 #include "hud_macros.h"
 #include "haptics/ihaptics.h"
@@ -1725,7 +1727,7 @@ void CHLClient::LevelInitPreEntity(char const* pMapName)
 
 			char buffer[256];
 			discordPresence.state = "In-Game";
-			sprintf(buffer, "Map: %s", pMapName);
+			sprintf(buffer, "%s - %s", HL2MPRules()->GetGameDescription(), pMapName);
 			discordPresence.details = buffer;
 			discordPresence.largeImageKey = "large_icon";
 			Discord_UpdatePresence(&discordPresence);
