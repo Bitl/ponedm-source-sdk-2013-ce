@@ -888,7 +888,7 @@ void CBotDecision::SwitchToBestWeapon()
 
     if (GetHost()->GetTeamNumber() == TEAM_ZOMBIES)
     {
-        GetHost()->Weapon_Switch(GetHost()->Weapon_OwnsThisType("weapon_crowbar"));
+        GetHost()->Weapon_Switch(GetHost()->Weapon_OwnsThisType("weapon_fists"));
         return;
     }
 
