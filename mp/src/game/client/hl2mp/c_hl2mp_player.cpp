@@ -109,7 +109,7 @@ C_HL2MP_Player::~C_HL2MP_Player( void )
 {
 	ReleaseFlashlight();
 
-	if ((sv_ponedm_gamemode.GetInt() == 3) && GetTeamNumber() == TEAM_ZOMBIES)
+	if ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_ZOMBIES)
 	{
 #ifdef GLOWS_ENABLE
 		DestroyGlowEffect();
@@ -174,7 +174,8 @@ void C_HL2MP_Player::TraceAttack( const CTakeDamageInfo &info, const Vector &vec
 
 		if ( pAttacker )
 		{
-			if (((sv_ponedm_gamemode.GetInt() == 3) || HL2MPRules()->IsTeamplay()) && pAttacker->InSameTeam(this) == true)
+			if (((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) || 
+				HL2MPRules()->IsTeamplay()) && pAttacker->InSameTeam(this) == true)
 				return;
 		}
 
@@ -322,7 +323,7 @@ void C_HL2MP_Player::ClientThink( void )
 	}
 
 #ifdef GLOWS_ENABLE
-	if ((sv_ponedm_gamemode.GetInt() == 3) && GetTeamNumber() == TEAM_ZOMBIES)
+	if ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_ZOMBIES)
 	{
 		if (!IsAlive())
 		{
@@ -437,7 +438,7 @@ void C_HL2MP_Player::PreThink( void )
 
 	BaseClass::PreThink();
 
-	if (sv_ponedm_gamemode.GetInt() == 3 && GetTeamNumber() == TEAM_UNASSIGNED)
+	if ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_UNASSIGNED)
 	{
 		SetMaxSpeed(PONEDM_PLAYERSPEED / 2);
 	}
@@ -1371,7 +1372,7 @@ void C_HL2MPRagdoll::ClientThink(void)
 
 		if (hl2mppPlayer)
 		{
-			if (sv_ponedm_gamemode.GetInt() == 3 && hl2mppPlayer->GetTeamNumber() == TEAM_ZOMBIES)
+			if ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && hl2mppPlayer->GetTeamNumber() == TEAM_ZOMBIES)
 			{
 				hl2mppPlayer->disableBlink = true;
 				m_nSkin = 1;

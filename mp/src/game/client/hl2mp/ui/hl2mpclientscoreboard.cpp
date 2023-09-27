@@ -25,7 +25,7 @@
 
 using namespace vgui;
 
-#define TEAM_MAXCOUNT			5
+#define TEAM_MAXCOUNT			6
 
 // id's of sections used in the scoreboard
 enum EScoreboardSections
@@ -33,7 +33,8 @@ enum EScoreboardSections
 	SCORESECTION_COMBINE = 1,
 	SCORESECTION_REBELS = 2,
 	SCORESECTION_FREEFORALL = 3,
-	SCORESECTION_SPECTATOR = 4
+	SCORESECTION_ZOMBIES = 4,
+	SCORESECTION_SPECTATOR = 5
 };
 
 const int NumSegments = 7;
@@ -403,7 +404,7 @@ void CHL2MPClientScoreBoardDialog::UpdateTeamInfo()
 				g_pVGuiLocalize->ConstructString(string1, sizeof(string1), g_pVGuiLocalize->Find("#ScoreBoard_Players"), 2, teamName, wNumPlayers);
 			}
 
-			if ((sv_ponedm_gamemode.GetInt() == 3) || HL2MPRules()->IsTeamplay())
+			if ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) || HL2MPRules()->IsTeamplay())
 			{
 				// update stats
 				wchar_t val[6];
@@ -485,8 +486,9 @@ int CHL2MPClientScoreBoardDialog::GetSectionFromTeamNumber( int teamNumber )
 	switch ( teamNumber )
 	{
 	case TEAM_BLUE:
-	case TEAM_ZOMBIES:
 		return SCORESECTION_COMBINE;
+	case TEAM_ZOMBIES:
+		return SCORESECTION_ZOMBIES;
 	case TEAM_RED:
 		return SCORESECTION_REBELS;
 	case TEAM_SPECTATOR:

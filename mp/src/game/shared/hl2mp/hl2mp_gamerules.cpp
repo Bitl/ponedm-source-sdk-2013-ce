@@ -395,7 +395,7 @@ void CHL2MPRules::Think( void )
 		}
 	}
 
-	if (sv_ponedm_gamemode.GetInt() == 3 && gpGlobals->curtime > m_tmNextZombieModeThink)
+	if ((!IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && gpGlobals->curtime > m_tmNextZombieModeThink)
 	{
 		// if all survivors are zombies, the zombies win.
 		if (GetNumTeamMembers(TEAM_UNASSIGNED) <= 0)
@@ -683,7 +683,7 @@ int CHL2MPRules::WeaponShouldRespawn( CBaseCombatWeapon *pWeapon )
 {
 #ifndef CLIENT_DLL
 
-	if ((sv_ponedm_gamemode.GetInt() == 2) || (sv_ponedm_gamemode.GetInt() == 3))
+	if ((sv_ponedm_gamemode.GetInt() == 2) || (!IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)))
 		return GR_WEAPON_RESPAWN_NO;
 
 	if ( pWeapon->HasSpawnFlags( SF_NORESPAWN ) )

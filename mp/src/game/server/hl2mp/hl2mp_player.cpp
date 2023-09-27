@@ -333,21 +333,16 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	if (sv_ponedm_gamemode.GetInt() == 2)
 	{
 		CBasePlayer::GiveAmmo(255, "Railgun");
-		GiveNamedItem("weapon_fists");
 		GiveNamedItem("weapon_railgun");
 	}
 	else
 	{
-		if (GetTeamNumber() == TEAM_ZOMBIES)
-		{
-			GiveNamedItem("weapon_fists");
-		}
-		else
+		if (GetTeamNumber() != TEAM_ZOMBIES)
 		{
 			CBasePlayer::GiveAmmo(255, "Pistol");
 			CBasePlayer::GiveAmmo(100, "SMG1");
 			CBasePlayer::GiveAmmo(2, "grenade");
-			if (sv_ponedm_gamemode.GetInt() == 3)
+			if ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)))
 			{
 				CBasePlayer::GiveAmmo(18, "Buckshot");
 			}
@@ -358,11 +353,10 @@ void CHL2MP_Player::GiveDefaultItems( void )
 			CBasePlayer::GiveAmmo(6, "357");
 			CBasePlayer::GiveAmmo(3, "smg1_grenade");
 
-			GiveNamedItem("weapon_fists");
 			GiveNamedItem("weapon_crowbar");
 			GiveNamedItem("weapon_pistol");
 			GiveNamedItem("weapon_smg1");
-			if (sv_ponedm_gamemode.GetInt() == 3)
+			if ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)))
 			{
 				GiveNamedItem("weapon_shotgun");
 			}
@@ -370,6 +364,8 @@ void CHL2MP_Player::GiveDefaultItems( void )
 			GiveNamedItem("weapon_physcannon");
 		}
 	}
+
+	GiveNamedItem("weapon_fists");
 
 	const char *szDefaultWeaponName = engine->GetClientConVarValue( engine->IndexOfEdict( edict() ), "cl_defaultweapon" );
 
@@ -381,7 +377,7 @@ void CHL2MP_Player::GiveDefaultItems( void )
 	}
 	else
 	{
-		if (GetTeamNumber() == TEAM_ZOMBIES)
+		if (((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_ZOMBIES))
 		{
 			Weapon_Switch(Weapon_OwnsThisType("weapon_fists"));
 			return;
@@ -402,9 +398,8 @@ void CHL2MP_Player::PickDefaultSpawnTeam( void )
 {
 	if ( GetTeamNumber() == TEAM_UNASSIGNED || GetTeamNumber() == TEAM_SPECTATOR)
 	{
-		if ( HL2MPRules()->IsTeamplay() == false )
+		if ( !HL2MPRules()->IsTeamplay() )
 		{
-			//todo, work on teams
 			if (sv_ponedm_gamemode.GetInt() == 3)
 			{
 				CTeam* pCombine = g_Teams[TEAM_ZOMBIES];
@@ -470,7 +465,7 @@ void CHL2MP_Player::PickDefaultSpawnTeam( void )
 //-----------------------------------------------------------------------------
 void CHL2MP_Player::Spawn(void)
 {
-	if ((sv_ponedm_gamemode.GetInt() == 2) || (sv_ponedm_gamemode.GetInt() == 3 && GetTeamNumber() == TEAM_ZOMBIES))
+	if ((sv_ponedm_gamemode.GetInt() == 2) || ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_ZOMBIES))
 	{
 		SetPreventWeaponPickup(false);
 	}
@@ -498,7 +493,7 @@ void CHL2MP_Player::Spawn(void)
 		}
 	}
 
-	if ((sv_ponedm_gamemode.GetInt() == 2) || (sv_ponedm_gamemode.GetInt() == 3 && GetTeamNumber() == TEAM_ZOMBIES))
+	if ((sv_ponedm_gamemode.GetInt() == 2) || ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_ZOMBIES))
 	{
 		SetPreventWeaponPickup(true);
 	}
@@ -518,7 +513,7 @@ void CHL2MP_Player::Spawn(void)
 	m_iGoreRearRightLeg = 0;
 	SetContextThink(&CHL2MP_Player::CustomizationUpdateThink, gpGlobals->curtime, "CustomizationUpdateThink");
 
-	if (GetTeamNumber() == TEAM_ZOMBIES)
+	if (((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_ZOMBIES))
 	{
 		m_nSkin = 1;
 	}
@@ -553,7 +548,7 @@ void CHL2MP_Player::Spawn(void)
 		GetBotController()->Spawn();
 
 		//zombie bots will be more agressive.
-		if (GetTeamNumber() == TEAM_ZOMBIES)
+		if (((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_ZOMBIES))
 		{
 			CBotProfile* profile = GetBotController()->GetProfile();
 
@@ -1197,9 +1192,9 @@ bool CHL2MP_Player::HandleCommand_JoinTeam( int team )
 		return false;
 	}
 
-	if ((sv_ponedm_gamemode.GetInt() == 3))
+	if ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)))
 	{
-		Warning("HandleCommand_JoinTeam( %d ) - no brains allowed\n", team);
+		Warning("HandleCommand_JoinTeam( %d ) - no zeds allowed\n", team);
 		return false;
 	}
 
@@ -1573,7 +1568,7 @@ void CHL2MP_Player::Event_Killed( const CTakeDamageInfo &info )
 	RemoveEffects( EF_NODRAW );	// still draw player body
 	StopZooming();
 
-	if ((sv_ponedm_gamemode.GetInt() == 2) || (sv_ponedm_gamemode.GetInt() == 3 && GetTeamNumber() == TEAM_ZOMBIES))
+	if ((sv_ponedm_gamemode.GetInt() == 2) || ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_ZOMBIES))
 	{
 		SetPreventWeaponPickup(false);
 	}
@@ -1738,7 +1733,7 @@ CBaseEntity* CHL2MP_Player::EntSelectSpawnPoint(void)
 	}
 	else if (sv_ponedm_gamemode.GetInt() == 3)
 	{
-		if (GetTeamNumber() == TEAM_ZOMBIES)
+		if (((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_ZOMBIES))
 		{
 			int teamBlue = ARRAYSIZE(Team2Spawns);
 			for (int i = 0; i < teamBlue; ++i)
@@ -1898,7 +1893,7 @@ ReturnSpot:
 	}
 	else
 	{
-		if (GetTeamNumber() == TEAM_ZOMBIES)
+		if (((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_ZOMBIES))
 		{
 			g_pLastCombineSpawn = pSpot;
 		}

@@ -1392,7 +1392,7 @@ bool CPropCombineBall::IsAttractiveTarget( CBaseEntity *pEntity )
 			 return false;
 		
 		//No tracking teammates in teammode!
-		if ((sv_ponedm_gamemode.GetInt() == 3) || HL2MPRules()->IsTeamplay())
+		if ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) || HL2MPRules()->IsTeamplay())
 		{
 			if (HL2MPRules()->PlayerRelationship( GetOwnerEntity(), pEntity ) == GR_TEAMMATE )
 				 return false;

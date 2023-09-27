@@ -886,7 +886,7 @@ void CBotDecision::SwitchToBestWeapon()
     if ( pCurrent == NULL )
         return;
 
-    if (GetHost()->GetTeamNumber() == TEAM_ZOMBIES)
+    if (((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetHost()->GetTeamNumber() == TEAM_ZOMBIES))
     {
         GetHost()->Weapon_Switch(GetHost()->Weapon_OwnsThisType("weapon_fists"));
         return;

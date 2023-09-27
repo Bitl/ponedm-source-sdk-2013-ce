@@ -168,7 +168,7 @@ void respawn( CBaseEntity *pEdict, bool fCopyCorpse )
 	{
 		if (gpGlobals->curtime > pPlayer->GetDeathTime() + DEATH_ANIMATION_TIME)
 		{
-			if (sv_ponedm_gamemode.GetInt() == 3 && pPlayer->GetTeamNumber() == TEAM_UNASSIGNED)
+			if ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && pPlayer->GetTeamNumber() == TEAM_UNASSIGNED)
 			{
 				pPlayer->ChangeTeam(TEAM_ZOMBIES);
 			}

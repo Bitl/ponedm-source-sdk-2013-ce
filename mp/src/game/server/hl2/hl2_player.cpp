@@ -46,6 +46,7 @@
 #include "gamestats.h"
 #include "filters.h"
 #include "tier0/icommandline.h"
+#include "hl2mp_gamerules.h"
 
 #ifdef HL2_EPISODIC
 #include "npc_alyx_episodic.h"
@@ -1017,7 +1018,7 @@ void CHL2_Player::Spawn(void)
 
 	extern ConVar sv_ponedm_gamemode;
 
-	if (sv_ponedm_gamemode.GetInt() == 3 && GetTeamNumber() == TEAM_UNASSIGNED)
+	if ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_UNASSIGNED)
 	{
 		SetMaxSpeed(PONEDM_PLAYERSPEED / 1.4f);
 	}
