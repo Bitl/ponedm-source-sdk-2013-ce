@@ -32,8 +32,8 @@ enum EScoreboardSections
 {
 	SCORESECTION_COMBINE = 1,
 	SCORESECTION_REBELS = 2,
-	SCORESECTION_FREEFORALL = 3,
-	SCORESECTION_ZOMBIES = 4,
+	SCORESECTION_ZOMBIES = 3,
+	SCORESECTION_FREEFORALL = 4,
 	SCORESECTION_SPECTATOR = 5
 };
 
@@ -465,10 +465,13 @@ void CHL2MPClientScoreBoardDialog::AddSection(int teamType, int teamNumber)
 		m_pPlayerList->AddColumnToSection(sectionID, "ping", "", SectionedListPanel::COLUMN_RIGHT, scheme()->GetProportionalScaledValueEx( GetScheme(), CSTRIKE_PING_WIDTH ) );
 
 		// set the section to have the team color
+
 		if ( teamNumber )
 		{
-			if ( GameResources() )
-				m_pPlayerList->SetSectionFgColor(sectionID,  GameResources()->GetTeamColor(teamNumber));
+			if (GameResources())
+			{
+				m_pPlayerList->SetSectionFgColor(sectionID, GameResources()->GetTeamColor(teamNumber));
+			}
 		}
 
 		m_pPlayerList->SetSectionAlwaysVisible(sectionID);

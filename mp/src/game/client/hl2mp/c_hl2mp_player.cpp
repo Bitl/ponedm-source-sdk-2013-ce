@@ -360,7 +360,8 @@ void C_HL2MP_Player::UpdateGlowEffect()
 	}
 
 	// create a new effect if we have a cart
-	m_pGlowEffect = new CGlowObject(this, Vector(m_vPrimaryColor.GetX() + 30, m_vPrimaryColor.GetY() + 30, m_vPrimaryColor.GetZ() + 30), 1.0, true);
+	float brightness = (50 / 255);
+	m_pGlowEffect = new CGlowObject(this, Vector(m_vPrimaryColor.GetX() + brightness, m_vPrimaryColor.GetY() + brightness, m_vPrimaryColor.GetZ() + brightness), 1.0, true);
 }
 
 //-----------------------------------------------------------------------------
