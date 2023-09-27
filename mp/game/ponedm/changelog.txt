@@ -8,6 +8,7 @@ Misc. Changes:
 - Improved Discord Rich Presence details.
 - Enabled a 10-minute timer by default.
 - Improved bot handling of melee attacks.
+- Improved main menu backgrounds.
 
 Bug Fixes:
 - Fixed a bug where spectators viewed players as enemies.
