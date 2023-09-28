@@ -2,6 +2,7 @@ Release 1.2 (Released ?-??-??):
 Mane changes:
 - Introducing BRAINS ARE MAGIC!
 	- A new game mode based on "Infection" from the Halo series.
+	- In a game with bots, zombie bots are more agressive and survivor bots have a chance of being infected by "The Sickness"
 - Added "HOOVES" (fists) as a weapon for all modes.
 
 Misc. Changes:
@@ -12,6 +13,8 @@ Misc. Changes:
 
 Bug Fixes:
 - Fixed a bug where spectators viewed players as enemies.
+- Fixed an issue where players couldn't pick up weapons after switching back to their original team from spectator mode.
+- Fixed an exploit where players in Instagib could pick up weapons in rare cases.
 
 Release 1.1.1 (Released 2-19-22):
 Mane changes:

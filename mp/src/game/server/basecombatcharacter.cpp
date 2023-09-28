@@ -3210,6 +3210,11 @@ void CBaseCombatCharacter::SetActiveWeapon( CBaseCombatWeapon *pNewWeapon )
 	}
 }
 
+bool CBaseCombatCharacter::IsAllowedToPickupWeapons(void)
+{
+	return !m_bPreventWeaponPickup;
+}
+
 //-----------------------------------------------------------------------------
 // Consider the weapon's built-in accuracy, this character's proficiency with
 // the weapon, and the status of the target. Use this information to determine

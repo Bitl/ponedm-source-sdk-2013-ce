@@ -454,7 +454,7 @@ public:
 	bool				m_bForceServerRagdoll;
 
 	// Pickup prevention
-	bool				IsAllowedToPickupWeapons(void) { return !m_bPreventWeaponPickup; }
+	virtual bool				IsAllowedToPickupWeapons(void);
 	void				SetPreventWeaponPickup(bool bPrevent) { m_bPreventWeaponPickup = bPrevent; }
 	bool				m_bPreventWeaponPickup;
 

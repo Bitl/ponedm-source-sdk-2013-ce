@@ -403,8 +403,35 @@ void CHL2MPRules::Think( void )
 			GoToIntermission();
 			return;
 		}
+		else
+		{
+			//slowly kill the bots...
 
-		m_tmNextZombieModeThink = gpGlobals->curtime + 5.0;
+			for (int i = 1; i <= gpGlobals->maxClients; i++)
+			{
+				CBasePlayer* pPlayer = UTIL_PlayerByIndex(i);
+
+				if (pPlayer && pPlayer->IsFakeClient() && (pPlayer->GetTeamNumber() == TEAM_UNASSIGNED))
+				{
+					int teamcontrolled = ((GetNumTeamMembers(TEAM_UNASSIGNED) / 3) + 1 * ((GetMapRemainingTime() / 10) + 1));
+					int survivalChance = random->RandomInt(1, teamcontrolled);
+
+					if (survivalChance == teamcontrolled)
+					{
+						UTIL_ClientPrintAll(HUD_PRINTCENTER, "#PoneDM_Zombies_Bots_SicknessRIP", pPlayer->GetPlayerName());
+						pPlayer->CommitSuicide();
+					}
+					else
+					{
+						DevMsg("%s: %s has survived auto bot infection. Current chance: 1/%i\n", GetGameDescription(), pPlayer->GetPlayerName(), teamcontrolled);
+					}
+
+					break;
+				}
+			}
+		}
+
+		m_tmNextZombieModeThink = gpGlobals->curtime + 15.0;
 	}
 
 	if ( gpGlobals->curtime > m_tmNextPeriodicThink )

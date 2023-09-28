@@ -23,7 +23,7 @@
 		"fieldName" "TargetID"
 		"visible" "1"
 		"enabled" "1"
-		"wide"	 "640"
+		"wide"	 "1920"
 		"tall"	 "480"
 	}
 

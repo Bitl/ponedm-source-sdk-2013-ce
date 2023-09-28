@@ -53,6 +53,7 @@ public:
 	DECLARE_DATADESC();
 
 	virtual void Precache( void );
+	virtual void InitialSpawn(void);
 	virtual void Spawn( void );
 	virtual void PostThink( void );
 	virtual void PreThink( void );
@@ -77,6 +78,8 @@ public:
 	virtual void UpdateOnRemove( void );
 	virtual void DeathSound( const CTakeDamageInfo &info );
 	virtual CBaseEntity* EntSelectSpawnPoint( void );
+
+	bool IsAllowedToPickupWeapons(void);
 		
 	int FlashlightIsOn( void );
 	void FlashlightTurnOn( void );
@@ -168,6 +171,7 @@ private:
 	CNetworkVar( int, m_iSpawnInterpCounter );
 
 	float m_flNextTeamChangeTime;
+	float m_flLastSpawn;
 
 	float m_flSlamProtectTime;	
 

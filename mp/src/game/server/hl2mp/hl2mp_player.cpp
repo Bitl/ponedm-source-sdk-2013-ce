@@ -52,27 +52,35 @@ void CC_SettoSpectate(void)
 
 	if (pPlayer)
 	{
-		if (pPlayer->GetTeamNumber() != TEAM_SPECTATOR)
+		if (sv_ponedm_gamemode.GetInt() == 3)
 		{
-			pPlayer->m_bEnterObserver = true;
-			pPlayer->ChangeTeam(TEAM_SPECTATOR);
+			ClientPrint(pPlayer, HUD_PRINTTALK, "You cannot change teams right now.");
+			return;
 		}
-		else
+
+		if (pPlayer->GetNextTeamChangeTime() <= gpGlobals->curtime)
 		{
-			if (pPlayer->GetNextTeamChangeTime() <= gpGlobals->curtime)
+			if (pPlayer->GetTeamNumber() != TEAM_SPECTATOR)
+			{
+				pPlayer->m_bEnterObserver = true;
+				pPlayer->RemoveAllItems(true);
+				pPlayer->State_Transition(STATE_OBSERVER_MODE);
+				pPlayer->ChangeTeam(TEAM_SPECTATOR);
+			}
+			else
 			{
 				pPlayer->PickDefaultSpawnTeam();
 				pPlayer->StopObserverMode();
 				pPlayer->State_Transition(STATE_ACTIVE);
 				pPlayer->Spawn();
 			}
-			else
-			{
-				char szReturnString[128];
-				Q_snprintf(szReturnString, sizeof(szReturnString), "Please wait %d more seconds before trying to switch teams again.\n", (int)(pPlayer->GetNextTeamChangeTime() - gpGlobals->curtime));
+		}
+		else
+		{
+			char szReturnString[128];
+			Q_snprintf(szReturnString, sizeof(szReturnString), "Please wait %d more seconds before trying to switch teams again.\n", (int)(pPlayer->GetNextTeamChangeTime() - gpGlobals->curtime));
 
-				ClientPrint(pPlayer, HUD_PRINTTALK, szReturnString);
-			}
+			ClientPrint(pPlayer, HUD_PRINTTALK, szReturnString);
 		}
 	}
 }
@@ -159,6 +167,7 @@ CHL2MP_Player::CHL2MP_Player() : m_PlayerAnimState( this )
 	m_iLastWeaponFireUsercmd = 0;
 
 	m_flNextTeamChangeTime = 0.0f;
+	m_flLastSpawn = 0.0f;
 
 	m_iSpawnInterpCounter = 0;
 
@@ -326,6 +335,24 @@ void CHL2MP_Player::GiveItems(bool bGiveAll)
 	m_weapons.RemoveAll();
 }
 
+bool CHL2MP_Player::IsAllowedToPickupWeapons(void)
+{
+	if (m_flLastSpawn < gpGlobals->curtime)
+	{
+		if ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_ZOMBIES)
+		{
+			return false;
+		}
+
+		if (sv_ponedm_gamemode.GetInt() == 2)
+		{
+			return false;
+		}
+	}
+
+	return BaseClass::IsAllowedToPickupWeapons();
+}
+
 void CHL2MP_Player::GiveDefaultItems( void )
 {
 	EquipSuit();
@@ -461,22 +488,26 @@ void CHL2MP_Player::PickDefaultSpawnTeam( void )
 }
 
 //-----------------------------------------------------------------------------
+// Purpose: Called the first time the player's created
+//-----------------------------------------------------------------------------
+void CHL2MP_Player::InitialSpawn(void)
+{
+	BaseClass::InitialSpawn();
+	m_flLastSpawn = gpGlobals->curtime + 1.5f;
+}
+
+//-----------------------------------------------------------------------------
 // Purpose: Sets HL2 specific defaults.
 //-----------------------------------------------------------------------------
 void CHL2MP_Player::Spawn(void)
 {
-	if ((sv_ponedm_gamemode.GetInt() == 2) || ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_ZOMBIES))
-	{
-		SetPreventWeaponPickup(false);
-	}
-
 	m_flNextTeamChangeTime = 0.0f;
 
 	PickDefaultSpawnTeam();
 
 	BaseClass::Spawn();
 	
-	if ( !IsObserver() )
+	if (!IsObserver())
 	{
 		pl.deadflag = false;
 		RemoveSolidFlags( FSOLID_NOT_SOLID );
@@ -491,11 +522,6 @@ void CHL2MP_Player::Spawn(void)
 		{
 			GiveDefaultItems();
 		}
-	}
-
-	if ((sv_ponedm_gamemode.GetInt() == 2) || ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_ZOMBIES))
-	{
-		SetPreventWeaponPickup(true);
 	}
 
 	SetNumAnimOverlays( 3 );
@@ -560,6 +586,8 @@ void CHL2MP_Player::Spawn(void)
 			profile->SetAttackDelay(0.0f);
 		}
 	}
+
+	m_flLastSpawn = gpGlobals->curtime + 0.5f;
 }
 
 #ifdef PONEDM
@@ -1135,6 +1163,12 @@ bool CHL2MP_Player::BumpWeapon( CBaseCombatWeapon *pWeapon )
 
 void CHL2MP_Player::ChangeTeam( int iTeam )
 {
+	if (((sv_ponedm_gamemode.GetInt() == 3) && (GetTeamNumber() == TEAM_ZOMBIES)))
+	{
+		ClientPrint(this, HUD_PRINTTALK, "You cannot change teams right now.");
+		return;
+	}
+
 	if (GetNextTeamChangeTime() >= gpGlobals->curtime)
 	{
 		char szReturnString[128];
@@ -1166,7 +1200,7 @@ void CHL2MP_Player::ChangeTeam( int iTeam )
 
 	SetModel("models/ppm/player_default_base_new_pantoneshift.mdl");
 
-	if ((sv_ponedm_gamemode.GetInt() != 3))
+	if ((sv_ponedm_gamemode.GetInt() != 3) || ((sv_ponedm_gamemode.GetInt() == 3) && (iTeam != TEAM_ZOMBIES)))
 	{
 		m_flNextTeamChangeTime = gpGlobals->curtime + TEAM_CHANGE_INTERVAL;
 	}
@@ -1567,11 +1601,6 @@ void CHL2MP_Player::Event_Killed( const CTakeDamageInfo &info )
 
 	RemoveEffects( EF_NODRAW );	// still draw player body
 	StopZooming();
-
-	if ((sv_ponedm_gamemode.GetInt() == 2) || ((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_ZOMBIES))
-	{
-		SetPreventWeaponPickup(false);
-	}
 
 	if (GetBotController()) {
 		GetBotController()->OnDeath(info);

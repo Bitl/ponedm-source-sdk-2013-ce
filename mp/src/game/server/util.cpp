@@ -1725,7 +1725,6 @@ bool UTIL_IsValidEntity( CBaseEntity *pEnt )
 	return true;
 }
 
-
 #define PRECACHE_OTHER_ONCE
 // UNDONE: Do we need this to avoid doing too much of this?  Measure startup times and see
 #if defined( PRECACHE_OTHER_ONCE )
