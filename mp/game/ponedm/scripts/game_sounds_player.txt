@@ -336,7 +336,7 @@
 {
 	"channel"	"CHAN_VOICE"
 	"volume"	"VOL_NORM"
-	"pitch"		"PITCH_NORM"
+	"pitch"		"PITCH_LOW"
 
 	"soundlevel"	"SNDLVL_NORM"
 

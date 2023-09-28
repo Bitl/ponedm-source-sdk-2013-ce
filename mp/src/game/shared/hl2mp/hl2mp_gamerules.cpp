@@ -215,7 +215,7 @@ CHL2MPRules::CHL2MPRules()
 
 	m_hRespawnableItemsAndWeapons.RemoveAll();
 	m_tmNextPeriodicThink = 0;
-	m_tmNextZombieModeThink = gpGlobals->curtime + 50.0;
+	m_tmNextZombieModeThink = gpGlobals->curtime + 35.0;
 	m_flRestartGameTime = 0;
 	m_bCompleteReset = false;
 	m_bHeardAllPlayersReady = false;
@@ -406,29 +406,50 @@ void CHL2MPRules::Think( void )
 		else
 		{
 			//slowly kill the bots...
+			DevMsg("%s: Searching for potential bot infection host...\n", GetGameDescription());
+			int botsInfected = 0;
+			int infectionSurvivors = 0;
 
 			for (int i = 1; i <= gpGlobals->maxClients; i++)
 			{
 				CBasePlayer* pPlayer = UTIL_PlayerByIndex(i);
 
-				if (pPlayer && pPlayer->IsFakeClient() && (pPlayer->GetTeamNumber() == TEAM_UNASSIGNED))
+				if (pPlayer && pPlayer->IsFakeClient() && (pPlayer->GetTeamNumber() == TEAM_UNASSIGNED) && (pPlayer->FragCount() >= 3))
 				{
-					int teamcontrolled = ((GetNumTeamMembers(TEAM_UNASSIGNED) / 3) + 1 * ((GetMapRemainingTime() / 10) + 1));
-					int survivalChance = random->RandomInt(1, teamcontrolled);
-
-					if (survivalChance == teamcontrolled)
+					int infectionChance = random->RandomInt(1, 5);
+					if (infectionChance == 5)
 					{
-						UTIL_ClientPrintAll(HUD_PRINTCENTER, "#PoneDM_Zombies_Bots_SicknessRIP", pPlayer->GetPlayerName());
-						pPlayer->CommitSuicide();
+						int teamcontrolled = ((GetNumTeamMembers(TEAM_UNASSIGNED) + 1) * ((GetMapRemainingTime() / 10) + 1));
+						int survivalChance = random->RandomInt(1, teamcontrolled);
+
+						if (survivalChance == teamcontrolled)
+						{
+							UTIL_ClientPrintAll(HUD_PRINTCENTER, "#PoneDM_Zombies_Bots_SicknessRIP", pPlayer->GetPlayerName());
+							pPlayer->CommitSuicide();
+							botsInfected++;
+						}
+						else
+						{
+							DevMsg("%s: %s has survived bot infection. Current chance: 1/%i\n", GetGameDescription(), pPlayer->GetPlayerName(), teamcontrolled);
+							infectionSurvivors++;
+						}
+
+						break;
 					}
 					else
 					{
-						DevMsg("%s: %s has survived auto bot infection. Current chance: 1/%i\n", GetGameDescription(), pPlayer->GetPlayerName(), teamcontrolled);
+						DevMsg("%s: %s has not been infected by bot infection. Searching for another host...\n", GetGameDescription(), pPlayer->GetPlayerName());
+						continue;
 					}
-
-					break;
+				}
+				else
+				{
+					DevMsg("%s: %s does not meet requirements for bot infection. Searching for another host...\n", GetGameDescription(), pPlayer->GetPlayerName());
+					continue;
 				}
 			}
+
+			DevMsg("%s: Bot infection completed. %i bots infected, %i potential hosts\n", GetGameDescription(), botsInfected, infectionSurvivors);
 		}
 
 		m_tmNextZombieModeThink = gpGlobals->curtime + 15.0;

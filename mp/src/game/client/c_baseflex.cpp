@@ -1023,30 +1023,33 @@ void C_BaseFlex::GetToolRecordingState( KeyValues *msg )
 
 	ProcessSceneEvents( false );
 
-	// check for blinking
-	if (m_blinktoggle != m_prevblinktoggle)
+	if (disableBlink)
 	{
-		m_prevblinktoggle = m_blinktoggle;
-		m_blinktime = gpGlobals->curtime + g_CV_BlinkDuration.GetFloat();
-	}
+		// check for blinking
+		if (m_blinktoggle != m_prevblinktoggle)
+		{
+			m_prevblinktoggle = m_blinktoggle;
+			m_blinktime = gpGlobals->curtime + g_CV_BlinkDuration.GetFloat();
+		}
 
-	if (m_iBlink == -1)
-		//m_iBlink = AddGlobalFlexController( "blink" );
-		m_iBlink = AddGlobalFlexController("Eyes_Blink");
-	g_flexweight[m_iBlink] = 0;
+		if (m_iBlink == -1)
+			//m_iBlink = AddGlobalFlexController( "blink" );
+			m_iBlink = AddGlobalFlexController("Eyes_Blink");
+		g_flexweight[m_iBlink] = 0;
 
-	// FIXME: this needs a better algorithm
-	// blink the eyes
-	float t = (m_blinktime - gpGlobals->curtime) * M_PI * 0.5 * (1.0/g_CV_BlinkDuration.GetFloat());
-	if (t > 0)
-	{
-		// do eyeblink falloff curve
-		t = cos(t);
+		// FIXME: this needs a better algorithm
+		// blink the eyes
+		float t = (m_blinktime - gpGlobals->curtime) * M_PI * 0.5 * (1.0 / g_CV_BlinkDuration.GetFloat());
 		if (t > 0)
 		{
-			g_flexweight[m_iBlink] = sqrtf( t ) * 2;
-			if (g_flexweight[m_iBlink] > 1)
-				g_flexweight[m_iBlink] = 2.0 - g_flexweight[m_iBlink];
+			// do eyeblink falloff curve
+			t = cos(t);
+			if (t > 0)
+			{
+				g_flexweight[m_iBlink] = sqrtf(t) * 2;
+				if (g_flexweight[m_iBlink] > 1)
+					g_flexweight[m_iBlink] = 2.0 - g_flexweight[m_iBlink];
+			}
 		}
 	}
 
