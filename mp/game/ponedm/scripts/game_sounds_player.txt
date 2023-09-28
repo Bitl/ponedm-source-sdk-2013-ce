@@ -332,6 +332,23 @@
 	}
 }
 
+"ZombiePony.Die"
+{
+	"channel"	"CHAN_VOICE"
+	"volume"	"VOL_NORM"
+	"pitch"		"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"player/ppm2/zomponydeath1.wav"
+		"wave"	"player/ppm2/zomponydeath2.wav"
+		"wave"	"player/ppm2/zomponydeath3.wav"
+		"wave"	"player/ppm2/zomponydeath4.wav"
+	}
+}
+
 "Gore.Headshot"
 {
 	"channel"	"CHAN_BODY"

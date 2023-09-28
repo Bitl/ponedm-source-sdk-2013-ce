@@ -493,7 +493,8 @@ void CHL2MP_Player::PickDefaultSpawnTeam( void )
 void CHL2MP_Player::InitialSpawn(void)
 {
 	BaseClass::InitialSpawn();
-	m_flLastSpawn = gpGlobals->curtime + 1.5f;
+	//account for lag
+	m_flLastSpawn = gpGlobals->curtime + 9999.0f;
 }
 
 //-----------------------------------------------------------------------------
@@ -1655,7 +1656,14 @@ void CHL2MP_Player::DeathSound( const CTakeDamageInfo &info )
 #ifndef PONEDM
 	Q_snprintf( szStepSound, sizeof( szStepSound ), "%s.Die", GetPlayerModelSoundPrefix() );
 #else
-	Q_snprintf(szStepSound, sizeof(szStepSound), "Pony.Die");
+	if (((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_ZOMBIES))
+	{
+		Q_snprintf(szStepSound, sizeof(szStepSound), "ZombiePony.Die");
+	}
+	else
+	{
+		Q_snprintf(szStepSound, sizeof(szStepSound), "Pony.Die");
+	}
 #endif
 
 	const char *pModelName = STRING( GetModelName() );
