@@ -630,6 +630,29 @@ void CHL2MP_Player::UpdatePlayerColor(void)
 		break;
 	}
 
+	// so zombies have a more recognizable appearance
+	// based on the background, grabbed from the SFM session.
+	if (GetTeamNumber() == TEAM_ZOMBIES)
+	{
+		Vector vecNewSecondaryColor;
+
+		vecNewSecondaryColor.x = 111.0f / 255.0f;
+		vecNewSecondaryColor.y = 84.0f / 255.0f;
+		vecNewSecondaryColor.z = 52.0f / 255.0f;
+
+		m_vSecondaryColor = vecNewSecondaryColor;
+
+		Vector vecNewTertiaryColor;
+
+		vecNewTertiaryColor.x = 82.0f / 255.0f;
+		vecNewTertiaryColor.y = 60.0f / 255.0f;
+		vecNewTertiaryColor.z = 35.0f / 255.0f;
+
+		m_vTertiaryColor = vecNewTertiaryColor;
+
+		return;
+	}
+
 	if (!IsFakeClient())
 	{
 		Vector vecNewSecondaryColor;
