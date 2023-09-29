@@ -301,6 +301,8 @@ void CHL2MPRules::PlayerKilled( CBasePlayer *pVictim, const CTakeDamageInfo &inf
 	if ( IsIntermission() )
 		return;
 
+	BaseClass::PlayerKilled( pVictim, info );
+
 	if (!IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3))
 	{
 		if (pVictim && pVictim->GetTeamNumber() == TEAM_UNASSIGNED)
@@ -333,8 +335,6 @@ void CHL2MPRules::PlayerKilled( CBasePlayer *pVictim, const CTakeDamageInfo &inf
 			}
 		}
 	}
-
-	BaseClass::PlayerKilled( pVictim, info );
 #endif
 }
 
