@@ -9,14 +9,39 @@ You can also customize your horse with various colors and mane/tail styles.
 This mod was explicitly built so I can refresh my knowledge of the Source Engine and experiment with various aspects I haven't yet experimented with in other mods I worked on in the past. 
 I also wanted to create an engaging experience like Intellectual Techno Hell: a shitposty feeling mod that is fun to play while also balanced enough to be taken seriously.
 
-## Requirements 
+## Compiling
+
+### WINDOWS:
+
 To be able to build PoneDM you will need to download:
 * Visual Studio 2013 or later
 * C++ Build Tools for Visual Studio 2013 (Not required if you already have Visual Studio 2013)
 * Multibyte MFC Library for Visual Studio 2013
 
+Read this for more details: https://developer.valvesoftware.com/wiki/Source_SDK_2013#Source_SDK_2013_on_Windows
+
 You must also run this command in your CMD with administrator privileges in order to get VPC to build a project:
 * REG ADD "HKLM\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\10.0\Projects\{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" /v DefaultProjectExtension /t REG_SZ /d vcproj /f
+
+Note that the Microsoft Speech API is only required for certain SDK tools.
+
+Creating a solution is as simple as running mp/src/creategameprojects.bat, then opening up the solution in Visual Studio.
+
+### LINUX:
+Read this first to install the steam runtime and other necessary components.\
+https://developer.valvesoftware.com/wiki/Source_SDK_2013#Source_SDK_2013_on_Linux \
+After installing it and other dependencies, do the 3 steps below.
+
+1. CD to your PoneDM git directory, I.E.\
+```cd ~/projects/ponedm-source-sdk-2013-ce```
+
+1. Run the steam-runtime. NOTE: Make sure you have the steam runtime installed in /valve.\
+```bash ./sandbox_setup.sh```
+
+3. Go back to this directory and run:\
+```bash ./build_ponedm_linux.sh```\
+This will update the repo automatically. If you would like to update the repo without building it, run:\
+```bash ./update_ponedm_linux.sh```
 
 ## Credits
 * Nbc66 & GamerDude27 for the Source SDK 2013 CE base used. (https://github.com/Nbc66/source-sdk-2013-ce)
@@ -58,3 +83,5 @@ https://freesound.org/people/craigsmith/sounds/479674/ R13-02-Scared Neighs.wav 
 All rights go to their respective holders.
 
 ### Codename: Project Ahuizotl
+
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/made-with-c-plus-plus.svg)](https://forthebadge.com)
