@@ -8,7 +8,7 @@ Mane changes:
 Misc. Changes:
 - Improved Discord Rich Presence details.
 - Enabled a 10-minute timer by default.
-- Improved bot handling of melee attacks.
+- Improved bot attack AI.
 - Improved main menu backgrounds.
 
 Bug Fixes:

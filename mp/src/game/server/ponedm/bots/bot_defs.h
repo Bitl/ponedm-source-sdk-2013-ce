@@ -157,6 +157,10 @@ public:
         SetEntity( value );
     }
 
+    virtual ~CMultidata()
+    {
+    }
+
     virtual void Reset() {
         vecValue.Invalidate();
         flValue = 0;

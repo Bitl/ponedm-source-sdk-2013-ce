@@ -1139,6 +1139,9 @@ BCOND CBotDecision::ShouldRangeAttack2()
     if ( HasCondition(BCOND_WITHOUT_ENEMY) )
         return BCOND_NONE;
 
+    if (!CanShoot())
+        return BCOND_NONE;
+
     CBaseWeapon *pWeapon = GetHost()->GetActiveBaseWeapon();
 
     // TODO: A way to support attacks without a [CBaseWeapon]
@@ -1202,6 +1205,11 @@ BCOND CBotDecision::ShouldRangeAttack2()
         return BCOND_NONE;
     }
 
+    // A better way to do this and move it to a better place.
+    float fireRate = pWeapon->GetFireRate();
+    float delay = fireRate + GetProfile()->GetAttackDelay();
+    m_ShotRateTimer.Start(delay);
+
     // TODO: Each weapon can have its own behavior in the secondary attack
     return BCOND_NONE;
 }
@@ -1220,6 +1228,9 @@ BCOND CBotDecision::ShouldMeleeAttack1()
     if ( HasCondition(BCOND_WITHOUT_ENEMY) )
         return BCOND_NONE;
 
+    if (!CanShoot())
+        return BCOND_NONE;
+
     CBaseWeapon *pWeapon = GetHost()->GetActiveBaseWeapon();
 
     // TODO: A way to support attacks without a [CBaseWeapon]
@@ -1231,6 +1242,11 @@ BCOND CBotDecision::ShouldMeleeAttack1()
     // TODO: Criteria to attack with a melee weapon
     if ( flDistance > 120.0f )
         return BCOND_TOO_FAR_TO_ATTACK;
+
+    // A better way to do this and move it to a better place.
+    float fireRate = pWeapon->GetFireRate();
+    float delay = fireRate + GetProfile()->GetAttackDelay();
+    m_ShotRateTimer.Start(delay);
 
     // TODO
     return BCOND_CAN_MELEE_ATTACK1;

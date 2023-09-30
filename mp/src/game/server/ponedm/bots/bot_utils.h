@@ -31,6 +31,10 @@ public:
 
     CEntityMemory( IBot *pBot, CBaseEntity *pEntity, CBaseEntity *pInformer = NULL );
 
+    virtual ~CEntityMemory()
+    {
+    }
+
     virtual CBaseEntity *GetEntity() const {
         return m_hEntity.Get();
     }
@@ -195,6 +199,10 @@ public:
     }
 
     CDataMemory( CBaseEntity *value ) : BaseClass( value )
+    {
+    }
+
+    virtual ~CDataMemory()
     {
     }
 

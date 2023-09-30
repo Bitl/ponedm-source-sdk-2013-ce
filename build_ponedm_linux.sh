@@ -8,4 +8,5 @@ sudo chmod -R +x devtools/bin
 sudo chmod -R +x devtools/bin/linux
 sudo chmod +x creategameprojects
 sudo bash creategameprojects
+sudo make -f Game_ponedm.mak clean
 sudo make -f Game_ponedm.mak
