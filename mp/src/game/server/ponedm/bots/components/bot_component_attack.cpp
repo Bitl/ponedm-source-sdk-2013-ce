@@ -25,15 +25,18 @@ void CBotAttack::Update()
 {
     VPROF_BUDGET( "CBotAttack::Update", VPROF_BUDGETGROUP_BOTS );
 
-    if (
-        HasCondition( BCOND_CAN_RANGE_ATTACK1 ) || HasCondition( BCOND_CAN_MELEE_ATTACK1 ) ||
-        HasCondition( BCOND_CAN_RANGE_ATTACK2 ) || HasCondition( BCOND_CAN_MELEE_ATTACK2 )
-        ) {
-        if ( GetDecision()->IsUsingFiregun() ) {
-            FiregunAttack();
-        }
-        else {
+    if (HasCondition(BCOND_CAN_MELEE_ATTACK1) || HasCondition(BCOND_CAN_MELEE_ATTACK2))
+    {
+        if (!GetDecision()->IsUsingFiregun())
+        {
             MeleeWeaponAttack();
+        }
+    }
+    else if (HasCondition(BCOND_CAN_RANGE_ATTACK1) || HasCondition(BCOND_CAN_RANGE_ATTACK2))
+    {
+        if (GetDecision()->IsUsingFiregun())
+        {
+            FiregunAttack();
         }
     }
 }
@@ -43,12 +46,6 @@ void CBotAttack::Update()
 //================================================================================
 void CBotAttack::FiregunAttack()
 {
-    CBaseWeapon *pWeapon = GetHost()->GetActiveBaseWeapon();
-    Assert( pWeapon );
-
-    if (!pWeapon)
-        return;
-
     // Check to see if we can crouch for accuracy
     if ( GetDecision()->CanCrouchAttack() ) {
         if ( GetDecision()->ShouldCrouchAttack() ) {
@@ -64,9 +61,7 @@ void CBotAttack::FiregunAttack()
         InjectButton( IN_ATTACK );
         
     }
-
-    // TODO
-    if ( HasCondition( BCOND_CAN_RANGE_ATTACK2 ) ) {
+    else if ( HasCondition( BCOND_CAN_RANGE_ATTACK2 ) ) {
         GetBot()->Combat();
         InjectButton( IN_ATTACK2 );
     }
@@ -80,8 +75,7 @@ void CBotAttack::MeleeWeaponAttack()
         GetBot()->Combat();
         InjectButton( IN_ATTACK );
     }
-
-    if ( HasCondition( BCOND_CAN_MELEE_ATTACK2 ) ) {
+    else if ( HasCondition( BCOND_CAN_MELEE_ATTACK2 ) ) {
         GetBot()->Combat();
         InjectButton( IN_ATTACK2 );
     }

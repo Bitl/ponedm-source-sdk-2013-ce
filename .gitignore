@@ -76,7 +76,6 @@ server.dylib.dSYM/
 **/game/**/*.sound.cache
 **/game/**/*.cache
 **/game/**/textwindow_temp.html
-**/game/**/vpk_PDM.bat
 **/game/**/README-AND-CREDITS.txt
 mp/game/ponedm/materials/vgui/logos/ui/
 

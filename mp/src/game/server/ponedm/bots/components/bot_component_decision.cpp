@@ -1047,8 +1047,10 @@ float CBotDecision::GetWeaponIdealRange( CBaseWeapon *pWeapon ) const
         pWeapon = GetHost()->GetActiveBaseWeapon();
     }
 
-    if ( pWeapon == NULL )
+    if (pWeapon == NULL)
+    {
         return -1.0f;
+    }
 
 #ifdef INSOURCE_DLL
     return pWeapon->GetWeaponInfo().m_flIdealDistance;
@@ -1099,30 +1101,6 @@ BCOND CBotDecision::ShouldRangeAttack1()
     if (pWeapon->IsMeleeWeapon())
         return ShouldMeleeAttack1();
 
-    //float flDistance = memory->GetDistance();
-
-    // TODO: The code commented below was an attempt to make the Bot continue firing 
-    // for a few seconds at the enemy's last known position, but a more intelligent way is needed.
-
-    /*if ( IsPrimaryThreatLost() ) {
-    if ( !pWeapon || pWeapon->IsMeleeWeapon() )
-    return BCOND_NONE;
-
-    if ( GetSkill()->GetSkill() <= SKILL_MEDIUM )
-    return BCOND_NONE;
-
-    if ( GetBot()->GetActiveSchedule() != NULL )
-    return BCOND_NONE;
-
-    if ( GetVision() ) {
-    if ( GetVision()->GetAimTarget() != memory->GetEntity() || !GetVision()->IsAimReady() )
-    return BCOND_NOT_FACING_ATTACK;
-    }
-
-    if ( HasCondition( BCOND_ENEMY_LOST ) )
-    return BCOND_NONE;
-    }*/
-
     if ( HasCondition( BCOND_EMPTY_CLIP1_AMMO ) )
         return BCOND_NONE;
 
@@ -1135,7 +1113,7 @@ BCOND CBotDecision::ShouldRangeAttack1()
     if ( flDistance > pWeapon->GetWeaponInfo().m_flIdealDistance )
         return BCOND_TOO_FAR_TO_ATTACK;
 #elif HL2MP
-    if ( flDistance > 600.0f )
+    if ( flDistance >= 600.0f )
         return BCOND_TOO_FAR_TO_ATTACK;
 #endif    
 
@@ -1209,11 +1187,11 @@ BCOND CBotDecision::ShouldRangeAttack2()
     {
         if (!GetProfile()->IsEasiest()) 
         {
-            if (GetMemory()->GetPrimaryThreatDistance() >= 600.0f)
+            if (GetMemory()->GetPrimaryThreatDistance() >= 800.0f)
             {
                 return BCOND_CAN_RANGE_ATTACK2;
             }
-            else if (GetMemory()->GetPrimaryThreatDistance() < 600.0f)
+            else if (GetMemory()->GetPrimaryThreatDistance() < 800.0f)
             {
                 return BCOND_TOO_CLOSE_TO_ATTACK;
             }
