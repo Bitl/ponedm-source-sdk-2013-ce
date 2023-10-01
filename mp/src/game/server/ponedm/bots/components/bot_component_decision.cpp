@@ -1070,27 +1070,12 @@ BCOND CBotDecision::ShouldRangeAttack1()
     if ( bot_primary_attack.GetBool() )
         return BCOND_CAN_RANGE_ATTACK1;
 
+    // TODO: A way to support attacks without an active enemy
+    if (HasCondition(BCOND_WITHOUT_ENEMY))
+        return BCOND_NONE;
+
     if ( !CanShoot() )
         return BCOND_NONE;
-
-    // TODO: A way to support attacks without an active enemy
-    if ( HasCondition( BCOND_WITHOUT_ENEMY ) )
-        return BCOND_NONE;
-
-    // Without vision of the enemy
-    if ( HasCondition( BCOND_ENEMY_LOST ) || HasCondition( BCOND_ENEMY_OCCLUDED ) )
-        return BCOND_NONE;
-
-    if ( GetVision() ) {
-        if ( GetVision()->GetAimTarget() != GetBot()->GetEnemy() )
-            return BCOND_NOT_FACING_ATTACK;
-
-        if ( !GetVision()->IsAimReady() ) {
-            // We still do not have our aim on the enemy, but humans usually shoot regardless.
-            if ( RandomInt(0, 100) <= 70 )
-                return BCOND_NOT_FACING_ATTACK;
-        }
-    }
 
     CBaseWeapon *pWeapon = GetHost()->GetActiveBaseWeapon();
 
@@ -1101,21 +1086,21 @@ BCOND CBotDecision::ShouldRangeAttack1()
     if (pWeapon->IsMeleeWeapon())
         return ShouldMeleeAttack1();
 
-    if ( HasCondition( BCOND_EMPTY_CLIP1_AMMO ) )
-        return BCOND_NONE;
-
-    float flDistance = GetMemory()->GetPrimaryThreatDistance();
-
-#ifdef INSOURCE_DLL
-    if ( !pWeapon->CanPrimaryAttack() )
-        return BCOND_NONE;
-
-    if ( flDistance > pWeapon->GetWeaponInfo().m_flIdealDistance )
-        return BCOND_TOO_FAR_TO_ATTACK;
-#elif HL2MP
-    if ( flDistance >= 600.0f )
-        return BCOND_TOO_FAR_TO_ATTACK;
-#endif    
+    if (pWeapon->HasPrimaryAmmo())
+    {
+        if (GetMemory()->GetPrimaryThreatDistance() > 500.0f)
+        {
+            return BCOND_TOO_FAR_TO_ATTACK;
+        }
+        else if (GetMemory()->GetPrimaryThreatDistance() < 200.0f)
+        {
+            return BCOND_TOO_CLOSE_TO_ATTACK;
+        }
+    }
+    else
+    {
+        return BCOND_EMPTY_PRIMARY_AMMO;
+    }
 
     // A better way to do this and move it to a better place.
     float fireRate = pWeapon->GetFireRate();
@@ -1190,11 +1175,7 @@ BCOND CBotDecision::ShouldRangeAttack2()
     {
         if (!GetProfile()->IsEasiest()) 
         {
-            if (GetMemory()->GetPrimaryThreatDistance() >= 800.0f)
-            {
-                return BCOND_CAN_RANGE_ATTACK2;
-            }
-            else if (GetMemory()->GetPrimaryThreatDistance() < 800.0f)
+            if (GetMemory()->GetPrimaryThreatDistance() < 500.0f)
             {
                 return BCOND_TOO_CLOSE_TO_ATTACK;
             }
@@ -1202,7 +1183,7 @@ BCOND CBotDecision::ShouldRangeAttack2()
     }
     else
     {
-        return BCOND_NONE;
+        return BCOND_EMPTY_SECONDARY_AMMO;
     }
 
     // A better way to do this and move it to a better place.
@@ -1211,7 +1192,7 @@ BCOND CBotDecision::ShouldRangeAttack2()
     m_ShotRateTimer.Start(delay);
 
     // TODO: Each weapon can have its own behavior in the secondary attack
-    return BCOND_NONE;
+    return BCOND_CAN_RANGE_ATTACK2;
 }
 
 //================================================================================

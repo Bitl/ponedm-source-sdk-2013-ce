@@ -15,8 +15,6 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-extern ConVar bot_primary_attack;
-
 //================================================================================
 // Sets a condition
 //================================================================================
