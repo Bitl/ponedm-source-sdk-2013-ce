@@ -584,7 +584,7 @@ void CHL2MP_Player::Spawn(void)
 			profile->SetMemoryDuration(20.0f);
 			profile->SetReactionDelay(0.0f);
 			profile->SetAlertDuration(10.0f);
-			profile->SetAimSpeed(AIM_SPEED_VERYFAST, AIM_SPEED_VERYFAST);
+			profile->SetAimSpeed(AIM_SPEED_INSTANT, AIM_SPEED_INSTANT);
 			profile->SetAttackDelay(0.0f);
 		}
 	}

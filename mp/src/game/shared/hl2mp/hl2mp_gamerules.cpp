@@ -327,7 +327,6 @@ void CHL2MPRules::PlayerKilled( CBasePlayer *pVictim, const CTakeDamageInfo &inf
 							filter.AddRecipient(pPlayer);
 							filter.MakeReliable();
 							UTIL_ClientPrintAll(HUD_PRINTCENTER, "#PoneDM_Zombies_LastManStanding", pPlayer->GetPlayerName());
-							UTIL_ClientPrintFilter(filter, HUD_PRINTCENTER, "#PoneDM_Zombies_LastManStandingPlayer");
 							break;
 						}
 					}
