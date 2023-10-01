@@ -1102,7 +1102,7 @@ BCOND CBotDecision::ShouldRangeAttack1()
         if (pWeapon->HasSecondaryAmmo())
             return ShouldRangeAttack2();
 
-        return BCOND_EMPTY_PRIMARY_AMMO;
+        return BCOND_NONE;
     }
 
     // A better way to do this and move it to a better place.
@@ -1191,10 +1191,6 @@ BCOND CBotDecision::ShouldRangeAttack2()
             }
         }
     }
-    else
-    {
-        return BCOND_EMPTY_SECONDARY_AMMO;
-    }
 
     if (pWeapon->HasSecondaryAmmo())
     {
@@ -1208,7 +1204,7 @@ BCOND CBotDecision::ShouldRangeAttack2()
     }
     else
     {
-        return BCOND_EMPTY_SECONDARY_AMMO;
+        return BCOND_NONE;
     }
 
     // A better way to do this and move it to a better place.

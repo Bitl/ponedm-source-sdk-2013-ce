@@ -25,18 +25,34 @@ void CBotAttack::Update()
 {
     VPROF_BUDGET( "CBotAttack::Update", VPROF_BUDGETGROUP_BOTS );
 
-    if (HasCondition(BCOND_CAN_MELEE_ATTACK1) || HasCondition(BCOND_CAN_MELEE_ATTACK2))
+    CEntityMemory* memory = GetMemory()->GetPrimaryThreat();
+
+    if (GetVision() && memory)
     {
-        if (!GetDecision()->IsUsingFiregun())
+        CBasePlayer* pAsshole = (CBasePlayer*)memory->GetEntity();
+
+        if (pAsshole)
         {
-            MeleeWeaponAttack();
+            // We aim at the enemy
+            GetVision()->LookAt("Enemy", pAsshole->EyePosition(), PRIORITY_CRITICAL, 1.0f);
         }
     }
-    else if (HasCondition(BCOND_CAN_RANGE_ATTACK1) || HasCondition(BCOND_CAN_RANGE_ATTACK2))
+
+    if (!HasCondition(BCOND_ENEMY_OCCLUDED) && !HasCondition(BCOND_ENEMY_OCCLUDED_BY_FRIEND))
     {
-        if (GetDecision()->IsUsingFiregun())
+        if (HasCondition(BCOND_CAN_MELEE_ATTACK1) || HasCondition(BCOND_CAN_MELEE_ATTACK2))
         {
-            FiregunAttack();
+            if (!GetDecision()->IsUsingFiregun())
+            {
+                MeleeWeaponAttack();
+            }
+        }
+        else if (HasCondition(BCOND_CAN_RANGE_ATTACK1) || HasCondition(BCOND_CAN_RANGE_ATTACK2))
+        {
+            if (GetDecision()->IsUsingFiregun())
+            {
+                FiregunAttack();
+            }
         }
     }
 }
