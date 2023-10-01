@@ -1099,6 +1099,9 @@ BCOND CBotDecision::ShouldRangeAttack1()
     }
     else
     {
+        if (pWeapon->HasSecondaryAmmo())
+            return ShouldRangeAttack2();
+
         return BCOND_EMPTY_PRIMARY_AMMO;
     }
 
@@ -1132,6 +1135,12 @@ BCOND CBotDecision::ShouldRangeAttack2()
     // TODO: A way to support attacks without a [CBaseWeapon]
     if ( !pWeapon)
         return BCOND_NONE;
+
+    //SOMETIMES throw a grenade.
+    int grenadeRand = random->RandomInt(1, 10);
+
+    if (pWeapon->HasPrimaryAmmo() && (grenadeRand < 10))
+        return ShouldRangeAttack1();
 
     if (pWeapon->IsMeleeWeapon())
         return ShouldMeleeAttack2();
@@ -1169,6 +1178,22 @@ BCOND CBotDecision::ShouldRangeAttack2()
                 return BCOND_CAN_RANGE_ATTACK2;
             }
         }
+    }
+
+    // add shotgun double fire to the mix. Spicy!
+    if (pWeapon->IsShotgun())
+    {
+        if (!GetProfile()->IsEasiest())
+        {
+            if (GetMemory()->GetPrimaryThreatDistance() < 200.0f)
+            {
+                return BCOND_TOO_CLOSE_TO_ATTACK;
+            }
+        }
+    }
+    else
+    {
+        return BCOND_EMPTY_SECONDARY_AMMO;
     }
 
     if (pWeapon->HasSecondaryAmmo())
