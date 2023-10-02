@@ -25,19 +25,6 @@ void CBotAttack::Update()
 {
     VPROF_BUDGET( "CBotAttack::Update", VPROF_BUDGETGROUP_BOTS );
 
-    CEntityMemory* memory = GetMemory()->GetPrimaryThreat();
-
-    if (GetVision() && memory)
-    {
-        CBasePlayer* pAsshole = (CBasePlayer*)memory->GetEntity();
-
-        if (pAsshole)
-        {
-            // We aim at the enemy
-            GetVision()->LookAt("Enemy", pAsshole->EyePosition(), PRIORITY_CRITICAL, 1.0f);
-        }
-    }
-
     if (!HasCondition(BCOND_ENEMY_OCCLUDED) && !HasCondition(BCOND_ENEMY_OCCLUDED_BY_FRIEND))
     {
         if (HasCondition(BCOND_CAN_MELEE_ATTACK1) || HasCondition(BCOND_CAN_MELEE_ATTACK2))

@@ -28,7 +28,7 @@
 //================================================================================
 void CBotVision::Update()
 {
-    LookNavigation(); // PRIORITY_LOW
+    LookNavigation(); // PRIORITY_NORMAL
 
     LookAround();
 
@@ -350,19 +350,13 @@ void CBotVision::LookNavigation()
     if ( !GetLocomotion() )
         return;
 
-    if ( !GetLocomotion()->HasDestination() )
-        return;
+    //if ( !GetLocomotion()->HasDestination() )
+        //return;
 
     Vector lookAt = GetLocomotion()->GetNextSpot();
     lookAt.z = GetHost()->EyePosition().z;
 
-    int priority = PRIORITY_LOW;
-
-    if ( GetFollow() && GetFollow()->IsFollowingActive() ) {
-        priority = PRIORITY_NORMAL;
-    }
-
-    LookAt( "Looking Forward", lookAt, priority, 0.5f );
+    LookAt( "Looking Forward", lookAt, PRIORITY_NORMAL, 0.5f );
 }
 
 //================================================================================

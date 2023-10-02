@@ -315,7 +315,7 @@ void CHL2MPRules::PlayerKilled( CBasePlayer *pVictim, const CTakeDamageInfo &inf
 			}
 			else
 			{
-				if (GetNumTeamMembers(TEAM_UNASSIGNED) == 1)
+				if (GetNumTeamMembers(TEAM_UNASSIGNED) == 2)
 				{
 					CRecipientFilter filter;
 					for (int i = 1; i <= gpGlobals->maxClients; i++)
