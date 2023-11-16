@@ -1,8 +1,12 @@
-Release 1.2 (Released ?-??-??):
+Release 1.2 (Released 12-??-23):
+Notes:
+- The Linux version is currently experiencing issues with the Bot AI. This is a known issue and will be fixed later.
+- 💙
+
 Mane changes:
 - Introducing BRAINS ARE MAGIC!
 	- A new game mode based on "Infection" from the Halo series.
-	- In a game with bots, zombie bots are more agressive and survivor bots have a chance of being infected by "The Sickness"
+	- In a game with bots, zombie bots are more aggressive and survivor bots have a chance of being infected by "The Sickness"
 - Added "HOOVES" (fists) as a weapon for all modes.
 
 Misc. Changes:
@@ -10,6 +14,7 @@ Misc. Changes:
 - Enabled a 10-minute timer by default.
 - Improved bot attack AI.
 - Improved main menu backgrounds.
+- Added more bot names.
 
 Bug Fixes:
 - Fixed a bug where spectators viewed players as enemies.

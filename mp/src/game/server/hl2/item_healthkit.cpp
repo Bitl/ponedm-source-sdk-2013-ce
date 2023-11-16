@@ -11,13 +11,15 @@
 #include "items.h"
 #include "in_buttons.h"
 #include "engine/IEngineSound.h"
+#include "time.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
 ConVar	sk_healthkit( "sk_healthkit","0" );		
 ConVar	sk_healthvial( "sk_healthvial","0" );		
-ConVar	sk_healthcharger( "sk_healthcharger","0" );		
+ConVar	sk_healthcharger( "sk_healthcharger","0" );
+ConVar	sv_blueheartmode("sv_blueheartmode", "0", FCVAR_NOTIFY | FCVAR_REPLICATED);
 
 //-----------------------------------------------------------------------------
 // Small health kit. Heals the player when picked up.
@@ -27,14 +29,68 @@ class CHealthKit : public CItem
 public:
 	DECLARE_CLASS( CHealthKit, CItem );
 
+	CHealthKit();
+
 	void Spawn( void );
 	void Precache( void );
+	bool CheckBlueheart(void);
 	bool MyTouch( CBasePlayer *pPlayer );
+
+private:
+	bool m_bInBlueheartMode;
 };
 
 LINK_ENTITY_TO_CLASS( item_healthkit, CHealthKit );
 PRECACHE_REGISTER(item_healthkit);
+LINK_ENTITY_TO_CLASS(item_blueheart, CHealthKit);
+PRECACHE_REGISTER(item_blueheart);
 
+CHealthKit::CHealthKit()
+{
+	m_bInBlueheartMode = false;
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: to pay tribute to a friend
+//-----------------------------------------------------------------------------
+bool CHealthKit::CheckBlueheart(void)
+{
+	if (sv_blueheartmode.GetBool() || ClassMatches("item_blueheart"))
+	{
+		m_bInBlueheartMode = true;
+	}
+
+	if (!m_bInBlueheartMode)
+	{
+		time_t ltime = time(0);
+		const time_t* ptime = &ltime;
+		struct tm* today = localtime(ptime);
+		bool isCorrectTiming = false;
+		if (today)
+		{
+			if (today->tm_mon == 4 && today->tm_mday == 14)
+			{
+				m_bInBlueheartMode = true;
+				isCorrectTiming = true;
+			}
+			else if (today->tm_mon == 9 && today->tm_mday == 29)
+			{
+				m_bInBlueheartMode = true;
+				isCorrectTiming = true;
+			}
+		}
+
+		if (isCorrectTiming == false)
+		{
+			if (random->RandomInt(1, 30) == 30)
+			{
+				m_bInBlueheartMode = true;
+			}
+		}
+	}
+
+	return m_bInBlueheartMode;
+}
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -42,11 +98,19 @@ PRECACHE_REGISTER(item_healthkit);
 void CHealthKit::Spawn( void )
 {
 	Precache();
-	SetModel( "models/items/healthkit.mdl" );
+	CheckBlueheart();
+
+	if (m_bInBlueheartMode)
+	{
+		SetModel("models/blueheart.mdl");
+	}
+	else
+	{
+		SetModel("models/items/healthkit.mdl");
+	}
 
 	BaseClass::Spawn();
 }
-
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -54,6 +118,7 @@ void CHealthKit::Spawn( void )
 void CHealthKit::Precache( void )
 {
 	PrecacheModel("models/items/healthkit.mdl");
+	PrecacheModel("models/blueheart.mdl");
 
 	PrecacheScriptSound( "HealthKit.Touch" );
 }
