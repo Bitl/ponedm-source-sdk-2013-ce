@@ -1,7 +1,7 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ? 1996-2005, Valve Corporation, All rights reserved. ============//
 // Authors: 
 // Michael S. Booth (linkedin.com/in/michaelbooth), 2003
-// Iván Bravo Bravo (linkedin.com/in/ivanbravobravo), 2017
+// Iv?n Bravo Bravo (linkedin.com/in/ivanbravobravo), 2017
 
 #ifndef BOT_COMPONENTS_H
 #define BOT_COMPONENTS_H
@@ -103,10 +103,10 @@ public:
 
     virtual bool IsOnGround() const;
     virtual CBaseEntity *GetGround() const;
-    virtual Vector& GetGroundNormal() const;
+    virtual Vector GetGroundNormal();
 
     virtual float GetTolerance() const;
-    virtual Vector& GetVelocity() const;
+    virtual const Vector& GetVelocity() const;
     virtual float GetSpeed() const;
     virtual float GetStepHeight() const;
     virtual float GetMaxJumpHeight() const;

@@ -1,7 +1,7 @@
 Release 1.2 (Released 12-??-23):
 Notes:
 - The Linux version is currently experiencing issues with the Bot AI. This is a known issue and will be fixed later.
-- 💙
+- Added tributes to a friend. 💙
 
 Mane changes:
 - Introducing BRAINS ARE MAGIC!

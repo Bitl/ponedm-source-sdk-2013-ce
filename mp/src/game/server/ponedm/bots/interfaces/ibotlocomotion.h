@@ -46,10 +46,10 @@ public:
 
     virtual bool IsOnGround() const = 0;
     virtual CBaseEntity *GetGround() const = 0;
-    virtual Vector& GetGroundNormal() const = 0;
+    virtual Vector GetGroundNormal() = 0;
 
     virtual float GetTolerance() const = 0;
-    virtual Vector& GetVelocity() const = 0;
+    virtual const Vector& GetVelocity() const = 0;
     virtual float GetSpeed() const = 0;
     virtual float GetStepHeight() const = 0;
     virtual float GetMaxJumpHeight() const = 0;

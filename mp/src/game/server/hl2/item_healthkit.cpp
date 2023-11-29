@@ -68,12 +68,15 @@ bool CHealthKit::CheckBlueheart(void)
 		bool isCorrectTiming = false;
 		if (today)
 		{
-			if (today->tm_mon == 4 && today->tm_mday == 14)
+			//HACK
+			int iExactMonth = today->tm_mon + 1;
+
+			if (iExactMonth == 4 && today->tm_mday == 14)
 			{
 				m_bInBlueheartMode = true;
 				isCorrectTiming = true;
 			}
-			else if (today->tm_mon == 9 && today->tm_mday == 29)
+			else if (iExactMonth == 11 && today->tm_mday == 29)
 			{
 				m_bInBlueheartMode = true;
 				isCorrectTiming = true;

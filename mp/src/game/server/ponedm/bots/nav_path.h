@@ -7,8 +7,8 @@
 #ifndef _NAV_PATH_H_
 #define _NAV_PATH_H_
 
-#include "nav_mesh.h"
 #include "nav_area.h"
+#include "nav_mesh.h"
 
 class CImprov;
 
@@ -63,9 +63,6 @@ public:
 	bool Compute( const Vector &start, const Vector &goal, CostFunctor &costFunc )
 	{
 		Invalidate();
-
-		if (start == NULL || goal == NULL)
-			return false;
 
 		CNavArea *startArea = TheNavMesh->GetNearestNavArea(start + Vector(0.0f,0.0f,1.0f));
 		if (startArea == NULL)

@@ -330,13 +330,11 @@ CBaseEntity * CBotLocomotion::GetGround() const
     return tr.m_pEnt;
 }
 
-Vector & CBotLocomotion::GetGroundNormal() const
+Vector CBotLocomotion::GetGroundNormal()
 {
     if ( !IsOnGround() ) 
     {
-        Vector &vecResult = AllocTempVector();
-        vecResult = vec3_invalid;
-        return vecResult;
+        return vec3_invalid;
     }
 
     Vector vecFloor( GetFeet() );
@@ -358,11 +356,9 @@ float CBotLocomotion::GetTolerance() const
     return flTolerance;
 }
 
-Vector & CBotLocomotion::GetVelocity() const
+const Vector & CBotLocomotion::GetVelocity() const
 {
-    Vector &vecResult = AllocTempVector();
-    vecResult = GetHost()->GetAbsVelocity();
-    return vecResult;
+    return GetHost()->GetAbsVelocity();
 }
 
 float CBotLocomotion::GetSpeed() const
