@@ -954,14 +954,15 @@ void CBotDecision::SwitchToBestWeapon()
         pShortRange = pSniper;
     }
 
-    if (HasCondition(BCOND_EMPTY_PRIMARY_AMMO) &&
+    //??
+    /*if (HasCondition(BCOND_EMPTY_PRIMARY_AMMO) &&
         HasCondition(BCOND_EMPTY_CLIP1_AMMO) &&
         HasCondition(BCOND_EMPTY_SECONDARY_AMMO) &&
         HasCondition(BCOND_EMPTY_CLIP2_AMMO))
     {
         GetHost()->Weapon_Switch(pMelee);
         return;
-    }
+    }*/
 
     float closeRange = 400.0f;
 
