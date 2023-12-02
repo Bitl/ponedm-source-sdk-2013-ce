@@ -22,6 +22,10 @@
 #include "clienteffectprecachesystem.h"
 #include "sourcevr/isourcevirtualreality.h"
 
+#if PONEDM
+#include "hl2mp_gamerules.h"
+#endif
+
 using namespace vgui;
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -159,6 +163,18 @@ bool CHudDamageIndicator::ShouldDraw( void )
 						m_DmgHighColorLeft[3] || 
 						m_DmgHighColorRight[3] ||
 						m_DmgFullscreenColor[3];
+
+#if PONEDM
+	C_BasePlayer* pPlayer = C_BasePlayer::GetLocalPlayer();
+	if (!pPlayer)
+		return (bNeedsDraw && CHudElement::ShouldDraw());
+	
+	if (((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && pPlayer->GetTeamNumber() == TEAM_ZOMBIES))
+	{
+		// zombies don't feel pain.
+		bNeedsDraw = false;
+	}
+#endif
 
 	return ( bNeedsDraw && CHudElement::ShouldDraw() );
 }

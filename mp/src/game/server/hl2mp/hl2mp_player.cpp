@@ -632,7 +632,7 @@ void CHL2MP_Player::UpdatePlayerColor(void)
 
 	// so zombies have a more recognizable appearance
 	// based on the background, grabbed from the SFM session.
-	if (GetTeamNumber() == TEAM_ZOMBIES)
+	if (((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetTeamNumber() == TEAM_ZOMBIES))
 	{
 		Vector vecNewSecondaryColor;
 
