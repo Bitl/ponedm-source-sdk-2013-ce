@@ -319,16 +319,14 @@ void CHL2MPRules::PlayerKilled( CBasePlayer *pVictim, const CTakeDamageInfo &inf
 				{
 					const char* lastPlayerName = "Player";
 
-					CRecipientFilter filter;
 					for (int i = 1; i <= gpGlobals->maxClients; i++)
 					{
 						CBasePlayer* pPlayer = UTIL_PlayerByIndex(i);
 
-						if (pPlayer && pPlayer->GetTeamNumber() == TEAM_UNASSIGNED)
+						if (pPlayer && 
+							pPlayer->GetTeamNumber() == TEAM_UNASSIGNED && 
+							pPlayer != pVictim)
 						{
-							filter.AddRecipient(pPlayer);
-							filter.MakeReliable();
-
 							lastPlayerName = pPlayer->GetPlayerName();
 							break;
 						}
