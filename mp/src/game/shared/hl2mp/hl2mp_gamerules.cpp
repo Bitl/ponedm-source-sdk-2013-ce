@@ -469,7 +469,7 @@ void CHL2MPRules::Think( void )
 
 					if (pPlayer && pPlayer->IsFakeClient() && (pPlayer->GetTeamNumber() == TEAM_UNASSIGNED) && (pPlayer->FragCount() >= 1))
 					{
-						int teamcontrolled = ((GetNumTeamMembers(TEAM_UNASSIGNED) + 1) * GetMapRemainingTime());
+						int teamcontrolled = (GetNumTeamMembers(TEAM_UNASSIGNED) + 10);
 						int survivalChance = random->RandomInt(1, teamcontrolled);
 
 						if (survivalChance == teamcontrolled)
