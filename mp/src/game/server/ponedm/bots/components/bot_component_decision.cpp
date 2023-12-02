@@ -1226,6 +1226,10 @@ BCOND CBotDecision::ShouldMeleeAttack1()
     if ( bot_primary_attack.GetBool() )
         return BCOND_CAN_MELEE_ATTACK1;
 
+    // Zombies don't think.
+    if (((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetHost()->GetTeamNumber() == TEAM_ZOMBIES))
+        return BCOND_CAN_MELEE_ATTACK1;
+
     // TODO: A way to support attacks without an active enemy
     if ( HasCondition(BCOND_WITHOUT_ENEMY) )
         return BCOND_NONE;

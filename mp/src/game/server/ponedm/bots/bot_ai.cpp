@@ -446,25 +446,35 @@ void CBot::GatherAttackConditions()
 {
     VPROF_BUDGET("SelectAttackConditions", VPROF_BUDGETGROUP_BOTS);
 
-    BCOND condition = GetDecision()->ShouldRangeAttack1();
+    if (((!HL2MPRules()->IsTeamplay() && (sv_ponedm_gamemode.GetInt() == 3)) && GetHost()->GetTeamNumber() == TEAM_ZOMBIES))
+    {
+        BCOND conditionZed = GetDecision()->ShouldMeleeAttack1();
 
-    if ( condition != BCOND_NONE )
-        SetCondition( condition );
+        if (conditionZed != BCOND_NONE)
+            SetCondition(conditionZed);
+    }
+    else
+    {
+        BCOND condition = GetDecision()->ShouldRangeAttack1();
 
-    condition = GetDecision()->ShouldRangeAttack2();
+        if (condition != BCOND_NONE)
+            SetCondition(condition);
 
-    if ( condition != BCOND_NONE )
-        SetCondition( condition );
+        condition = GetDecision()->ShouldRangeAttack2();
 
-    condition = GetDecision()->ShouldMeleeAttack1();
+        if (condition != BCOND_NONE)
+            SetCondition(condition);
 
-    if ( condition != BCOND_NONE )
-        SetCondition( condition );
+        condition = GetDecision()->ShouldMeleeAttack1();
 
-    condition = GetDecision()->ShouldMeleeAttack2();
+        if (condition != BCOND_NONE)
+            SetCondition(condition);
 
-    if ( condition != BCOND_NONE )
-        SetCondition( condition );
+        condition = GetDecision()->ShouldMeleeAttack2();
+
+        if (condition != BCOND_NONE)
+            SetCondition(condition);
+    }
 }
 
 //================================================================================
