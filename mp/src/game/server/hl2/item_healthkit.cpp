@@ -71,6 +71,8 @@ bool CHealthKit::CheckBlueheart(void)
 			//HACK
 			int iExactMonth = today->tm_mon + 1;
 
+			DevMsg("CHealthKit::CheckBlueheart: Day is %i-%i. Checking if it's valid to turn into a blueheart\n", iExactMonth, today->tm_mday);
+
 			if (iExactMonth == 4 && today->tm_mday == 14)
 			{
 				m_bInBlueheartMode = true;
@@ -85,11 +87,18 @@ bool CHealthKit::CheckBlueheart(void)
 
 		if (isCorrectTiming == false)
 		{
+			DevMsg("CHealthKit::CheckBlueheart: Not the correct day, using randomization instead.\n");
+
 			if (random->RandomInt(1, 30) == 30)
 			{
 				m_bInBlueheartMode = true;
 			}
 		}
+	}
+
+	if (m_bInBlueheartMode)
+	{
+		DevMsg("CHealthKit::CheckBlueheart: Blueheart mode on. <3\n");
 	}
 
 	return m_bInBlueheartMode;

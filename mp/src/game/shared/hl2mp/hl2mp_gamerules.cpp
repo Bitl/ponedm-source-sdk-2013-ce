@@ -317,6 +317,8 @@ void CHL2MPRules::PlayerKilled( CBasePlayer *pVictim, const CTakeDamageInfo &inf
 			{
 				if (GetNumTeamMembers(TEAM_UNASSIGNED) == 2)
 				{
+					const char* lastPlayerName = "Player";
+
 					CRecipientFilter filter;
 					for (int i = 1; i <= gpGlobals->maxClients; i++)
 					{
@@ -326,10 +328,13 @@ void CHL2MPRules::PlayerKilled( CBasePlayer *pVictim, const CTakeDamageInfo &inf
 						{
 							filter.AddRecipient(pPlayer);
 							filter.MakeReliable();
-							UTIL_ClientPrintAll(HUD_PRINTCENTER, "#PoneDM_Zombies_LastManStanding", pPlayer->GetPlayerName());
+
+							lastPlayerName = pPlayer->GetPlayerName();
 							break;
 						}
 					}
+
+					UTIL_ClientPrintAll(HUD_PRINTCENTER, "#PoneDM_Zombies_LastManStanding", lastPlayerName);
 				}
 			}
 		}
