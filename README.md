@@ -39,7 +39,7 @@ After installing it and other dependencies, do the 3 steps below.
 ```bash ./sandbox_setup.sh```
 If you haven't installed the steam-runtime, run:
 ```bash ./sandbox_install.sh```
-After it insatlls, it will start steam-runtime.
+After it installs, it will start steam-runtime.
 
 3. Go back to this directory and run:\
 ```bash ./build_ponedm_linux.sh```\
