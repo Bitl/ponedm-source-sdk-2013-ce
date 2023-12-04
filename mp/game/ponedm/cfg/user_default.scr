@@ -60,6 +60,13 @@ DESCRIPTION INFO_OPTIONS
 		{ SLIDER 54 90 }
 		{ "54" }
 	}
+    
+    "cl_ponedm_enableviolence"
+	{
+		"#PoneDM_Violence"
+		{ BOOL }
+		{ "0" }
+	}
 
 	"cl_ponedm_violencelevel"
 	{

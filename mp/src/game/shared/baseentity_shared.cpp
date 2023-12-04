@@ -649,10 +649,6 @@ void CBaseEntity::SetPredictionRandomSeed( const CUserCmd *cmd )
 #endif
 }
 
-#ifdef CLIENT_DLL
-	extern ConVar cl_ponedm_violencelevel;
-#endif
-
 //------------------------------------------------------------------------------
 // Purpose : Base implimentation for entity handling decals
 //------------------------------------------------------------------------------

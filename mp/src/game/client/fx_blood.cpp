@@ -21,6 +21,10 @@
 #include "effect_color_tables.h"
 #include "particle_simple3d.h"
 #include "particle_parse.h"
+#include "vgui_controls/MessageBox.h"
+#include "fmtstr.h"
+
+using namespace vgui;
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -38,6 +42,7 @@ PMaterialHandle g_Blood_Gore = NULL;
 PMaterialHandle g_Blood_Drops = NULL;
 
 ConVar cl_ponedm_violencelevel("cl_ponedm_violencelevel", "0", FCVAR_ARCHIVE, "0 = Turn on low violence mode. 1 = Turn off low violence mode. Only blood is enabled. 2 = Turn off low violence mode. Blood and gore is enabled.");
+ConVar cl_ponedm_enableviolence("cl_ponedm_enableviolence", "0", FCVAR_ARCHIVE, "");
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -77,7 +82,7 @@ void GetBloodColor( int bloodtype, colorentry_t &color )
 //-----------------------------------------------------------------------------
 void FX_BloodSpray( const Vector &origin, const Vector &normal, float scale, unsigned char r, unsigned char g, unsigned char b, int flags )
 {
-	if ( UTIL_IsLowViolence() || cl_ponedm_violencelevel.GetInt() == 0)
+	if ( UTIL_IsLowViolence() || (!cl_ponedm_enableviolence.GetBool() || cl_ponedm_violencelevel.GetInt() == LowViolence))
 		return;
 
 	//debugoverlay->AddLineOverlay( origin, origin + normal * 72, 255, 255, 255, true, 10 ); 
@@ -306,7 +311,7 @@ void FX_BloodSpray( const Vector &origin, const Vector &normal, float scale, uns
 //-----------------------------------------------------------------------------
 void FX_BloodBulletImpact( const Vector &origin, const Vector &normal, float scale /*NOTE: Unused!*/, unsigned char r, unsigned char g, unsigned char b )
 {
-	if (UTIL_IsLowViolence() || cl_ponedm_violencelevel.GetInt() == 0)
+	if (UTIL_IsLowViolence() || (!cl_ponedm_enableviolence.GetBool() || cl_ponedm_violencelevel.GetInt() == LowViolence))
 		return;
 
 	Vector offset;
@@ -505,7 +510,7 @@ void BloodImpactCallback( const CEffectData & data )
 {
 	bool bFoundBlood = false;
 
-	if (cl_ponedm_violencelevel.GetInt() >= 1)
+	if (cl_ponedm_enableviolence.GetBool() && cl_ponedm_violencelevel.GetInt() >= BloodOnly)
 	{
 		// Find which sort of blood we are
 		for (int i = 0; i < ARRAYSIZE(bloodCallbacks); i++)

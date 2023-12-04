@@ -13,6 +13,7 @@
 #include "tier0/memdbgon.h"
 
 extern ConVar cl_ponedm_lowviolence;
+extern ConVar cl_ponedm_enableviolence;
 
 class CBloodSprayEmitter : public CSimpleEmitter
 {

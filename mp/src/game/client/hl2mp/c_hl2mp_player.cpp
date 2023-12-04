@@ -80,6 +80,7 @@ static ConVar cl_ponedm_wings("cl_ponedm_wings", "0", FCVAR_USERINFO | FCVAR_ARC
 static ConVar cl_ponedm_gibtime("cl_ponedm_gibtime", "30", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
 
 extern ConVar cl_ponedm_violencelevel;
+extern ConVar cl_ponedm_enableviolence;
 #endif
 
 void SpawnBlood (Vector vecSpot, const Vector &vecDir, int bloodColor, float flDamage);
@@ -179,7 +180,7 @@ void C_HL2MP_Player::TraceAttack( const CTakeDamageInfo &info, const Vector &vec
 				return;
 		}
 
-		if (cl_ponedm_violencelevel.GetInt() >= 1)
+		if (cl_ponedm_enableviolence.GetBool() && cl_ponedm_violencelevel.GetInt() >= BloodOnly)
 		{
 			int blood = BloodColor();
 
@@ -189,7 +190,7 @@ void C_HL2MP_Player::TraceAttack( const CTakeDamageInfo &info, const Vector &vec
 				TraceBleed(flDistance, vecDir, ptr, info.GetDamageType());
 			}
 		}
-		else if (cl_ponedm_violencelevel.GetInt() == 0)
+		else if (!cl_ponedm_enableviolence.GetBool() || cl_ponedm_violencelevel.GetInt() == LowViolence)
 		{
 			SpawnBlood(vecOrigin, vecDir, 0, flDistance); // a little surface blood.
 		}
@@ -998,7 +999,7 @@ void C_HL2MPRagdoll::ResetScaledBones()
 
 void C_HL2MPRagdoll::DismemberBase(bool bBloodEffects, char const* szParticleBone)
 {
-	if (cl_ponedm_violencelevel.GetInt() == 2)
+	if (cl_ponedm_enableviolence.GetBool() && cl_ponedm_violencelevel.GetInt() == BloodAndGore)
 	{
 		int iAttach = LookupBone(szParticleBone);
 
@@ -1262,7 +1263,7 @@ void C_HL2MPRagdoll::ImpactTrace( trace_t *pTrace, int iDamageType, const char *
 		// apply force where we hit it
 		pPhysicsObject->ApplyForceOffset( dir, hitpos );	
 
-		if (cl_ponedm_violencelevel.GetInt() >= 1)
+		if (cl_ponedm_enableviolence.GetBool() && cl_ponedm_violencelevel.GetInt() >= BloodOnly)
 		{
 			// Blood spray!
 	//		FX_CS_BloodSpray( hitpos, dir, 10 );
@@ -1314,7 +1315,7 @@ void C_HL2MPRagdoll::ClientThink(void)
 	// enable dismemberment if we find LrigScull, as this is likely a pone model.
 	if (iBone != -1)
 	{
-		if (cl_ponedm_violencelevel.GetInt() >= 2)
+		if (cl_ponedm_enableviolence.GetBool() && cl_ponedm_violencelevel.GetInt() >= BloodAndGore)
 			m_bGoreEnabled = true;
 		else
 			m_bGoreEnabled = false;
@@ -1327,7 +1328,7 @@ void C_HL2MPRagdoll::ClientThink(void)
 		ResetScaledBones();
 	}
 
-	if (cl_ponedm_violencelevel.GetInt() == 0)
+	if (!cl_ponedm_enableviolence.GetBool() || cl_ponedm_violencelevel.GetInt() == LowViolence)
 	{
 		m_nSkin = 2;
 
@@ -1352,7 +1353,7 @@ void C_HL2MPRagdoll::ClientThink(void)
 			}
 		}
 	}
-	else if (cl_ponedm_violencelevel.GetInt() >= 1)
+	else if (cl_ponedm_enableviolence.GetBool() && cl_ponedm_violencelevel.GetInt() >= BloodOnly)
 	{
 		//set the ragdoll's skin to the player dead skin.
 		m_nSkin = 1;
@@ -1484,7 +1485,7 @@ void C_HL2MPRagdoll::CreateHL2MPRagdoll( void )
 	// enable dismemberment if we find LrigScull, as this is likely a pone model.
 	if (iBone != -1)
 	{
-		if (cl_ponedm_violencelevel.GetInt() >= 2)
+		if (cl_ponedm_enableviolence.GetBool() && cl_ponedm_violencelevel.GetInt() >= BloodAndGore)
 			m_bGoreEnabled = true;
 	}
 	else
@@ -1553,7 +1554,7 @@ void C_HL2MPRagdoll::OnDataChanged( DataUpdateType_t type )
 		{
 			/*if (m_bGib)
 			{
-				if (cl_ponedm_violencelevel.GetInt() >= 2)
+				if (cl_ponedm_enableviolence.GetBool() && cl_ponedm_violencelevel.GetInt() >= BloodAndGore)
 				{
 					CreatePoneDMGibs();
 				}
@@ -1562,7 +1563,7 @@ void C_HL2MPRagdoll::OnDataChanged( DataUpdateType_t type )
 			{*/
 				CreateHL2MPRagdoll();
 
-				if (cl_ponedm_violencelevel.GetInt() >= 2)
+				if (cl_ponedm_enableviolence.GetBool() && cl_ponedm_violencelevel.GetInt() >= BloodAndGore)
 				{
 					InitDismember();
 				}

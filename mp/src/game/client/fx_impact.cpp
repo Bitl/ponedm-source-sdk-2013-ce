@@ -96,6 +96,7 @@ void RagdollImpactCallback( const CEffectData &data )
 DECLARE_CLIENT_EFFECT( "RagdollImpact", RagdollImpactCallback );
 
 extern ConVar cl_ponedm_violencelevel;
+extern ConVar cl_ponedm_enableviolence;
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -145,7 +146,7 @@ bool Impact( Vector &vecOrigin, Vector &vecStart, int iMaterial, int iDamageType
 		}
 #endif
 
-		if (cl_ponedm_violencelevel.GetInt() == 0)
+		if (!cl_ponedm_enableviolence.GetBool() || cl_ponedm_violencelevel.GetInt() == LowViolence)
 		{
 			if (V_strstr(pchDecalName, "Flesh"))
 			{

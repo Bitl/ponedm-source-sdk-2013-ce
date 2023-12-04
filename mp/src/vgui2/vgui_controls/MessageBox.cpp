@@ -102,7 +102,6 @@ void MessageBox::ShowMessageBoxOverCursor( bool bEnable )
 	m_bShowMessageBoxOverCursor = bEnable;
 }
 
-
 //-----------------------------------------------------------------------------
 // Purpose: size the message label properly
 //-----------------------------------------------------------------------------
@@ -373,6 +372,15 @@ void MessageBox::SetCancelButtonText(const wchar_t *wszButtonText)
 {
 	m_pCancelButton->SetText(wszButtonText);
 	InvalidateLayout();
+}
+
+void MessageBox::SetCancelCommand(const char *command)
+{
+	if (m_CancelCommand)
+	{
+		m_CancelCommand->deleteThis();
+	}
+	m_CancelCommand = new KeyValues("Command", "command", command);
 }
 
 void MessageBox::SetCancelCommand( KeyValues *command )

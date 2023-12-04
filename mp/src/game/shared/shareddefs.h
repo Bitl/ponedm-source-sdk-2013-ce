@@ -549,6 +549,13 @@ enum
 #endif // HL2_EPISODIC
 };
 
+enum ViolenceModes
+{
+	LowViolence,
+	BloodOnly,
+	BloodAndGore
+};
+
 //-----------------------------------------------------------------------------
 // Vehicles may have more than one passenger.
 // This enum may be expanded by derived classes

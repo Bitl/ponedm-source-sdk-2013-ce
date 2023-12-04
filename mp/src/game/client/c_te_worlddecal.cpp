@@ -95,6 +95,7 @@ static inline void RecordWorldDecal( const Vector *pos, int index )
 }
 
 extern ConVar cl_ponedm_violencelevel;
+extern ConVar cl_ponedm_enableviolence;
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -108,7 +109,7 @@ void C_TEWorldDecal::PostDataUpdate( DataUpdateType_t updateType )
 		C_BaseEntity *ent = cl_entitylist->GetEnt( 0 );
 		if ( ent )
 		{
-			bool bNoBlood = cl_ponedm_violencelevel.GetInt() == 0;
+			bool bNoBlood = (!cl_ponedm_enableviolence.GetBool() || cl_ponedm_violencelevel.GetInt() == LowViolence);
 			bool bIsBlood = false;
 
 			if ( bNoBlood )

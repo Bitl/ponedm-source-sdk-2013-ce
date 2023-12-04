@@ -16,6 +16,7 @@ Misc. Changes:
 - Improved bot attack AI.
 - Improved main menu backgrounds.
 - Added more bot names.
+- Improved violence options to deter younger and more sensitive players.
 
 Bug Fixes:
 - Fixed a bug where spectators viewed players as enemies.
