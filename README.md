@@ -35,8 +35,11 @@ After installing it and other dependencies, do the 3 steps below.
 1. CD to your PoneDM git directory, I.E.\
 ```cd ~/projects/ponedm-source-sdk-2013-ce```
 
-1. Run the steam-runtime. NOTE: Make sure you have the steam runtime installed in /valve.\
+2. Run the steam-runtime. NOTE: Make sure you have the steam runtime installed in /valve.\
 ```bash ./sandbox_setup.sh```
+If you haven't installed the steam-runtime, run:
+```bash ./sandbox_install.sh```
+After it insatlls, it will start steam-runtime.
 
 3. Go back to this directory and run:\
 ```bash ./build_ponedm_linux.sh```\
