@@ -325,10 +325,10 @@
 
 	"rndwave"
 	{
-		"wave"	"player/ppm2/ponydeath1.wav"
-		"wave"	"player/ppm2/ponydeath2.wav"
-		"wave"	"player/ppm2/ponydeath3.wav"
-		"wave"	"player/ppm2/ponydeath4.wav"
+		"wave"	"player/ponydeath1.wav"
+		"wave"	"player/ponydeath2.wav"
+		"wave"	"player/ponydeath3.wav"
+		"wave"	"player/ponydeath4.wav"
 	}
 }
 
@@ -342,10 +342,22 @@
 
 	"rndwave"
 	{
-		"wave"	"player/ppm2/zomponydeath1.wav"
-		"wave"	"player/ppm2/zomponydeath2.wav"
-		"wave"	"player/ppm2/zomponydeath3.wav"
-		"wave"	"player/ppm2/zomponydeath4.wav"
+		"wave"	"player/zomponydeath1.wav"
+		"wave"	"player/zomponydeath2.wav"
+		"wave"	"player/zomponydeath3.wav"
+		"wave"	"player/zomponydeath4.wav"
+	}
+}
+
+"Pony.Splat"
+{
+	"channel"	"CHAN_BODY"
+	"volume"	"1.0"
+	"soundlevel"  "SNDLVL_75dB"
+
+	"rndwave"
+	{
+		"wave"	"player/splat.wav"
 	}
 }
 

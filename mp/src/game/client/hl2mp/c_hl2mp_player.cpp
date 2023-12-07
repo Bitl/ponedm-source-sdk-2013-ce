@@ -79,6 +79,8 @@ static ConVar cl_ponedm_wings("cl_ponedm_wings", "0", FCVAR_USERINFO | FCVAR_ARC
 
 static ConVar cl_ponedm_gibtime("cl_ponedm_gibtime", "30", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
 
+static ConVar cl_ponedm_lowviolence_statues("cl_ponedm_lowviolence_statues", "1", FCVAR_USERINFO | FCVAR_ARCHIVE | FCVAR_SERVER_CAN_EXECUTE, "");
+
 extern ConVar cl_ponedm_violencelevel;
 extern ConVar cl_ponedm_enableviolence;
 #endif
@@ -1517,7 +1519,7 @@ void C_HL2MPRagdoll::CreateHL2MPRagdoll( void )
 		GetRagdollInitBoneArrays( boneDelta0, boneDelta1, currentBones, boneDt );
 	}
 
-	InitAsClientRagdoll( boneDelta0, boneDelta1, currentBones, boneDt );
+	InitAsClientRagdoll( boneDelta0, boneDelta1, currentBones, boneDt, (cl_ponedm_lowviolence_statues.GetBool() ? (!cl_ponedm_enableviolence.GetBool() || cl_ponedm_violencelevel.GetInt() == LowViolence) : false));
 }
 
 

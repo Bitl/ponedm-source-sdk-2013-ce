@@ -330,8 +330,8 @@ void CWeaponRailgun::Fire( void )
 
 	//Gassian spread
 	do {
-		x = random->RandomFloat(-0.5, 0.5) + random->RandomFloat(-0.5, 0.5);
-		y = random->RandomFloat(-0.5, 0.5) + random->RandomFloat(-0.5, 0.5);
+		x = 0.3;
+		y = 0.3;
 		z = x * x + y * y;
 	} while (z > 1);
 

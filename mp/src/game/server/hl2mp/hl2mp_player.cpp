@@ -242,6 +242,7 @@ void CHL2MP_Player::Precache( void )
 #else
 	PrecacheScriptSound("Pony.Die");
 	PrecacheScriptSound("ZombiePony.Die");
+	PrecacheScriptSound("Pony.Splat");
 	PrecacheScriptSound("Gore.Headshot");
 	PrecacheParticleSystem("conc_stars");
 #endif
@@ -1711,6 +1712,12 @@ void CHL2MP_Player::DeathSound( const CTakeDamageInfo &info )
 	ep.m_pOrigin = &vecOrigin;
 
 	EmitSound( filter, entindex(), ep );
+
+#ifdef PONEDM
+	//splat.
+
+	EmitSound("Pony.Splat");
+#endif
 }
 
 CBaseEntity* CHL2MP_Player::EntSelectSpawnPoint(void)

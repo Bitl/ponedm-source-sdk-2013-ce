@@ -79,6 +79,13 @@ DESCRIPTION INFO_OPTIONS
 		}
 		{ "0" }
 	}
+    
+    "cl_ponedm_lowviolence_statues"
+	{
+		"#PoneDM_Statues"
+		{ BOOL }
+		{ "1" }
+	}
 	
 	"cl_disablehtmlmotd"
 	{
