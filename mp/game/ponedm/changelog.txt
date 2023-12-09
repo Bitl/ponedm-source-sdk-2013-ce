@@ -1,7 +1,8 @@
 Release 1.2 (Releases 12-23-23):
 Notes:
-- The Linux version is currently experiencing issues with the Bot AI. This is a known issue and will be fixed later. I'd highly suggest playing the mod with Proton, if it doesn't work for your use case.
+- The Linux version is currently experiencing issues with the Bot AI. This is a known issue and will be fixed later. I'd highly suggest playing the mod with Proton if it doesn't work for your distro.
 - This was originally meant to come out around Halloween. Due to recent events and personal issues, this update got a 2 month delay.
+- 💙
 
 Mane changes:
 - Introducing BRAINS ARE MAGIC!
@@ -19,6 +20,7 @@ Misc. Changes:
 - Improved violence options to deter younger and more sensitive players.
 - Improved the accuracy of the Railgun.
 - Ragdolls will become statues for comical effect in Low Violence mode by default. This can be disabled.
+- Added a silly splat sound upon death. :)
 
 Bug Fixes:
 - Fixed a bug where spectators viewed players as enemies.
