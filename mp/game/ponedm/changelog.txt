@@ -1,4 +1,4 @@
-Release 1.2 (Releases 12-23-23):
+Release 1.2 (Released 12-23-23):
 Notes:
 - The Linux version is currently experiencing issues with the Bot AI. This is a known issue and will be fixed later. I'd highly suggest playing the mod with Proton if it doesn't work for your distro.
 - This was originally meant to come out around Halloween. Due to recent events and personal issues, this update got a 2 month delay.
@@ -9,6 +9,7 @@ Mane changes:
 	- A new game mode based on "Infection" from the Halo series.
 	- In a game with bots, zombie bots are more aggressive and survivor bots have a chance of being infected by "The Sickness"
 - Added "HOOVES" (fists) as a weapon for all modes.
+- Added a fancy new installer!
 
 Misc. Changes:
 - Added tributes to a friend. 💙
